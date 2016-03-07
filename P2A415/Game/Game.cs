@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace Game {
@@ -18,6 +19,8 @@ namespace Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D image;
+
         public Game() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -28,6 +31,12 @@ namespace Game {
         }
 
         protected override void LoadContent() {
+            spriteBatch = new SpriteBatch(GraphicsDevice); // TODO: move?
+
+            //this.Content = new ContentManager(Content.ServiceProvider, "Content");
+
+            image = Content.Load<Texture2D>("Frontscreen.png");
+
             base.LoadContent();
         }
 
@@ -43,6 +52,11 @@ namespace Game {
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(image, Vector2.Zero, Color.Wheat);
+            spriteBatch.End();
+
             base.Draw(gameTime);
         }
 

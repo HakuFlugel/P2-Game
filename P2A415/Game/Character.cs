@@ -9,6 +9,9 @@ namespace Game {
 
         ulong level;// = 0;
         ulong exp;// = 0.0;
+
+
+        // TODO: load ctor?
     }
 
     public struct Position {
