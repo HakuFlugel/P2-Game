@@ -1,0 +1,24 @@
+﻿
+Game
+    Window
+        Renderer
+
+    World
+        Region|Dungeon
+            Chunks (generation)
+
+    Combat/Fight
+        who vs who
+        Tasks
+    Items
+
+    Player
+        Input|(Networking)
+        Character
+        Inventory
+    Enemy
+        Character
+        Drops(enemy type? random? based on performance?)
+
+    Character
+        Stats
