@@ -36,6 +36,9 @@
     <Compile Include="Character.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="World.cs" />
+    <Compile Include="Region.cs" />
+    <Compile Include="TileType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows" />

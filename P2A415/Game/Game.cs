@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using OpenTK.Platform.MacOS;
 
 
 namespace Game {
@@ -10,19 +11,20 @@ namespace Game {
 
         public bool running = true;
 
-        Random rand = new Random();
-
-        List<Player> playerList = new List<Player>();
-//        List<Enemy> enemyList = new List<Enemy>();
-        List<Character> characterList = new List<Character>();
+        //Random rand = new Random();
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Texture2D image;
 
-        public Game() {
+        public Game() : base() {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = true;
+            graphics.HardwareModeSwitch = false;
+
+            graphics.SynchronizeWithVerticalRetrace = true; // vsync?
+
             Content.RootDirectory = "Content";
         }
 
@@ -32,8 +34,6 @@ namespace Game {
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice); // TODO: move?
-
-            //this.Content = new ContentManager(Content.ServiceProvider, "Content");
 
             image = Content.Load<Texture2D>("Frontscreen.png");
 
@@ -82,6 +82,8 @@ namespace Game {
             //            foreach (var item in args) {
             //
             //            }
+
+            var tt = new TileType(){walkable => {GetInt{}}}
 
             using (var game = new Game()) {
                 game.Run();
