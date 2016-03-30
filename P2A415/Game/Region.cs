@@ -1,16 +1,14 @@
 ﻿using System;
 
-namespace Game {
+namespace WinFormsTest {
     public class Region {
+        public byte[,] tiles = new byte[32,32];
 
-        public int[] position = new int[2];
-        private Region[] neighbors = new Region[4];
+        public long x, y;
 
-        private uint[,] Tiles = new uint[32,32]; // TODO: mindre type?
-
-        public Region() {
-
-
+        public Region(long x, long y) {
+            this.x = x;
+            this.y = y;
         }
     }
 }
