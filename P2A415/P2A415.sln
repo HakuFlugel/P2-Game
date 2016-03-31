@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oldGame", "Game\oldGame.csproj", "{851502B5-5329-4F80-A0E0-47DF2EF414DF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "WinFormsTest\Game.csproj", "{6B6576AE-FABD-4718-9568-3F8FE706842C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{6B6576AE-FABD-4718-9568-3F8FE706842C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +13,5 @@ Global
 		{6B6576AE-FABD-4718-9568-3F8FE706842C}.Debug|x86.Build.0 = Debug|x86
 		{6B6576AE-FABD-4718-9568-3F8FE706842C}.Release|x86.ActiveCfg = Release|x86
 		{6B6576AE-FABD-4718-9568-3F8FE706842C}.Release|x86.Build.0 = Release|x86
-		{851502B5-5329-4F80-A0E0-47DF2EF414DF}.Debug|x86.ActiveCfg = Debug|x86
-		{851502B5-5329-4F80-A0E0-47DF2EF414DF}.Debug|x86.Build.0 = Debug|x86
-		{851502B5-5329-4F80-A0E0-47DF2EF414DF}.Release|x86.ActiveCfg = Release|x86
-		{851502B5-5329-4F80-A0E0-47DF2EF414DF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal
