@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace WinFormsTest {
     public class QuestionType {
-        public static List<Question> list = new List<Question>();
+        public static List<QuestionType> list = new List<QuestionType>();
         static QuestionType() {
             Random random = new Random();
 
-            list += new QuestionType(
+            list.Add(new QuestionType(
                 "42",
                 (Question question, long level) => {
                     question.level = level;
@@ -16,9 +16,9 @@ namespace WinFormsTest {
 
                 },
                 (Question question, long answer ) => {
-                    answer == 42;
+                    return answer == 42;
                 }
-            );
+            ));
 
             //
             /*list += new QuestionType(
@@ -84,7 +84,7 @@ namespace WinFormsTest {
         public long requiredLevel = 0;
         public string category;
 
-        public QuestionType(string category, Initializer initialize, AutoValidate validateAnswer) {
+        public QuestionType(string category, Initializer initialize, AnswerValidator validateAnswer) {
             this.category = category;
         }
 
@@ -92,17 +92,17 @@ namespace WinFormsTest {
         public delegate bool AnswerValidator(Question question, long answer);
 
         public Initializer initialize; //level
-        public AutoValidate validateAnswer; //answer
+        public AnswerValidator validateAnswer; //answer
     }
 
     public class Question {
 
 
 
-        public int level = 0;
+        public long level = 0;
         //public int scale
 
-        public int[] operands;
+        public long[] operands;
 
         public string text;
         public string expression;
@@ -110,7 +110,7 @@ namespace WinFormsTest {
 
 
         public Question(QuestionType questionType, long level) {
-            questionType.initialize(level);
+            questionType.initialize(this, level);
         }
     }
 }
