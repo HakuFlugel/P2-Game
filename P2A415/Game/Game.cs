@@ -84,6 +84,7 @@ namespace WinFormsTest {
 
             stopWatch.Start();
 
+
             world = new World();
 
             while(shouldRun) {

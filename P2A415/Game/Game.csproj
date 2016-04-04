@@ -40,7 +40,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />
-    <Compile Include="CharacerType.cs" />
+    <Compile Include="CharacterType.cs" />
     <Compile Include="TileType.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="World.cs" />
