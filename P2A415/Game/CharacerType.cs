@@ -4,25 +4,32 @@ using System.Drawing;
 
 namespace WinFormsTest {
     public class CharacterType {
+        public Bitmap Image;
+
+        public string imageFile;
+        public string name;
+        public double hp;
+        public double attack;
+        public double defence;
+        public ulong exp;
+
         public static List<CharacterType> characterTypes = new List<CharacterType>();
 
         public static void loadCharacterTypes() {
             characterTypes.Add(new CharacterType() {
-                //Image = new Bitmap("character.png")
                 imageFile = "Content/character.png",
+                name = "Ogre",
                 hp = 1000,
                 attack = 10,
                 defence = 10,
                 exp = 10
             });
+            characterTypes.Add(new CharacterType() { 
+                
+            });
         }
 
-        public Bitmap Image;
 
-        public double hp;
-        public double attack;
-        public double defence;
-        public ulong exp;
 
         /*
                 public int type { get; set; } //0 for player - 1 for ___ - 2 for ___ -3 for _____ - 4 for _____ -5 for ____ etc
