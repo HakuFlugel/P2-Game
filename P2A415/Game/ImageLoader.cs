@@ -2,7 +2,8 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 
-public class ImageLoader {
+namespace WinFormsTest {
+    public class ImageLoader {
 
         public class ImageResource {
             public ulong number_of_times_used = 0;
@@ -13,7 +14,7 @@ public class ImageLoader {
             }
         }
 
-        public static Dictionary<string, ImageResource> imageResources 
+        public static Dictionary<string, ImageResource> imageResources
             = new Dictionary<string, ImageResource>();
 
         public static Bitmap Load(string file) {
@@ -27,7 +28,7 @@ public class ImageLoader {
         }
 
         public static void Unload(string file) {
-            if(!imageResources.ContainsKey(file)) {
+            if (!imageResources.ContainsKey(file)) {
                 throw new InvalidOperationException();
             }
 
@@ -36,3 +37,4 @@ public class ImageLoader {
         }
 
     }
+}
