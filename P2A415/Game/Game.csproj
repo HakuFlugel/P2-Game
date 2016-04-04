@@ -36,11 +36,11 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Character.cs" />
+    <Compile Include="ImageLoader.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="CharacerType.cs" />
-    <Compile Include="Save.cs" />
     <Compile Include="TileType.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="World.cs" />

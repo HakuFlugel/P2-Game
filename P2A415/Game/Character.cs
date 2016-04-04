@@ -48,7 +48,7 @@ namespace WinFormsTest {
             position.x = x;
             position.y = y;
 
-            texture = (Bitmap)Bitmap.FromFile("Content/character.png");
+            texture = ImageLoader.Load(CharacterType.characterTypes[0].imageFile);
                 //Game.instance.Content.Load<Texture2D>("character.png");
         }
 
