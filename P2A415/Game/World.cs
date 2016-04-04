@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.IO;
 
 namespace WinFormsTest {
     public class World {
@@ -25,10 +26,26 @@ namespace WinFormsTest {
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    regions[x, y].draw(gfx, cameraPosition);
+                }
+            }
             foreach (var character in characters) {
                 character.draw(gfx, cameraPosition);
             }
         }
+
+        /*public void WorldSave() { // saves world to file.
+            using (BinaryWriter MyFile = new BinaryWriter(File.Open("Saves", FileMode.Create))) {
+                foreach (var item in arr) {
+                    MyFile.Write(item);
+                }
+                MyFile.Close();
+
+            }
+        }*/
     }
 }
+
 
