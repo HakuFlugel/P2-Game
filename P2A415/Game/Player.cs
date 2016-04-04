@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace WinFormsTest {
     public struct Currency {
@@ -23,39 +24,31 @@ namespace WinFormsTest {
 
         public void update(double deltaTime)
         {
-            //KeyboardState keyboardState = Keyboard.GetState();
+            var test = typeof(Character);
+            if (character.currentCombat != null) { // Is the player in combat?
 
-            if (character.position.offsetScale <= 0)
-            {
-                character.position.xoffset = 0.0f;
-                character.position.yoffset = 0.0f;
-            }
+                character.currentCombat.doAttack();
+                character.currentCombat.update(deltaTime);
+                character.currentCombat = null;
 
-            if (character.position.offsetScale <= -0.25f) // Slight delay before being able to move again
-            {
+            }else { // Not in combat
+
+
+
+                if (character.position.offsetScale <= -Character.moveDelay) { // Slight delay before being able to move again
                
-                if (input.moveUp)
-                {
-                    character.move(0, 1);
-                }
-                else if (input.moveDown)
-                {
-                    character.move(0, -1);
+                    // Move the player according to their input
+                    if (input.moveUp) {
+                        character.move(0, 1);
+                    } else if (input.moveDown) {
+                        character.move(0, -1);
 
+                    } else if (input.moveRight) {
+                        character.move(1, 0);
+                    } else if (input.moveLeft) {
+                        character.move(-1, 0);
+                    }
                 }
-                else if (input.moveRight)
-                {
-                    character.move(1, 0);
-                }
-                else if (input.moveLeft)
-                {
-                    character.move(-1, 0);
-                }
-            }
-            else
-            {
-                character.position.offsetScale -= 4.0f*(deltaTime);
-
             }
         }
 

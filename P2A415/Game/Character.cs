@@ -4,12 +4,12 @@ using System.Drawing;
 namespace WinFormsTest {
 
     public struct Stats {
-        double hp;// = 100.0;
-        double attack;// = 1.0;
-        double defence;// = 1.0;
+        public double hp;// = 100.0;
+        public double attack; // Should be updated to match level and possibly gear
+        public double defence;// = 1.0;
 
-        ulong level;// = 0;
-        ulong exp;// = 0.0;
+        public ulong level;// = 0;
+        public ulong exp;// = 0.0;
 
 
         // TODO: load ctor?
@@ -36,11 +36,15 @@ namespace WinFormsTest {
     }
 
     public class Character {
+        public static double moveDelay = 0.25;
+
         public Bitmap texture;
         public float layer = 0.5f;
 
         public Position position;
         public Stats stats = new Stats();
+
+        public Combat currentCombat;
 
         public Character() : this(0, 0) {}
         public Character(long x, long y)
@@ -67,8 +71,39 @@ namespace WinFormsTest {
 
         }
 
+        public void update(double deltaTime) {
+            if (position.offsetScale > -Character.moveDelay) { // Slight delay before being able to move again
+                // Animate movement
+                position.offsetScale -= 4.0f * (deltaTime);
+
+            }
+
+            // If the character has reached the tile, then set the offset to 0,0
+            if (position.offsetScale <= 0) {
+                position.xoffset = 0.0f;
+                position.yoffset = 0.0f;
+            }
+
+
+        }
+
         public void move(long x, long y) {
             if (canMove(position.x + x, position.y + y)) {
+                for (int i = 0; i < Game.instance.world.characters.Count; i++) {
+                    
+                    Character character = Game.instance.world.characters[i];
+                  
+                    if (character != this
+                        && character.position.x == this.position.x + x
+                        && character.position.y == this.position.y + y)
+                    {
+                        currentCombat = new Combat(this, character);
+                        break;
+
+                    }
+                }
+
+
                 position.x += x;
                 position.y += y;
 
@@ -77,6 +112,8 @@ namespace WinFormsTest {
 
                 position.offsetScale = 1.0f;
             } // else // TODO: feedback?
+
+
         }
 
         public bool canMove(long x, long y) {

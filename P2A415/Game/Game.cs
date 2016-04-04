@@ -10,7 +10,7 @@ namespace WinFormsTest {
 
         public static Game instance;
 
-        //public World world;
+        public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
@@ -23,7 +23,6 @@ namespace WinFormsTest {
         private long lastTime = 0;
         private long thisTime = 0;
 
-        public World world;
 
 
         public UserInterface userInterface = new UserInterface();
@@ -107,6 +106,7 @@ namespace WinFormsTest {
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
 
             localPlayer.update(deltaTime);
+            world.update(deltaTime);
 
             // Clear input here?
         }
@@ -117,6 +117,7 @@ namespace WinFormsTest {
   
                 gfx.Clear(Color.Black);
 
+                // Red rekts
                 for (int i = 0; i < 500; i++) {
                     Position position = localPlayer.character.position;
                     float x,y;
