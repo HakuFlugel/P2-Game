@@ -17,7 +17,7 @@ namespace WinFormsTest {
 
         public static void loadCharacterTypes() {
             characterTypes.Add(new CharacterType() {
-                imageFile = "Content/Frontscreen.png",
+                imageFile = "Content/character.png",
                 name = "Player",
                 hp = 1000,
                 attack = 10,
