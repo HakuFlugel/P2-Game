@@ -42,6 +42,9 @@ namespace WinFormsTest {
                 shouldRun = false;
             };
 
+            // Keypress plox
+            // Char.IsDigit
+
             KeyDown += (sender, e) => {
                 keyInput(sender, e, true);
             };
@@ -108,6 +111,7 @@ namespace WinFormsTest {
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
 
             localPlayer.update(deltaTime);
+            world.update(deltaTime);
 
             // Clear input here?
         }

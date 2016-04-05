@@ -26,6 +26,12 @@ namespace WinFormsTest {
             characters.Add(Game.instance.localPlayer.character);
         }
 
+        public void update(double deltaTime) {
+            foreach (var character in characters) {
+                character.update(deltaTime); // TODO: update each region instead, which should then update characters
+            }
+        }
+
         public void draw(Graphics gfx, Position cameraPosition) {
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {

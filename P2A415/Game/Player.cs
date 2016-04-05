@@ -18,44 +18,35 @@ namespace WinFormsTest {
 
         public Player(long x = 0, long y = 0) {
             character = new Character(x, y);
-            character.layer = 1.0f;
+            character.layer = 1.0f; // TODO: does this do anything?
         }
 
         public void update(double deltaTime)
         {
-            //KeyboardState keyboardState = Keyboard.GetState();
+            if (character.currentCombat != null) { // Is the player in combat?
 
-            if (character.position.offsetScale <= 0)
-            {
-                character.position.xoffset = 0.0f;
-                character.position.yoffset = 0.0f;
-            }
+                character.currentCombat.doAttack();
+                character.currentCombat.update(deltaTime);
+                character.currentCombat = null;
 
-            if (character.position.offsetScale <= -0.25f) // Slight delay before being able to move again
-            {
-               
-                if (input.moveUp)
-                {
-                    character.move(0, 1);
-                }
-                else if (input.moveDown)
-                {
-                    character.move(0, -1);
+            }else { // Not in combat
 
-                }
-                else if (input.moveRight)
-                {
-                    character.move(1, 0);
-                }
-                else if (input.moveLeft)
-                {
-                    character.move(-1, 0);
-                }
-            }
-            else
-            {
-                character.position.offsetScale -= 4.0f*(deltaTime);
 
+
+                if (character.position.offsetScale <= -Character.moveDelay) { // Slight delay before being able to move again
+
+                    // Move the player according to their input
+                    if (input.moveUp) {
+                        character.move(0, 1);
+                    } else if (input.moveDown) {
+                        character.move(0, -1);
+
+                    } else if (input.moveRight) {
+                        character.move(1, 0);
+                    } else if (input.moveLeft) {
+                        character.move(-1, 0);
+                    }
+                }
             }
         }
 
