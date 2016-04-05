@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Collections.Generic;
 
 namespace WinFormsTest {
@@ -20,6 +21,10 @@ namespace WinFormsTest {
         public static Bitmap Load(string file) {
 
             if (!imageResources.ContainsKey(file)) {
+
+                if (!File.Exists(file)) 
+                    throw new FileNotFoundException();
+
                 imageResources.Add(file, new ImageResource((Bitmap)Bitmap.FromFile(file)));
             }
 
