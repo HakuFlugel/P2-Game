@@ -2,6 +2,7 @@
 using System.Drawing;
 
 // this is a change because git wont fix stuff
+using System.Windows.Forms;
 
 namespace WinFormsTest {
     public class Combat {
@@ -10,9 +11,13 @@ namespace WinFormsTest {
         Character secondCharacter;
 
         Position whereThePlayerCameFrom = new Position();
-        //Question currentQuestion;
-        double enemyAttackTime = 10;
+        Question currentQuestion;
+
+        string answerString;
+
         double enemyTimePerAttack = 10;
+        double enemyAttackTime = 10;
+
 
         public Combat(Character firstCharacter, Character secondCharacter) {
             this.firstCharacter = firstCharacter;
@@ -26,17 +31,26 @@ namespace WinFormsTest {
             whereThePlayerCameFrom = firstCharacter.position;
         }
 
+        public void keyPress(object sender, KeyPressEventArgs e) {
+            if (char.IsDigit(e.KeyChar)) {
+                answerString += e.KeyChar;
+            } else if (e.KeyChar == (char)Keys.Back) {
+                answerString = answerString.Substring(0, answerString.Length - 1);
+            } else if (e.KeyChar == (char)Keys.Enter) {
+                //currentQuestion.
+            }
+            
+        }
+
         public void update(double deltaTime) {
-            /*enemyAttackTime -= deltaTime;
+            enemyAttackTime -= deltaTime;
             if (enemyAttackTime <= 0) {
                 //doAttack(enemy, player);
                 firstCharacter.position.x = whereThePlayerCameFrom.x+3;
                 firstCharacter.position.y = whereThePlayerCameFrom.y+3;
                 enemyAttackTime = enemyTimePerAttack;
-            }*/
+            }
 
-            //firstCharacter.position.x = 0;//whereThePlayerCameFrom.x+3;
-            //firstCharacter.position.y = //whereThePlayerCameFrom.y+3;
             firstCharacter.position = whereThePlayerCameFrom;
         }
 

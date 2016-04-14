@@ -8,7 +8,7 @@ namespace WinFormsTest {
         public double attack;// = 1.0;
         public double defence;// = 1.0;
 
-        public ulong level;// = 0;
+        public int level;// = 0;
         public ulong exp;// = 0.0;
 
 
