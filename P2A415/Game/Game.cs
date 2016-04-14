@@ -29,14 +29,19 @@ namespace WinFormsTest {
         public UserInterface userInterface = new UserInterface();
 
         public Game() {
+
             instance = this;
 
-            this.Text = "Titel";
+            Text = "Text";
+
             Bounds = Screen.PrimaryScreen.Bounds;
-            this.WindowState = FormWindowState.Maximized;
+            WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
             Pen = new Pen(Color.DarkRed,1);
+
+            Controls.Add(new Menu(this.Height,this.Width,true));
+            Focus();
 
             //CharacterType.loadCharacterTypes();
 
@@ -54,6 +59,9 @@ namespace WinFormsTest {
                 keyInput(sender, e, false);
             };
         }
+
+
+
 
         void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
@@ -150,6 +158,17 @@ namespace WinFormsTest {
             using (Game game = new Game()) {
                 game.run();
             }
+        }
+
+        private void InitializeComponent() {
+            this.SuspendLayout();
+            // 
+            // Game
+            // 
+            this.ClientSize = new System.Drawing.Size(278, 244);
+            this.Name = "Game";
+            this.ResumeLayout(false);
+
         }
     }
 }
