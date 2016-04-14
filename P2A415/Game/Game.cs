@@ -44,8 +44,7 @@ namespace WinFormsTest {
                 shouldRun = false;
             };
 
-            // Keypress plox
-            // Char.IsDigit
+            KeyPress += keyPress;
 
             KeyDown += (sender, e) => {
                 keyInput(sender, e, true);
@@ -55,26 +54,32 @@ namespace WinFormsTest {
             };
         }
 
-        void keyInput (object sender, KeyEventArgs e, bool isDown) {
+        private void keyPress(object sender, KeyPressEventArgs e) {
+            if (localPlayer.character.currentCombat != null) {
+                localPlayer.character.currentCombat.keyPress(sender, e);
+            }
+        }
+
+        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
-            bool inCombat = localPlayer.character.currentCombat != null;
+            //bool inCombat = localPlayer.character.currentCombat != null;
 
             switch (e.KeyCode) {
             case Keys.W:
             case Keys.Up:
-                localPlayer.input.moveUp = isDown && !inCombat;
+                localPlayer.input.moveUp = isDown;
                 break;
             case Keys.S:
             case Keys.Down:
-                localPlayer.input.moveDown = isDown && !inCombat;
+                localPlayer.input.moveDown = isDown;
                 break;
             case Keys.D:
             case Keys.Right:
-                localPlayer.input.moveRight = isDown && !inCombat;
+                localPlayer.input.moveRight = isDown;
                 break;
             case Keys.A:
             case Keys.Left:
-                localPlayer.input.moveLeft = isDown && !inCombat;
+                localPlayer.input.moveLeft = isDown;
                 break;
 
             default:

@@ -46,6 +46,8 @@
     <Compile Include="World.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="Question.cs" />
+    <Compile Include="Addition.cs" />
+    <Compile Include="Subtraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
