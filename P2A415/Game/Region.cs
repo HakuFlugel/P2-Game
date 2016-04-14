@@ -41,7 +41,8 @@ namespace WinFormsTest {
                     x = ((this.x - cameraPosition.x / 32) + (xindex - cameraPosition.x % 32 - cameraPosition.xoffset*cameraPosition.offsetScale))*64*2 + Game.instance.Width / 2 - 64;
                     y = ((this.y - cameraPosition.y / 32) + (yindex - cameraPosition.y % 32 - cameraPosition.yoffset*cameraPosition.offsetScale))*64*2 - Game.instance.Height / 2 + 64;
 
-                    gfx.DrawImage(Game.instance.localPlayer.character.texture, new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
+
+                    gfx.DrawImage(ImageLoader.Load(CharacterType.characterTypes[1].imageFile), new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
 
                 }

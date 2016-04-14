@@ -38,6 +38,8 @@ namespace WinFormsTest {
             graphics = CreateGraphics();
             Pen = new Pen(Color.DarkRed,1);
 
+            //CharacterType.loadCharacterTypes();
+
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -53,24 +55,26 @@ namespace WinFormsTest {
             };
         }
 
-        void keyInput (object sender, KeyEventArgs e, bool isDown)
-        {
+        void keyInput (object sender, KeyEventArgs e, bool isDown) {
+            
+            bool inCombat = localPlayer.character.currentCombat != null;
+
             switch (e.KeyCode) {
             case Keys.W:
             case Keys.Up:
-                localPlayer.input.moveUp = isDown;
+                localPlayer.input.moveUp = isDown && !inCombat;
                 break;
             case Keys.S:
             case Keys.Down:
-                localPlayer.input.moveDown = isDown;
+                localPlayer.input.moveDown = isDown && !inCombat;
                 break;
             case Keys.D:
             case Keys.Right:
-                localPlayer.input.moveRight = isDown;
+                localPlayer.input.moveRight = isDown && !inCombat;
                 break;
             case Keys.A:
             case Keys.Left:
-                localPlayer.input.moveLeft = isDown;
+                localPlayer.input.moveLeft = isDown && !inCombat;
                 break;
 
             default:

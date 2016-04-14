@@ -10,7 +10,7 @@ namespace WinFormsTest {
         public Region[,] regions = new Region[2,2];
 
         public World() {
-            CharacterType.loadCharacterTypes();
+            //CharacterType.loadCharacterTypes();
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
                     Console.WriteLine($"{x}{y}");

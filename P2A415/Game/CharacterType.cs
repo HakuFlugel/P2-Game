@@ -15,7 +15,7 @@ namespace WinFormsTest {
 
         public static List<CharacterType> characterTypes = new List<CharacterType>();
 
-        public static void loadCharacterTypes() {
+        static CharacterType() {
             characterTypes.Add(new CharacterType() {
                 imageFile = "Content/character.png",
                 name = "Player",
@@ -31,9 +31,6 @@ namespace WinFormsTest {
                 attack = 10,
                 defence = 10,
                 exp = 10
-            });
-            characterTypes.Add(new CharacterType() { 
-                
             });
         }
 
