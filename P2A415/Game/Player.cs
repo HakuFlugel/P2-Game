@@ -17,8 +17,7 @@ namespace WinFormsTest {
         public PlayerInput input = new PlayerInput();
 
         public Player(long x = 0, long y = 0) {
-            character = new Character(x, y);
-            character.layer = 1.0f; // TODO: does this do anything?
+            character = new Character(0, x, y);
         }
 
         public void update(double deltaTime)
