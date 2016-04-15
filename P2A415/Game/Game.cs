@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace WinFormsTest {
     public class Game : Form {
-
+        public Menu menu { get; set; }
         public static Game instance;
 
         //public World world;
@@ -40,6 +40,8 @@ namespace WinFormsTest {
 
             //CharacterType.loadCharacterTypes();
 
+            this.menu = new Menu(this);
+                  
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -55,6 +57,9 @@ namespace WinFormsTest {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
+            if(e.KeyChar == (char) Keys.Escape) {
+                menu.Update_menu();
+            }
             if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
