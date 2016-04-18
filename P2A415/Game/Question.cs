@@ -16,11 +16,14 @@ namespace WinFormsTest {
             questionTypes.Add(typeof(Subtraction));
         }
 
-        public static Type selectQuestionType(int level) {
-            while(true) {
-                var possibleTypes = questionTypes.Where(qt => level >= (int)qt.GetProperty("requiredLevel").GetValue(null));
-                return possibleTypes.ElementAt(rand.Next(possibleTypes.Count()));
+        public static Question selectQuestion(int level) {
+            foreach (var item in questionTypes) {
+                Console.WriteLine(item);
             }
+            var possibleTypes = questionTypes.Where(qt => level >= qt.GetField("requiredLevel").GetValue(qt));
+            Type questionType = possibleTypes.ElementAt(rand.Next(possibleTypes.Count()));
+
+            return (Question)Activator.CreateInstance(questionType);
         }
 
         public int level = 0;

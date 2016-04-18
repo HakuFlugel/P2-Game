@@ -21,9 +21,9 @@ namespace WinFormsTest {
             characters.Add(new Character(2, 1, 3));
             characters.Add(new Character(2, 3, 3));
 
-/*            for (int i = 0; i < 100; i++) {
-                characters.Add(new Character(i%10, i/10));
-            }*/
+          for (int i = 0; i < 100; i++) {
+                characters.Add(new Character(2, i*10%64, i*10/64));
+            }
             Random rand = new Random();
             Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
             characters.Add(Game.instance.localPlayer.character);

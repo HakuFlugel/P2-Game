@@ -7,11 +7,11 @@ using System.Windows.Forms;
 namespace WinFormsTest {
     public class Combat {
 
-        Character firstCharacter;
-        Character secondCharacter;
+        private Character firstCharacter;
+        private Character secondCharacter;
 
-        Position whereThePlayerCameFrom = new Position();
-        Question currentQuestion;
+        private Position whereThePlayerCameFrom = new Position();
+        private Question currentQuestion;
 
         string answerString;
 
@@ -23,12 +23,12 @@ namespace WinFormsTest {
             this.firstCharacter = firstCharacter;
             this.secondCharacter = secondCharacter;
 
-
-            whereThePlayerCameFrom.x = firstCharacter.position.x;
-            whereThePlayerCameFrom.y = firstCharacter.position.y;
-
+/*            whereThePlayerCameFrom.x = firstCharacter.position.x;
+            whereThePlayerCameFrom.y = firstCharacter.position.y;*/
 
             whereThePlayerCameFrom = firstCharacter.position;
+
+            currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {
@@ -38,6 +38,25 @@ namespace WinFormsTest {
                 answerString = answerString.Substring(0, answerString.Length - 1);
             } else if (e.KeyChar == (char)Keys.Enter) {
                 //currentQuestion.
+
+                bool isCorrect = false;
+                try {
+                    int answer = int.Parse(answerString);
+                    isCorrect = currentQuestion.validateAnswer(answer);
+
+                } catch (FormatException ex) {
+                    Console.WriteLine(ex.Message);
+                    //enemyAttackTime -= 1;
+                }
+
+                if (isCorrect) {
+                    //attack
+                } else {
+                    enemyAttackTime -= 1;
+                    // TODO: effect, shake?
+                }
+
+                currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
             }
             
         }
