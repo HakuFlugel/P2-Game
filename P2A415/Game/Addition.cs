@@ -10,9 +10,9 @@ namespace WinFormsTest {
             this.operands = new int[rand.Next(2, 2 + (int)Math.Log10(level + 1))];
 
             for (int i = 0; i < operands.Length; i++) {
-                operands[i] = rand.Next(level/5-(level*level/100), level * 4);
+                operands[i] = rand.Next(level/5-(level*level/100), 4 + level * 4);
                 expression += operands[i];
-                if (i != operands.Length)
+                if (i != operands.Length - 1)
                     expression += " + ";
                 else
                     expression += " = ";

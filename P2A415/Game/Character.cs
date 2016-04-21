@@ -57,6 +57,10 @@ namespace WinFormsTest {
 
             texture = ImageLoader.Load(CharacterType.characterTypes[characterType].imageFile);
                 //Game.instance.Content.Load<Texture2D>("character.png");
+
+            stats.hp = 100;
+            stats.attack = 25;
+            stats.defence = 2;
         }
 
         public void update(double deltaTime) {
@@ -127,6 +131,24 @@ namespace WinFormsTest {
                 return false;
             }
 
+        }
+
+        public ulong expRequired() {
+            return expRequired(stats.level);
+        }
+
+        public static ulong expRequired(int level) {
+            return (ulong)(Math.Pow(level, 1.8) * 10 + 10);
+        }
+
+        public void addExperience(ulong exp) {
+            stats.exp += exp;
+            while (stats.exp >= expRequired()) { // In theory you shouldn't be able to gain enough experience for muliple levels
+
+                stats.exp -= expRequired();
+                stats.level++;
+            }
+            //stats.level = x^(1/2.5)/2.5
         }
     }
         

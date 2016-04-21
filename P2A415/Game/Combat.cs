@@ -7,23 +7,25 @@ using System.Windows.Forms;
 namespace WinFormsTest {
     public class Combat {
 
-        private Character firstCharacter;
-        private Character secondCharacter;
+        public Character firstCharacter;
+		public Character secondCharacter;
 
         private Position whereThePlayerCameFrom = new Position();
-        private Question currentQuestion;
+		public Question currentQuestion;
 
-        string answerString;
+		public bool hasEnded = false;
 
-        double enemyTimePerAttack = 10;
-        double enemyAttackTime = 10;
+        public string answerString = "";
+
+        private double enemyTimePerAttack = 8;
+        public double enemyAttackTime = 8;
 
 
         public Combat(Character firstCharacter, Character secondCharacter) {
             this.firstCharacter = firstCharacter;
             this.secondCharacter = secondCharacter;
 
-/*            whereThePlayerCameFrom.x = firstCharacter.position.x;
+/*          whereThePlayerCameFrom.x = firstCharacter.position.x;
             whereThePlayerCameFrom.y = firstCharacter.position.y;*/
 
             whereThePlayerCameFrom = firstCharacter.position;
@@ -32,11 +34,11 @@ namespace WinFormsTest {
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {
-            if (char.IsDigit(e.KeyChar)) {
+			if (char.IsDigit(e.KeyChar) || e.KeyChar == '-') {
                 answerString += e.KeyChar;
-            } else if (e.KeyChar == (char)Keys.Back) {
+			} else if (e.KeyChar == (char)Keys.Back && answerString.Length >= 1) {
                 answerString = answerString.Substring(0, answerString.Length - 1);
-            } else if (e.KeyChar == (char)Keys.Enter) {
+			} else if (e.KeyChar == (char)Keys.Enter && answerString.Length >= 1) {
                 //currentQuestion.
 
                 bool isCorrect = false;
@@ -44,17 +46,19 @@ namespace WinFormsTest {
                     int answer = int.Parse(answerString);
                     isCorrect = currentQuestion.validateAnswer(answer);
 
-                } catch (FormatException ex) {
+				} catch (Exception ex) when (ex is FormatException || ex is OverflowException) {
                     Console.WriteLine(ex.Message);
                     //enemyAttackTime -= 1;
                 }
 
                 if (isCorrect) {
-                    //attack
+					doAttack();
                 } else {
                     enemyAttackTime -= 1;
                     // TODO: effect, shake?
                 }
+
+				answerString = "";
 
                 currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
             }
@@ -64,9 +68,9 @@ namespace WinFormsTest {
         public void update(double deltaTime) {
             enemyAttackTime -= deltaTime;
             if (enemyAttackTime <= 0) {
-                //doAttack(enemy, player);
-                firstCharacter.position.x = whereThePlayerCameFrom.x+3;
-                firstCharacter.position.y = whereThePlayerCameFrom.y+3;
+				doAttack(secondCharacter, firstCharacter);
+                //firstCharacter.position.x = whereThePlayerCameFrom.x+3;
+                //firstCharacter.position.y = whereThePlayerCameFrom.y+3;
                 enemyAttackTime = enemyTimePerAttack;
             }
 
@@ -75,12 +79,23 @@ namespace WinFormsTest {
 
         public void doAttack() {
             doAttack(firstCharacter, secondCharacter);
+            firstCharacter.stats.hp += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence / 10) / 20;
+            enemyAttackTime += 0.3333333333333333333333333;
         }
 
         private void doAttack(Character attacker, Character victim) {
 
-            victim.stats.hp -= attacker.stats.attack / victim.stats.defence;
+            victim.stats.hp -= (attacker.stats.attack + attacker.stats.level*20) / (1 + victim.stats.defence / 10);
             if (victim.stats.hp <= 0) {
+                attacker.addExperience((ulong)(Math.Pow(attacker.stats.level, 1.4)*1.1+5)); // TODO: skal være victim.stats.level når monstre begynder at scale
+
+                if (attacker.stats.hp < 100) {
+                    attacker.stats.hp += (100 - attacker.stats.hp) / 4;
+                }
+
+                Game.instance.world.characters.Remove(victim);
+
+				hasEnded = true;
                 // Do victory/lose stuff
             }
         }

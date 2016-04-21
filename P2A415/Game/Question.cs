@@ -8,22 +8,27 @@ namespace WinFormsTest {
     public abstract class Question {
 
         public static Random rand = new Random();
-        public static long requiredLevel = 0;
+        public static int requiredLevel = 0;
 
-        public static List<Type> questionTypes = new List<Type>();
+        public static List<Tuple<Type, int>> questionTypes = new List<Tuple<Type, int>>();
         static Question() {
-            questionTypes.Add(typeof(Addition));
-            questionTypes.Add(typeof(Subtraction));
+            questionTypes.Add (new Tuple<Type, int> (typeof(Addition), Addition.requiredLevel));
+            questionTypes.Add (new Tuple<Type, int> (typeof(Subtraction), Subtraction.requiredLevel));
         }
 
         public static Question selectQuestion(int level) {
+
+            Console.WriteLine("Debug: questionTypes");
             foreach (var item in questionTypes) {
-                Console.WriteLine(item);
+                Console.WriteLine(item.Item1 + " " + item.Item2);
+
             }
-            var possibleTypes = questionTypes.Where(qt => level >= qt.GetField("requiredLevel").GetValue(qt));
+            Console.WriteLine("---");
+
+            var possibleTypes = questionTypes.Where(tuple => tuple.Item2 <= level).Select(tuple => tuple.Item1);
             Type questionType = possibleTypes.ElementAt(rand.Next(possibleTypes.Count()));
 
-            return (Question)Activator.CreateInstance(questionType);
+            return (Question)Activator.CreateInstance(questionType, level);
         }
 
         public int level = 0;

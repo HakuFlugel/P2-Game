@@ -1,18 +1,18 @@
 ﻿using System;
 
 namespace WinFormsTest {
-    public struct Currency {
-        ulong triangles; // Geometri 
-        ulong squares; // Algebra
-        ulong pentagons; // Statistik
-
-        ulong hexagons; // Combined tringle+square+pentagon
-    }
+//    public struct Currency {
+//        ulong triangles; // Geometri 
+//        ulong squares; // Algebra
+//        ulong pentagons; // Statistik
+//
+//        ulong hexagons; // Combined tringle+square+pentagon
+//    }
 
     public class Player {
         public Character character;
 
-        public Currency currency;
+//        public Currency currency;
 
         public PlayerInput input = new PlayerInput();
 
@@ -24,9 +24,12 @@ namespace WinFormsTest {
         {
             if (character.currentCombat != null) { // Is the player in combat?
 
-                character.currentCombat.doAttack();
+                //character.currentCombat.doAttack();
                 character.currentCombat.update(deltaTime);
-                character.currentCombat = null;
+                if (character.currentCombat.hasEnded) {
+                    character.currentCombat = null;
+                }
+                //character.currentCombat = null;
 
             }else { // Not in combat
 
