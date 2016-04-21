@@ -10,7 +10,7 @@ namespace WinFormsTest {
 
         public bool Moveable = true;
         public static Bitmap Image;
-        public static string pictureLocation = @"C:\Users\Peeps\GithubP2_project\P2A415\Game\Resources\All_bioms.png";
+        public static string pictureLocation = "Content/all_bioms.png";
         public int imageIndex;
         public bool up = false;
         public bool right = false;
