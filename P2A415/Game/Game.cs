@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace WinFormsTest {
     public class Game : Form {
-
+        public Menu menu { get; set; }
         public static Game instance;
 
         //public World world;
@@ -40,6 +40,8 @@ namespace WinFormsTest {
 
             //CharacterType.loadCharacterTypes();
 
+            this.menu = new Menu(this);
+                  
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -55,6 +57,9 @@ namespace WinFormsTest {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
+            if(e.KeyChar == (char) Keys.Escape) {
+                menu.Update_menu();
+            }
             if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
@@ -118,7 +123,9 @@ namespace WinFormsTest {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-
+            if (menu.is_in_menu) {
+                return;
+            }
             localPlayer.update(deltaTime);
             world.update(deltaTime);
 
@@ -145,6 +152,14 @@ namespace WinFormsTest {
                 world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
 
                 userInterface.draw(gfx);
+
+                //Random r = new Random();
+                //gfx.DrawImage(bmp, r.Next(-50, 50), r.Next(-50, 50), Width+r.Next(-50, 50), Height+r.Next(-50, 50));
+
+                //for (int i = 1; i <= r.Next(10); i++) {
+                //    gfx.DrawImage(bmp, 2*i, 2*i, Width - i*2*4, Height - 2*i*4);
+                //}
+                //Console.Beep(r.Next(250, 2000), 50);
 
                 graphics.DrawImage(bmp, 0, 0);
             }
