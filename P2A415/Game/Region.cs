@@ -16,8 +16,9 @@ namespace WinFormsTest {
 
             for (int i = 0; i < tiles.GetLength(0); i++) {
                 for (int j = 0; j < tiles.GetLength(1); j++) {
+
                     tiles[i, j] = rand.Next(TileType.tileTypes.Count);
-                    Console.WriteLine(TileType.tileTypes[tiles[i,j]].Moveable);
+                    
                 }
             }
             Console.WriteLine(TileType.tileTypes.Count);
@@ -48,10 +49,12 @@ namespace WinFormsTest {
             for (long xindex = cameraStartRegionX; xindex <= cameraEndRegionX; xindex++) {
                 for (long yindex = cameraStartRegionY; yindex <= cameraEndRegionY; yindex++) {
 
+                    int tileID = tiles[xindex, yindex];
+
                     // Draw TIEL HIER!!!
-                    if (TileType.tileTypes[tiles[xindex,yindex]].Moveable) {
-                        continue;
-                    }
+                    //if (TileType.tileTypes[tileID].Moveable) {
+                    //    continue;
+                    //}
 
                     double x, y;
                     x = (xindex - cameraPositionRegionX - cameraPosition.xoffset * cameraPosition.offsetScale) * 64 * 2 + Game.instance.Width / 2 - 64;
@@ -60,10 +63,13 @@ namespace WinFormsTest {
                     //x = ((this.x - cameraPosition.x / Tiles.GetLength(0)) + (xindex - cameraPositionRegionX/*cameraPosition.x % 32*/ -cameraPosition.xoffset * cameraPosition.offsetScale)) * 64 * 2 + Game.instance.Width / 2 - 64;
                     //y = ((this.y - cameraPosition.y / Tiles.GetLength(1)) + (yindex - cameraPositionRegionY/*cameraPosition.y % 32*/ -cameraPosition.yoffset * cameraPosition.offsetScale)) * 64 * 2 - Game.instance.Height / 2 + 64;
 
-                    Bitmap img = ImageLoader.Load(CharacterType.characterTypes[1].imageFile);
-                    gfx.DrawImage(img, new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
-                    ImageLoader.Unload(CharacterType.characterTypes[1].imageFile);
+                    
+                    TileType tt = TileType.tileTypes[tileID];
 
+                    gfx.DrawImage( TileType.Image ,
+                                new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2),
+                                new Rectangle(tt.imageIndex % 19 * 64, tt.imageIndex / 19 * 64, 64, 64), 
+                                GraphicsUnit.Pixel);
 
                 }
             }
