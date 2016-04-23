@@ -4,7 +4,15 @@ using System.Drawing;
 
 namespace WinFormsTest {
     public class Region {
-        public int[,] tiles = new int[32,32];
+        private int[,] tiles = new int[32,32];
+        public int this[long x, long y] {
+            get {
+                return tiles[x, y];
+            }
+            set {
+                tiles[x, y] = value;
+            }
+        }
 
         public long x, y;
 

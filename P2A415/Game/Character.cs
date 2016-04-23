@@ -123,9 +123,7 @@ namespace WinFormsTest {
         public bool canMove(long x, long y) {
             //if Game.instance.wo
             try {
-                return TileType.tileTypes[
-                    Game.instance.world.regions[x / 32, y / 32]
-                    .tiles[x % 32, y % 32]].Moveable;
+                return TileType.tileTypes[Game.instance.world[x,y]].Moveable;
             } catch (Exception e) {
                 Console.WriteLine("Can't move: " + e);
                 return false;
