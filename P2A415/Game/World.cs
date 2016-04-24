@@ -7,17 +7,11 @@ namespace WinFormsTest {
     public class World {
         public List<Character> characters = new List<Character>();
 
-        public Region[,] regions = new Region[2,2];
+        public Region[,] regions = new Region[32,32];
 
         private Random rand;
 
         public World() {
-            //CharacterType.loadCharacterTypes();
-            for (int x = 0; x < regions.GetLength(0); x++) {
-                for (int y = 0; y < regions.GetLength(1); y++) {
-                    regions[x, y] = new Region(x, y);
-                }
-            }
 
             generateWorld();
 
@@ -41,19 +35,58 @@ namespace WinFormsTest {
             }
         }
 
+        private enum GeneratedTile {
+            Ground, // 3
+            Trees, // 0,1,2
+            Mountain, //???
+            Path // 3-18
+        }
+
         private void generateWorld() { // TODO: seed?
+
+            // Allocate regions
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    regions[x, y] = new Region(x, y);
+                }
+            }
 
             rand = new Random();
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
-            int[,][,] weights = new int[regions.GetLength(0), regions.GetLength(1)][,];
+            //int[,][,] weights = new int[regions.GetLength(0), regions.GetLength(1)][,];
+
+            // Biomes
+            for (int x = 0; x < biomes.GetLength(0); x++) {
+                for (int y = 0; y < biomes.GetLength(1); y++) {
+                    biomes[x, y] = rand.Next() % 4;
+                }
+            }
 
 
+            // Mountains
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
-                    if (rand.Next()%10 < 9) {
-                        makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
+
+                    for (int i = 0; i < 4; i++) {
+                        //if (rand.Next()%10 < 9) {
+                            makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
+                        //}
+                    }
+
+                }
+            }
+
+            // Trees
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+
+                    for (int i = 0; i < 32; i++) {
+                        
+                        //if (rand.Next() % 100 < 95) {
+                            MakeTrees(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
+                        //}
                     }
                 }
             }
@@ -61,40 +94,123 @@ namespace WinFormsTest {
 
             // monsters
 
-            // roads
+            // path
+//            for (int x = 0; x < regions.GetLength(0); x++) {
+//                for (int y = 0; y < regions.GetLength(1); y++) {
+//                    for (int i = 0; i < 256; i++) {
+//                        
+//                        //if (rand.Next() % 100 < 95) {
+//                            this[x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32] = (int)GeneratedTile.Path;
+//                        //}
+//                    }
+//                }
+//            }
 
+            // Final tiles
+            for (int x = 0; x < regions.GetLength(0)*32; x++) {
+                for (int y = 0; y < regions.GetLength(1)*32; y++) {
+                    switch (this[x,y]) {
+                    case (int)GeneratedTile.Ground:
+                        this[x, y] = 3;
+                        break;
+                    case (int)GeneratedTile.Trees:
+                        this[x, y] = 0+rand.Next()%2;
+                        break;
+                    case (int)GeneratedTile.Mountain:
+                        this[x, y] = 19;
+                        break;
+                    case (int)GeneratedTile.Path:
+                        this[x, y] = 3+rand.Next()%15;
+                        // directions
+                        break;
+                    default:
+                        break;
+                    }
+
+                    this[x, y] += 19 * biomes[x/32, y/32];
+                    this[x, y] %= 19 * 4;
+
+                }
+            }
 
         }
 
         private void makeMountains(int x, int y, int count = 1) {
 
-            this[x,y] =
-
-            // Spread
-            for (int i = 0; i < 4; i++) {
-                if (rand.Next(100)/count >= 10) {
-                    
-                    switch (i) {
-                    case 1:
-                        makeMountains(x, y + 1);
-                        break;
-                    case 2:
-                        makeMountains(x + 1, y);
-                        break;
-                    case 3:
-                        makeMountains(x, y - 1);
-                        break;
-                    case 4:
-                        makeMountains(x - 1, y);
-                        break;
-                    default:
-                        break;
-                    }
+            try {
+                if (this[x,y] != (int)GeneratedTile.Ground) {
+                    return;
                 }
 
+                this[x, y] = (int)GeneratedTile.Mountain;
+
+                // Spread
+                for (int i = 0; i < 4; i++) {
+                    if (rand.Next(100)/count >= 12) {
+                        
+                        switch (i) {
+                        case 0:
+                            makeMountains(x, y + 1, count + 1);
+                            break;
+                        case 1:
+                            makeMountains(x + 1, y, count + 1);
+                            break;
+                        case 2:
+                            makeMountains(x, y - 1, count + 1);
+                            break;
+                        case 3:
+                            makeMountains(x - 1, y, count + 1);
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+
+                }
+            } catch (IndexOutOfRangeException) {
+                Console.WriteLine("Mountains hit bounds");
+                // Do nothing
             }
         }
 
+        private void MakeTrees(int x, int y, int count = 1) {
+
+            try {
+
+                if (this[x,y] != (int)GeneratedTile.Ground) {
+                    return;
+                }
+
+                this[x, y] = (int)GeneratedTile.Trees;
+
+                // Spread
+                for (int i = 0; i < 4; i++) {
+                    if (rand.Next(100)/count/count >= 8) {
+
+                        switch (i) {
+                        case 0:
+                            MakeTrees(x, y + 1, count + 1);
+                            break;
+                        case 1:
+                            MakeTrees(x + 1, y, count + 1);
+                            break;
+                        case 2:
+                            MakeTrees(x, y - 1, count + 1);
+                            break;
+                        case 3:
+                            MakeTrees(x - 1, y, count + 1);
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+
+                }
+            } catch (IndexOutOfRangeException) {
+                Console.WriteLine("Trees hit bounds");
+                // Do nothing
+            }
+        }
 
 
         public void update(double deltaTime) {

@@ -22,13 +22,13 @@ namespace WinFormsTest {
 
             Random rand = new Random();
 
-            for (int i = 0; i < tiles.GetLength(0); i++) {
-                for (int j = 0; j < tiles.GetLength(1); j++) {
-
-                    tiles[i, j] = rand.Next(TileType.tileTypes.Count);
-                    
-                }
-            }
+//            for (int i = 0; i < tiles.GetLength(0); i++) {
+//                for (int j = 0; j < tiles.GetLength(1); j++) {
+//
+//                    tiles[i, j] = rand.Next(TileType.tileTypes.Count);
+//                    
+//                }
+//            }
             Console.WriteLine(TileType.tileTypes.Count);
             Console.WriteLine(TileType.tileTypes.Count);
             Console.WriteLine(TileType.tileTypes.Count);

@@ -40,7 +40,7 @@ namespace WinFormsTest {
 
             //CharacterType.loadCharacterTypes();
 
-            this.menu = new Menu(this);
+            //this.menu = new Menu(this);
                   
             FormClosing += delegate {
                 shouldRun = false;
@@ -58,7 +58,7 @@ namespace WinFormsTest {
 
         private void keyPress(object sender, KeyPressEventArgs e) {
             if(e.KeyChar == (char) Keys.Escape) {
-                menu.Update_menu();
+                //menu.Update_menu();
             }
             if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
@@ -123,9 +123,9 @@ namespace WinFormsTest {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-            if (menu.is_in_menu) {
-                return;
-            }
+//            if (menu.is_in_menu) {
+//                return;
+//            }
             localPlayer.update(deltaTime);
             world.update(deltaTime);
 
