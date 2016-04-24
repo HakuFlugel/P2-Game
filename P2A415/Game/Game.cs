@@ -127,8 +127,10 @@ namespace WinFormsTest {
 //                return;
 //            }
             localPlayer.update(deltaTime);
-            world.update(deltaTime);
 
+            if (Game.instance.localPlayer.character.currentCombat == null) {
+                world.update(deltaTime);
+            }
             // Clear input here?
         }
         

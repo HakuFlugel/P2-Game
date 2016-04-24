@@ -74,7 +74,7 @@ namespace WinFormsTest {
                 enemyAttackTime = enemyTimePerAttack;
             }
 
-            firstCharacter.position = whereThePlayerCameFrom;
+            //firstCharacter.position = whereThePlayerCameFrom; // TODO: evt. flytte til hvis man taber
         }
 
         public void doAttack() {
@@ -90,7 +90,7 @@ namespace WinFormsTest {
                 attacker.addExperience((ulong)(Math.Pow(attacker.stats.level, 1.4)*1.1+5)); // TODO: skal være victim.stats.level når monstre begynder at scale
 
                 if (attacker.stats.hp < 100) {
-                    attacker.stats.hp += (100 - attacker.stats.hp) / 4;
+                    attacker.stats.hp += (100 - attacker.stats.hp) / 4; //
                 }
 
                 Game.instance.world.characters.Remove(victim);

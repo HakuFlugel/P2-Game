@@ -168,7 +168,7 @@ namespace WinFormsTest {
 
                 }
             } catch (IndexOutOfRangeException) {
-                Console.WriteLine("Mountains hit bounds");
+                //Console.WriteLine("Mountains hit bounds");
                 // Do nothing
             }
         }
@@ -207,13 +207,14 @@ namespace WinFormsTest {
 
                 }
             } catch (IndexOutOfRangeException) {
-                Console.WriteLine("Trees hit bounds");
+                //Console.WriteLine("Trees hit bounds");
                 // Do nothing
             }
         }
 
 
         public void update(double deltaTime) {
+
             foreach (var character in characters) {
                 character.update(deltaTime); // TODO: update each region instead, which should then update characters
             }
