@@ -55,13 +55,13 @@ namespace WinFormsTest
 
         }
 
-        public void AddRoadToGrid(World region)
+        public void AddRoadToWorld(World world)
         {
             int[] path = ParsePath();
 
             for (int i = 0; i < path.Length; i += 2)
             {
-                //region[path[i], path[i + 1]] = "road"; //todo: change type
+                world[path[i], path[i + 1]] = i; //todo: change tiles to road
             }
         }
 

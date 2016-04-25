@@ -34,7 +34,7 @@ namespace WinFormsTest
             if (path != "")
             {
                 Road road = new Road(path);
-                road.AddRoadToGrid(EndWorld); //todo: somehow add road to region
+                road.AddRoadToWorld(EndWorld); //todo: somehow add road to region
             }
             else
                 Console.WriteLine("could not create road");
