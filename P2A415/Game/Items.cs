@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace WinFormsTest {
     public class Items {
+        public Bitmap Image;
 
         public static Dictionary<int, Items> itemList = new Dictionary<int, Items>();
 
+        public string itemImageFile;
         public static int itemID;
         public string itemName;
         public double itemHP;
@@ -29,6 +32,7 @@ namespace WinFormsTest {
 
         static Items() {
             itemList.Add(itemID++, new Items() {
+                itemImageFile = "",
                 itemName = "Sword of Slays",
                 itemHP = 1,
                 itemLVL = 1,
@@ -39,6 +43,7 @@ namespace WinFormsTest {
                 }
             });
             itemList.Add(itemID++, new Items() {
+                itemImageFile = "",
                 itemName = "God's Gloves",
                 itemHP = 1,
                 itemLVL = 2,
@@ -50,6 +55,7 @@ namespace WinFormsTest {
                 }
             });
             itemList.Add(itemID++, new Items() {
+                itemImageFile = "",
                 itemName = "Chestplate of big boobies",
                 itemHP = 1,
                 itemLVL = 3,
@@ -60,6 +66,7 @@ namespace WinFormsTest {
                 }
             });
             itemList.Add(itemID++, new Items() {
+                itemImageFile = "",
                 itemName = "Tracer's leggings",
                 itemHP = 1,
                 itemLVL = 4,
