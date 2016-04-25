@@ -32,6 +32,14 @@ namespace WinFormsTest {
                 defence = 10,
                 exp = 10
             });
+            characterTypes.Add(new CharacterType() {
+                imageFile = "Content/zombie.png",
+                name = "Zombie",
+                hp = 1000,
+                attack = 10,
+                defence = 10,
+                exp = 10
+            });
         }
 
 

@@ -1,33 +1,35 @@
 ﻿using System;
 
 namespace WinFormsTest {
-    public struct Currency {
-        ulong triangles; // Geometri 
-        ulong squares; // Algebra
-        ulong pentagons; // Statistik
-
-        ulong hexagons; // Combined tringle+square+pentagon
-    }
+//    public struct Currency {
+//        ulong triangles; // Geometri 
+//        ulong squares; // Algebra
+//        ulong pentagons; // Statistik
+//
+//        ulong hexagons; // Combined tringle+square+pentagon
+//    }
 
     public class Player {
         public Character character;
 
-        public Currency currency;
+//        public Currency currency;
 
         public PlayerInput input = new PlayerInput();
 
         public Player(long x = 0, long y = 0) {
-            character = new Character(x, y);
-            character.layer = 1.0f; // TODO: does this do anything?
+            character = new Character(0, x, y);
         }
 
         public void update(double deltaTime)
         {
             if (character.currentCombat != null) { // Is the player in combat?
 
-                character.currentCombat.doAttack();
+                //character.currentCombat.doAttack();
                 character.currentCombat.update(deltaTime);
-                character.currentCombat = null;
+                if (character.currentCombat.hasEnded) {
+                    character.currentCombat = null;
+                }
+                //character.currentCombat = null;
 
             }else { // Not in combat
 
@@ -53,4 +55,3 @@ namespace WinFormsTest {
 
     }
 }
-

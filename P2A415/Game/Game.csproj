@@ -37,9 +37,7 @@
     </Compile>
     <Compile Include="Character.cs" />
     <Compile Include="ImageLoader.cs" />
-    <Compile Include="Menu.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />
@@ -49,6 +47,8 @@
     <Compile Include="World.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="Question.cs" />
+    <Compile Include="Addition.cs" />
+    <Compile Include="Subtraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data" />
@@ -61,10 +61,5 @@
     <Content Include="Content\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Game.resx">
-      <DependentUpon>Game.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

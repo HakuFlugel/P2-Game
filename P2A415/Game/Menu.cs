@@ -7,45 +7,62 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WinFormsTest {
-    class Menu : Panel {
+    public class Menu {
+        public bool is_in_menu = true;
+        public List<Control> listWithMenu = new List<Control>();
+        public Form form;
+        public Menu(Form form) {
 
-        public Menu(int height, int width,bool is_in_game) {
+            this.form = form;
 
-            Button Start = new Button();
+            int where_button_start = 300;
 
-            Button Quit = new Button();
-            if (!is_in_game)
-                Start.Text = "Start";
-            else
-                Start.Text = "Continue";
+            listWithMenu.Add(new Button());
+            listWithMenu.Add(new Button());
+            listWithMenu.Add(new Label());
+            listWithMenu.Add(new Panel());
 
-            Quit.Text = "Quit";
-            Quit.Height = Start.Height = 50;
-            Quit.Width = Start.Width = 200;
+            foreach(var item in listWithMenu) {
+                if(item.GetType() == typeof(Button)) {
 
+                    item.Location = new Point(form.Width / 2 - 100, where_button_start += 100);
+                    item.Width = 200; item.Height = 50;
+                    item.Font = new Font("Bradley Hand ITC", (float)20, FontStyle.Italic);
+                    form.Controls.Add(item);
 
-            Quit.Location = new Point(width / 2 - 100, 150);
-            Start.Location = new Point(width / 2 - 100, 50);
+                }else if(item.GetType() == typeof(Label)) {
 
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+                    item.Text = "RPG - Game";
+                    item.Font = new Font("Bradley Hand ITC", (float)175, FontStyle.Bold);
+                    item.Location = new Point(10, 20);
+                    item.BackColor = Color.Transparent;
+                    item.AutoSize = true;
+                    form.Controls.Add(item);
 
+                }else if(item.GetType() == typeof(Panel)) {
 
-
-
-
-            BackgroundImage = Image.FromFile(@"..\..\Resources\Transp.png") ;     //FromArgb(50, 88, 44, 55);
-            Location = new Point(0, 0);
-            Width = width;
-            Height = height;
+                    item.Width = form.Width;
+                    item.Height = form.Height;
+                    item.SendToBack();
+                    form.Controls.Add(item);
+                }
+            }
             
+            listWithMenu[0].Text = "Start";
+            listWithMenu[1].Text = "Quit";
 
-            Quit.Click += new EventHandler(Quit_is_click);
-            //if(Console.ReadKey().Key == ConsoleKey.Escape && is_in_game && this.Visible) {
-            //    this.Visible = false;
-            //}
-            Controls.Add(Start);
-            Controls.Add(Quit);
-            
+            listWithMenu[1].Click += new EventHandler(Quit_is_click);
+            listWithMenu[0].Click += new EventHandler(Start_is_click);
+        }
+
+        public void Update_menu() {
+
+            is_in_menu = true;
+
+            listWithMenu[0].Text = "Continue";
+
+            listWithMenu[0].Show();
+            listWithMenu[1].Show();
         }
 
         public void Quit_is_click(Object sender, EventArgs e) {
@@ -55,18 +72,18 @@ namespace WinFormsTest {
             if(dialog == DialogResult.Yes) {
                 Application.Exit();
             }
+
             return;
         }
-        //protected override CreateParams CreateParams {
-        //    get {
-        //        CreateParams cp = base.CreateParams;
-        //        cp.ExStyle |= 0x00000020; // WS_EX_TRANSPARENT
-        //        return cp;
-        //    }
-        //}
+        public void Start_is_click(Object sender, EventArgs e) {
+            foreach(var item in listWithMenu) {
+                item.Hide();
+                form.Focus();
+                is_in_menu = false;
+            }
+           
+            return;
+        }
 
-        //protected override void OnPaint(PaintEventArgs e) {
-        //    e.Graphics.FillRectangle(new SolidBrush(this.BackColor), this.ClientRectangle);
-        //}
     }
 }

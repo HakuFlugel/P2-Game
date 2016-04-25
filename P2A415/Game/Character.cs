@@ -8,7 +8,7 @@ namespace WinFormsTest {
         public double attack;// = 1.0;
         public double defence;// = 1.0;
 
-        public ulong level;// = 0;
+        public int level;// = 0;
         public ulong exp;// = 0.0;
 
 
@@ -39,21 +39,28 @@ namespace WinFormsTest {
         public static double moveDelay = 0.25;
 
         public Bitmap texture;
-        public float layer = 0.5f;
 
         public Position position;
         public Stats stats = new Stats();
 
+        public int characterType;
+
         public Combat currentCombat;
 
-        public Character() : this(0, 0) {}
-        public Character(long x, long y)
+        public Character(int characterType) : this(characterType, 0, 0) {}
+        public Character(int characterType, long x, long y)
         {
             position.x = x;
             position.y = y;
 
-            texture = ImageLoader.Load(CharacterType.characterTypes[0].imageFile);
+            this.characterType = characterType;
+
+            texture = ImageLoader.Load(CharacterType.characterTypes[characterType].imageFile);
                 //Game.instance.Content.Load<Texture2D>("character.png");
+
+            stats.hp = 100;
+            stats.attack = 25;
+            stats.defence = 2;
         }
 
         public void update(double deltaTime) {
@@ -115,7 +122,31 @@ namespace WinFormsTest {
 
         public bool canMove(long x, long y) {
             //if Game.instance.wo
-            return true;
+            try {
+                return TileType.tileTypes[Game.instance.world[x,y]].Moveable;
+            } catch (Exception e) {
+                Console.WriteLine("Can't move: " + e);
+                return false;
+            }
+
+        }
+
+        public ulong expRequired() {
+            return expRequired(stats.level);
+        }
+
+        public static ulong expRequired(int level) {
+            return (ulong)(Math.Pow(level, 1.8) * 10 + 10);
+        }
+
+        public void addExperience(ulong exp) {
+            stats.exp += exp;
+            while (stats.exp >= expRequired()) { // In theory you shouldn't be able to gain enough experience for muliple levels
+
+                stats.exp -= expRequired();
+                stats.level++;
+            }
+            //stats.level = x^(1/2.5)/2.5
         }
     }
         

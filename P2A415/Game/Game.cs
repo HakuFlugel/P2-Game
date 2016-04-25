@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace WinFormsTest {
     public class Game : Form {
-
+        public Menu menu { get; set; }
         public static Game instance;
 
         //public World world;
@@ -29,28 +29,24 @@ namespace WinFormsTest {
         public UserInterface userInterface = new UserInterface();
 
         public Game() {
-
             instance = this;
 
-            Text = "Text";
-
+            this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
-            WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
             Pen = new Pen(Color.DarkRed,1);
 
-            Controls.Add(new Menu(this.Height,this.Width,true));
-            Focus();
-
             //CharacterType.loadCharacterTypes();
 
+            //this.menu = new Menu(this);
+                  
             FormClosing += delegate {
                 shouldRun = false;
             };
 
-            // Keypress plox
-            // Char.IsDigit
+            KeyPress += keyPress;
 
             KeyDown += (sender, e) => {
                 keyInput(sender, e, true);
@@ -60,29 +56,35 @@ namespace WinFormsTest {
             };
         }
 
+        private void keyPress(object sender, KeyPressEventArgs e) {
+            if(e.KeyChar == (char) Keys.Escape) {
+                //menu.Update_menu();
+            }
+            if (localPlayer.character.currentCombat != null) {
+                localPlayer.character.currentCombat.keyPress(sender, e);
+            }
+        }
 
-
-
-        void keyInput (object sender, KeyEventArgs e, bool isDown) {
+        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
-            bool inCombat = localPlayer.character.currentCombat != null;
+            //bool inCombat = localPlayer.character.currentCombat != null;
 
             switch (e.KeyCode) {
             case Keys.W:
             case Keys.Up:
-                localPlayer.input.moveUp = isDown && !inCombat;
+                localPlayer.input.moveUp = isDown;
                 break;
             case Keys.S:
             case Keys.Down:
-                localPlayer.input.moveDown = isDown && !inCombat;
+                localPlayer.input.moveDown = isDown;
                 break;
             case Keys.D:
             case Keys.Right:
-                localPlayer.input.moveRight = isDown && !inCombat;
+                localPlayer.input.moveRight = isDown;
                 break;
             case Keys.A:
             case Keys.Left:
-                localPlayer.input.moveLeft = isDown && !inCombat;
+                localPlayer.input.moveLeft = isDown;
                 break;
 
             default:
@@ -121,10 +123,14 @@ namespace WinFormsTest {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-
+//            if (menu.is_in_menu) {
+//                return;
+//            }
             localPlayer.update(deltaTime);
-            world.update(deltaTime);
 
+            if (Game.instance.localPlayer.character.currentCombat == null) {
+                world.update(deltaTime);
+            }
             // Clear input here?
         }
         
@@ -147,7 +153,10 @@ namespace WinFormsTest {
 
                 world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
 
+                (localPlayer.character.currentCombat)?.draw(gfx);
+
                 userInterface.draw(gfx);
+
 
                 graphics.DrawImage(bmp, 0, 0);
             }
@@ -158,17 +167,6 @@ namespace WinFormsTest {
             using (Game game = new Game()) {
                 game.run();
             }
-        }
-
-        private void InitializeComponent() {
-            this.SuspendLayout();
-            // 
-            // Game
-            // 
-            this.ClientSize = new System.Drawing.Size(278, 244);
-            this.Name = "Game";
-            this.ResumeLayout(false);
-
         }
     }
 }
