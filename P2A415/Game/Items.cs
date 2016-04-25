@@ -9,12 +9,12 @@ namespace WinFormsTest {
 
         public static Dictionary<int, Items> itemList = new Dictionary<int, Items>();
 
-        private static int itemID;
-        private string itemName;
-        private double itemHP;
-        private double itemLVL;
-        private double itemDMG;
-        private double itemDEF;
+        public static int itemID;
+        public string itemName;
+        public double itemHP;
+        public double itemLVL;
+        public double itemDMG;
+        public double itemDEF;
 
         private struct itemType {
             public int Hands;
