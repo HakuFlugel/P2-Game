@@ -7,7 +7,7 @@ namespace WinFormsTest {
     public class World {
         public List<Character> characters = new List<Character>();
 
-        public Region[,] regions = new Region[32,32];
+        public Region[,] regions = new Region[16,16];
 
         private Random rand;
 
@@ -39,7 +39,8 @@ namespace WinFormsTest {
             Ground, // 3
             Trees, // 0,1,2
             Mountain, //???
-            Path // 3-18
+            Path, // 3-18
+            Town // ????
         }
 
         private void generateWorld() { // TODO: seed?
@@ -55,7 +56,7 @@ namespace WinFormsTest {
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
-            //int[,][,] weights = new int[regions.GetLength(0), regions.GetLength(1)][,];
+            int[,] weights = new int[regions.GetLength(0) * 32, regions.GetLength(1) * 32];
 
             // Biomes
             for (int x = 0; x < biomes.GetLength(0); x++) {
@@ -64,47 +65,29 @@ namespace WinFormsTest {
                 }
             }
 
+            generateMountains();
 
-            // Mountains
-            for (int x = 0; x < regions.GetLength(0); x++) {
-                for (int y = 0; y < regions.GetLength(1); y++) {
+            generateTrees();
 
-                    for (int i = 0; i < 4; i++) {
-                        //if (rand.Next()%10 < 9) {
-                            makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
-                        //}
-                    }
-
-                }
-            }
-
-            // Trees
-            for (int x = 0; x < regions.GetLength(0); x++) {
-                for (int y = 0; y < regions.GetLength(1); y++) {
-
-                    for (int i = 0; i < 32; i++) {
-                        
-                        //if (rand.Next() % 100 < 95) {
-                            MakeTrees(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
-                        //}
-                    }
-                }
-            }
-
-
+            // towns
             // monsters
 
+            Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
+            ttweight.Add(GeneratedTile.Ground, 2);
+            ttweight.Add(GeneratedTile.Mountain, 64);
+            ttweight.Add(GeneratedTile.Path, 1);
+            ttweight.Add(GeneratedTile.Trees, 16);
+            ttweight.Add(GeneratedTile.Town, 1);
+
+
+            // Weights
+            for (int x = 0; x < regions.GetLength(0) * 32; x++) {
+                for (int y = 0; y < regions.GetLength(1) * 32; y++) {
+                    weights[x, y] = ttweight[(GeneratedTile)this[x, y]];
+                }
+            }
+
             // path
-//            for (int x = 0; x < regions.GetLength(0); x++) {
-//                for (int y = 0; y < regions.GetLength(1); y++) {
-//                    for (int i = 0; i < 256; i++) {
-//                        
-//                        //if (rand.Next() % 100 < 95) {
-//                            this[x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32] = (int)GeneratedTile.Path;
-//                        //}
-//                    }
-//                }
-//            }
 
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
@@ -133,6 +116,20 @@ namespace WinFormsTest {
                 }
             }
 
+        }
+
+        private void generateMountains() {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+
+                    for (int i = 0; i < 4; i++) {
+                        //if (rand.Next()%10 < 9) {
+                        makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
+                        //}
+                    }
+
+                }
+            }
         }
 
         private void makeMountains(int x, int y, int count = 1) {
@@ -170,6 +167,20 @@ namespace WinFormsTest {
             } catch (IndexOutOfRangeException) {
                 //Console.WriteLine("Mountains hit bounds");
                 // Do nothing
+            }
+        }
+
+        private void generateTrees() {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+
+                    for (int i = 0; i < 32; i++) {
+
+                        //if (rand.Next() % 100 < 95) {
+                        MakeTrees(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
+                        //}
+                    }
+                }
             }
         }
 
