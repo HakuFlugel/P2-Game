@@ -8,15 +8,17 @@ namespace WinFormsTest
     {
         public static Dictionary<int[], Road> PathDictionary = new Dictionary<int[], Road>();
 
-        public RoadMaker(World region)
+        public RoadMaker(World world, int[,] weight)
         {
-            EndWorld = region;
+            EndWorld = world;
+            Weight = weight;
             TempWorld = new World();
             TempWorld = EndWorld; //todo: ændre til value copy og ikke reference copy
         }
 
         public World EndWorld { get; set; }
         public World TempWorld { get; set; }
+        private int[,] Weight { get; set; }
 
         public void MakeRoad(int[] start, int[] end)
         {
@@ -26,6 +28,7 @@ namespace WinFormsTest
             int[] gridSize = new int[2];
             gridSize[0] = TempWorld.regions.GetLength(0);
             gridSize[1] = TempWorld.regions.GetLength(1);
+            RegionAnalyzer(gridSize);
             path = ProcessTiles(path);
 
             if (path != "")
@@ -55,7 +58,7 @@ namespace WinFormsTest
         private string ProcessTiles(string path)
         {
             Road startroad = new Road(path);
-            startroad.AddPath(Start, TempWorld);
+            startroad.AddPath(Start, Weight);
             PathDictionary.Add(startroad.End, startroad);
             int[] newEnd = new int[2];
 
@@ -86,9 +89,22 @@ namespace WinFormsTest
 
             string tempPath = PathDictionary[key].Path;
             PathDictionary.Add(chosenRoad, new Road(tempPath));
-            PathDictionary[chosenRoad].AddPath(chosenRoad, TempWorld);
+            PathDictionary[chosenRoad].AddPath(chosenRoad, Weight);
             path = PathDictionary[chosenRoad].Path;
             return chosenRoad;
+        }
+        private void RegionAnalyzer(int[] size)
+        {
+            int[] coordinates = new int[2];
+            for (int index = 0; index < size[0]; index++)
+            {
+                for (int jndex = 0; jndex < size[1]; jndex++)
+                {
+                    coordinates[0] = index;
+                    coordinates[1] = jndex;
+                    Weight[index, jndex] *= (int)Distance(coordinates, End);
+                }
+            }
         }
     }
 }

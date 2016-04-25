@@ -42,7 +42,7 @@ namespace WinFormsTest
             return parse;
         }
 
-        public void AddPath(int[] coordinates, World region)
+        public void AddPath(int[] coordinates, int[,] weight)
         {
             if (Path.Length == 0)
                 Path = string.Join(",", coordinates);
@@ -51,7 +51,7 @@ namespace WinFormsTest
 
             End = coordinates;
 
-            region.guidgrid[coordinates[0], coordinates[1]] = 9999; //todo: change weight
+            weight[coordinates[0], coordinates[1]] = 9999;
 
         }
 
@@ -61,7 +61,7 @@ namespace WinFormsTest
 
             for (int i = 0; i < path.Length; i += 2)
             {
-                region[path[i], path[i + 1]] = "road"; //todo: change type
+                //region[path[i], path[i + 1]] = "road"; //todo: change type
             }
         }
 
@@ -73,7 +73,7 @@ namespace WinFormsTest
             //0 north, 1 east, 2 south, 3 west
             try
             {
-                cardinals[0] = region.guidgrid[End[0], End[1] + 1]; //todo: fetch weight
+                cardinals[0] = region[End[0], End[1] + 1]; //todo: fetch weight
             }
             catch (IndexOutOfRangeException)
             {
@@ -81,7 +81,7 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[1] = region.guidgrid[End[0] + 1, End[1]]; //todo: fetch weight
+                cardinals[1] = region[End[0] + 1, End[1]]; //todo: fetch weight
             }
             catch (IndexOutOfRangeException)
             {
@@ -89,7 +89,7 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[2] = region.guidgrid[End[0], End[1] - 1]; //todo: fetch weight
+                cardinals[2] = region[End[0], End[1] - 1]; //todo: fetch weight
             }
             catch (IndexOutOfRangeException)
             {
@@ -97,7 +97,7 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[3] = region.guidgrid[End[0] - 1, End[1]]; //todo: fetch weight
+                cardinals[3] = region[End[0] - 1, End[1]]; //todo: fetch weight
             }
             catch (IndexOutOfRangeException)
             {

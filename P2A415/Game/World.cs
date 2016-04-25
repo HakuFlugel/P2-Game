@@ -89,6 +89,8 @@ namespace WinFormsTest {
 
             // path
 
+            //todo: choose which towns to link
+
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
                 for (int y = 0; y < regions.GetLength(1)*32; y++) {
