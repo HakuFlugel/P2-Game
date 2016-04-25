@@ -37,6 +37,8 @@
     </Compile>
     <Compile Include="Character.cs" />
     <Compile Include="ImageLoader.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="Items.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
