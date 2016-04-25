@@ -39,7 +39,7 @@ namespace WinFormsTest {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemName = "The God's Gloves",
+                itemName = "God's Gloves",
                 itemHP = 1,
                 itemLVL = 2,
                 itemDMG = 1,
@@ -50,7 +50,7 @@ namespace WinFormsTest {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemName = "Chest of big boobies",
+                itemName = "Chestplate of big boobies",
                 itemHP = 1,
                 itemLVL = 3,
                 itemDMG = 3,
