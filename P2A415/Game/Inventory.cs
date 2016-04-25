@@ -11,6 +11,7 @@ namespace WinFormsTest {
 
         public Form form;
         List<PictureBox> itemsInInventry;
+        List<Items> Carried_sorted;
 
         Inventory(Form form,List<Items> Carried, List<Items> Equipped) {
                 
@@ -19,15 +20,23 @@ namespace WinFormsTest {
             for(int index = 0; index < 32; index++) 
                 itemsInInventry.Add(new PictureBox());
 
-            List<Items> Carried_sorted = Carried.OrderBy(ch => ch.itemName).ToList();
+            Carried_sorted = Carried.OrderBy(ch => ch.itemName).ToList();
 
             int carriedCount = Carried.Count;
 
 
-            for(int index = 0; index < carriedCount; index++ )
-                itemsInInventry[index] = Carried_sorted[index];
+            for(int index = 0; index < carriedCount; index++ ) {
+                itemsInInventry[index] = Carried_sorted[index].Bitmap;
+                itemsInInventry[index].MouseHover += Inventory_MouseHover;
+            }
+                
+                
             
 
+        }
+
+        private void Inventory_MouseHover(object sender, EventArgs e) {
+            
         }
     }
 }
