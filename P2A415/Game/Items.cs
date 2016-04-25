@@ -7,7 +7,6 @@ using System.Drawing;
 
 namespace WinFormsTest {
     public class Items {
-        public Bitmap Image;
 
         public static Dictionary<int, Items> itemList = new Dictionary<int, Items>();
 
