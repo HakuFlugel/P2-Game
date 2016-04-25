@@ -61,7 +61,7 @@ namespace WinFormsTest
 
             for (int i = 0; i < path.Length; i += 2)
             {
-                region[path[i], path[i + 1]] = "road"; //todo: fix plox
+                region[path[i], path[i + 1]] = "road"; //todo: change type
             }
         }
 

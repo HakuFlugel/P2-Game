@@ -10,13 +10,13 @@ namespace WinFormsTest
 
         public RoadMaker(World region)
         {
-            EndRegion = region;
-            TempRegion = new World();
-            TempRegion = EndRegion; //todo: ændre til value copy og ikke reference copy
+            EndWorld = region;
+            TempWorld = new World();
+            TempWorld = EndWorld; //todo: ændre til value copy og ikke reference copy
         }
 
-        public World EndRegion { get; set; }
-        public World TempRegion { get; set; }
+        public World EndWorld { get; set; }
+        public World TempWorld { get; set; }
 
         public void MakeRoad(int[] start, int[] end)
         {
@@ -24,14 +24,14 @@ namespace WinFormsTest
             End = end;
             string path = "";
             int[] gridSize = new int[2];
-            gridSize[0] = TempRegion.regions.GetLength(0);
-            gridSize[1] = TempRegion.regions.GetLength(1);
+            gridSize[0] = TempWorld.regions.GetLength(0);
+            gridSize[1] = TempWorld.regions.GetLength(1);
             path = ProcessTiles(path);
 
             if (path != "")
             {
                 Road road = new Road(path);
-                road.AddRoadToGrid(EndRegion); //todo: somehow add road to region
+                road.AddRoadToGrid(EndWorld); //todo: somehow add road to region
             }
             else
                 Console.WriteLine("could not create road");
@@ -55,7 +55,7 @@ namespace WinFormsTest
         private string ProcessTiles(string path)
         {
             Road startroad = new Road(path);
-            startroad.AddPath(Start, TempRegion);
+            startroad.AddPath(Start, TempWorld);
             PathDictionary.Add(startroad.End, startroad);
             int[] newEnd = new int[2];
 
@@ -75,7 +75,7 @@ namespace WinFormsTest
             foreach (KeyValuePair<int[], Road> item in PathDictionary)
             {
                 int[] newRoad;
-                int newest = item.Value.CheckCardinals(TempRegion, out newRoad);
+                int newest = item.Value.CheckCardinals(TempWorld, out newRoad);
                 if (newest < best)
                 {
                     best = newest;
@@ -86,7 +86,7 @@ namespace WinFormsTest
 
             string tempPath = PathDictionary[key].Path;
             PathDictionary.Add(chosenRoad, new Road(tempPath));
-            PathDictionary[chosenRoad].AddPath(chosenRoad, TempRegion);
+            PathDictionary[chosenRoad].AddPath(chosenRoad, TempWorld);
             path = PathDictionary[chosenRoad].Path;
             return chosenRoad;
         }
