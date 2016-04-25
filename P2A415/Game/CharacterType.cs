@@ -4,7 +4,6 @@ using System.Drawing;
 
 namespace WinFormsTest {
     public class CharacterType {
-        public Bitmap Image;
 
         public string imageFile;
         public string name;
