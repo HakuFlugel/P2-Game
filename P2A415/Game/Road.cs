@@ -106,13 +106,6 @@ namespace WinFormsTest
 
             int sum = cardinals.Sum();
 
-            if (sum > 35000)
-            {
-                Console.WriteLine("sum" + sum);
-                return -1;
-            }
-
-
             int smallest = 9999; //just a high number
             for (int index = 0; index < 4; index++)
             {
