@@ -15,12 +15,12 @@ namespace WinFormsTest {
 
             generateWorld();
 
-            characters.Add(new Character(2, 1, 3));
-            characters.Add(new Character(2, 3, 3));
+            //characters.Add(new Character(2, 1, 3));
+            //characters.Add(new Character(2, 3, 3));
 
-          for (int i = 0; i < 100; i++) {
-                characters.Add(new Character(2, i*10%64, i*10/64));
-            }
+          //for (int i = 0; i < 1000; i++) {
+          //      characters.Add(new Character(2, i*10%64, i*10/64));
+          //  }
             Random rand = new Random(); // TODO: remove
             Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
             characters.Add(Game.instance.localPlayer.character);
@@ -70,7 +70,7 @@ namespace WinFormsTest {
             generateTrees();
 
             // towns
-            // monsters
+            
 
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
@@ -86,6 +86,10 @@ namespace WinFormsTest {
                     weights[x, y] = ttweight[(GeneratedTile)this[x, y]];
                 }
             }
+
+            // monsters
+            generateMonsters(weights);
+
 
             // path
 
@@ -114,6 +118,58 @@ namespace WinFormsTest {
                     this[x, y] %= 19 * 4;
 
                 }
+            }
+
+        }
+
+        private void generateMonsters(int[,] weights) {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+
+                    for (int i = 0; i < 64; i++) {
+                        //if (rand.Next()%10 < 9) {
+                        makeMonsters(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32, weights);
+                        //}
+                    }
+
+                }
+            }
+        }
+
+        private void modifyWeight(int[,] weights, int x, int y, int add) {
+            try {
+                weights[x, y] += add;
+            } catch (IndexOutOfRangeException) {
+                // nothing
+            }
+        }
+
+        private void makeMonsters(int x, int y, int[,] weights) {
+
+            for (int i = 0; i < rand.Next(1,8); i++) {
+                if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
+                    return;
+                }
+                if (this[x,y] != (int)GeneratedTile.Ground) {
+                    return;
+                }
+
+                characters.Add(new Character(rand.Next(1,2), x, y));
+
+                modifyWeight(weights, x, y, 5);
+
+                modifyWeight(weights, x+1, y, 3);
+                modifyWeight(weights, x, y+1, 3);
+                modifyWeight(weights, x-1, y, 3);
+                modifyWeight(weights, x, y-1, 3);
+
+                modifyWeight(weights, x+1, y+1, 1);
+                modifyWeight(weights, x-1, y+1, 1);
+                modifyWeight(weights, x+1, y-1, 1);
+                modifyWeight(weights, x-1, y-1, 1);
+
+                x += rand.Next(-3, 3);
+                y += rand.Next(-3, 3);
             }
 
         }
@@ -232,8 +288,10 @@ namespace WinFormsTest {
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {
-            for (int x = 0; x < regions.GetLength(0); x++) {
-                for (int y = 0; y < regions.GetLength(1); y++) {
+            int xlen = regions.GetLength(0), ylen = regions.GetLength(1);
+
+            for (int x = 0; x < xlen; x++) { // TODO: udregn interval
+                for (int y = 0; y < ylen; y++) {
                     regions[x, y].draw(gfx, cameraPosition);
                 }
             }
