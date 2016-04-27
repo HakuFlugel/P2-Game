@@ -19,8 +19,8 @@ namespace WinFormsTest {
 
         public string answerString = "";
 
-        private double enemyTimePerAttack = 8;
-        public double enemyAttackTime = 8;
+        private double enemyTimePerAttack;
+        public double enemyAttackTime;
 
 
         public Combat(Character firstCharacter, Character secondCharacter) {
@@ -31,6 +31,9 @@ namespace WinFormsTest {
             whereThePlayerCameFrom.y = firstCharacter.position.y;*/
 
             whereThePlayerCameFrom = firstCharacter.position;
+
+            enemyTimePerAttack = CharacterType.characterTypes[secondCharacter.characterType].attackSpeed;
+            enemyAttackTime = enemyTimePerAttack;
 
             currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
         }
@@ -81,19 +84,20 @@ namespace WinFormsTest {
 
         public void doAttack() {
             doAttack(firstCharacter, secondCharacter);
-            firstCharacter.stats.hp += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence / 10) / 20;
+            firstCharacter.stats.curHP += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence / 10) / 20;
             enemyAttackTime += 0.3333333333333333333333333;
         }
 
         private void doAttack(Character attacker, Character victim) {
 
-            victim.stats.hp -= (attacker.stats.attack + attacker.stats.level*20) / (1 + victim.stats.defence / 10);
-            if (victim.stats.hp <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(attacker.stats.level, 1.4)*1.1+5)); // TODO: skal være victim.stats.level når monstre begynder at scale
+            victim.stats.curHP -= (attacker.stats.attack + attacker.stats.level*20) / (1 + victim.stats.defence / 10);
 
-                if (attacker.stats.hp < 100) {
-                    attacker.stats.hp += (100 - attacker.stats.hp) / 4; //
-                }
+            // Victory/Defeat
+            if (victim.stats.curHP <= 0) {
+                attacker.addExperience((ulong)(Math.Pow(attacker.stats.level, 1.4)*1.1+5)*100); // TODO: skal være victim.stats.level når monstre begynder at scale // TODO: fjern *100
+
+                attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
+                
 
                 Game.instance.world.characters.Remove(victim);
 
@@ -125,8 +129,8 @@ namespace WinFormsTest {
             Brush brush = new SolidBrush(Color.WhiteSmoke);
 
 
-            double player_health = Math.Round(firstCharacter.stats.hp, 0);
-            double monster_health = Math.Round(secondCharacter.stats.hp, 0);
+            double player_health = Math.Round(firstCharacter.stats.curHP, 0);
+            double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
 
             gfx.DrawString($@"Time left: {enemyAttackTime}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 20f);
 

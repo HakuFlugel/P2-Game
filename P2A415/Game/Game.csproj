@@ -31,6 +31,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Division.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
@@ -38,6 +39,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Multiplication.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />

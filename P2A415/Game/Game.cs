@@ -151,7 +151,9 @@ namespace WinFormsTest {
 
                 }
 
-                world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
+                if (localPlayer.character.currentCombat == null) {
+                    world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
+                }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 

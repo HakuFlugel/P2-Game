@@ -4,7 +4,8 @@ using System.Drawing;
 namespace WinFormsTest {
 
     public struct Stats {
-        public double hp;// = 100.0;
+        public double curHP;// = 100.0;
+        public double maxHP;
         public double attack;// = 1.0;
         public double defence;// = 1.0;
 
@@ -55,12 +56,12 @@ namespace WinFormsTest {
 
             this.characterType = characterType;
 
-            texture = ImageLoader.Load(CharacterType.characterTypes[characterType].imageFile);
-                //Game.instance.Content.Load<Texture2D>("character.png");
+            CharacterType charType = CharacterType.characterTypes[characterType];
 
-            stats.hp = 100;
-            stats.attack = 25;
-            stats.defence = 2;
+            texture = ImageLoader.Load(charType.imageFile);
+            //Game.instance.Content.Load<Texture2D>("character.png");
+            calculateStats();
+            
         }
 
         public void update(double deltaTime) {
@@ -94,7 +95,8 @@ namespace WinFormsTest {
 
         public void move(long x, long y) {
             if (canMove(position.x + x, position.y + y)) {
-                for (int i = 0; i < Game.instance.world.characters.Count; i++) {
+                int length = Game.instance.world.characters.Count;
+                for (int i = 0; i < length; i++) {
 
                     Character character = Game.instance.world.characters[i];
 
@@ -131,6 +133,16 @@ namespace WinFormsTest {
 
         }
 
+        public void calculateStats() {
+
+            CharacterType charType = CharacterType.characterTypes[characterType];
+
+            stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level);
+            stats.curHP = stats.maxHP;
+            stats.attack = charType.attack * Math.Pow(1.05, stats.level); ;
+            stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
+        }
+
         public ulong expRequired() {
             return expRequired(stats.level);
         }
@@ -145,6 +157,8 @@ namespace WinFormsTest {
 
                 stats.exp -= expRequired();
                 stats.level++;
+
+                calculateStats();
             }
             //stats.level = x^(1/2.5)/2.5
         }
