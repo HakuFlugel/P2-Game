@@ -11,3 +11,11 @@ C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\obj\x86\Debug\WinFo
 C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\all_bioms.png
 C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\combatscreen.png
 C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Transp.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Dessert_city.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Dessert_mountain.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Grass_city.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Grass_mountain.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Snow_city.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Snow_mountain.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Wood_city.png
+C:\Users\matia\OneDrive\Dokumenter\GitHub\P2A415\P2A415\Game\bin\Debug\Content\Wood_mountain.png

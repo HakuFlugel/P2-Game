@@ -10,11 +10,11 @@ namespace WinFormsTest
 
         public RoadMaker(World world, int[,] weight)
         {
-            EndWorld = world;
-            Weight = weight;
+            World = world;
+            Weight = (int[,])weight.Clone();
         }
 
-        public World EndWorld { get; set; }
+        public World World { get; set; }
         private int[,] Weight { get; set; }
 
         public void MakeRoad(int[] start, int[] end)
@@ -23,15 +23,15 @@ namespace WinFormsTest
             End = end;
             string path = "";
             int[] worldSize = new int[2];
-            worldSize[0] = EndWorld.regions.GetLength(0);
-            worldSize[1] = EndWorld.regions.GetLength(1);
+            worldSize[0] = World.regions.GetLength(0);
+            worldSize[1] = World.regions.GetLength(1);
             RegionAnalyzer(worldSize);
             path = ProcessTiles(path);
 
             if (path != "")
             {
                 Road road = new Road(path);
-                road.AddRoadToWorld(EndWorld);
+                road.AddRoadToWorld(World);
             }
             else
                 Console.WriteLine("could not create road");

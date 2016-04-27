@@ -22,7 +22,7 @@ namespace WinFormsTest {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
             Random rand = new Random(); // TODO: remove
-            Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
+            Game.instance.localPlayer = new Player(5,5);// characters[rand.Next(characters.Count - 1)];
             characters.Add(Game.instance.localPlayer.character);
         }
 
@@ -92,8 +92,8 @@ namespace WinFormsTest {
 
 
             // path
-            RoadMaker roadmaker = new RoadMaker(this,weights);
-            roadmaker.MakeRoad(new []{0,0}, new []{200,200});
+            RoadMaker roadmaker = new RoadMaker(this, weights);
+            roadmaker.MakeRoad(new[] { 0, 0 }, new[] { 32, 33 });
             //todo: choose which towns to link
 
             // Final tiles
