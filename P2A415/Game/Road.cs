@@ -105,6 +105,7 @@ namespace WinFormsTest
             }
 
             int sum = cardinals.Sum();
+            Console.WriteLine(sum);
 
             int smallest = 9999; //just a high number
             for (int index = 0; index < 4; index++)
