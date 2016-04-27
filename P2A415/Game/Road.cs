@@ -61,11 +61,11 @@ namespace WinFormsTest
 
             for (int i = 0; i < path.Length; i += 2)
             {
-                world[path[i], path[i + 1]] = i; //todo: change tiles to road
+                world[path[i], path[i + 1]] = 18;
             }
         }
 
-        public int CheckCardinals(World region, out int[] newPath)
+        public int CheckCardinals(out int[] newPath, int[,] weight)
         {
             int direction = -1; // error number
             int[] cardinals = new int[4];
@@ -73,7 +73,7 @@ namespace WinFormsTest
             //0 north, 1 east, 2 south, 3 west
             try
             {
-                cardinals[0] = region[End[0], End[1] + 1]; //todo: fetch weight
+                cardinals[0] = weight[End[0], End[1] + 1];
             }
             catch (IndexOutOfRangeException)
             {
@@ -81,7 +81,7 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[1] = region[End[0] + 1, End[1]]; //todo: fetch weight
+                cardinals[1] = weight[End[0] + 1, End[1]];
             }
             catch (IndexOutOfRangeException)
             {
@@ -89,7 +89,7 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[2] = region[End[0], End[1] - 1]; //todo: fetch weight
+                cardinals[2] = weight[End[0], End[1] - 1];
             }
             catch (IndexOutOfRangeException)
             {
@@ -97,12 +97,21 @@ namespace WinFormsTest
             }
             try
             {
-                cardinals[3] = region[End[0] - 1, End[1]]; //todo: fetch weight
+                cardinals[3] = weight[End[0] - 1, End[1]];
             }
             catch (IndexOutOfRangeException)
             {
                 cardinals[3] = 10000;
             }
+
+            int sum = cardinals.Sum();
+
+            if (sum > 35000)
+            {
+                Console.WriteLine("sum" + sum);
+                return -1;
+            }
+
 
             int smallest = 9999; //just a high number
             for (int index = 0; index < 4; index++)

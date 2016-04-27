@@ -12,12 +12,9 @@ namespace WinFormsTest
         {
             EndWorld = world;
             Weight = weight;
-            TempWorld = new World();
-            TempWorld = EndWorld; //todo: ændre til value copy og ikke reference copy
         }
 
         public World EndWorld { get; set; }
-        public World TempWorld { get; set; }
         private int[,] Weight { get; set; }
 
         public void MakeRoad(int[] start, int[] end)
@@ -25,16 +22,16 @@ namespace WinFormsTest
             Start = start;
             End = end;
             string path = "";
-            int[] gridSize = new int[2];
-            gridSize[0] = TempWorld.regions.GetLength(0);
-            gridSize[1] = TempWorld.regions.GetLength(1);
-            RegionAnalyzer(gridSize);
+            int[] worldSize = new int[2];
+            worldSize[0] = EndWorld.regions.GetLength(0);
+            worldSize[1] = EndWorld.regions.GetLength(1);
+            RegionAnalyzer(worldSize);
             path = ProcessTiles(path);
 
             if (path != "")
             {
                 Road road = new Road(path);
-                road.AddRoadToWorld(EndWorld); //todo: somehow add road to region
+                road.AddRoadToWorld(EndWorld);
             }
             else
                 Console.WriteLine("could not create road");
@@ -78,7 +75,13 @@ namespace WinFormsTest
             foreach (KeyValuePair<int[], Road> item in PathDictionary)
             {
                 int[] newRoad;
-                int newest = item.Value.CheckCardinals(TempWorld, out newRoad);
+                int newest = item.Value.CheckCardinals(out newRoad, Weight);
+
+                //if (newest == -1)
+                //{
+                //    PathDictionary.Remove(item.Value.End);
+                //}
+
                 if (newest < best)
                 {
                     best = newest;

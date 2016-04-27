@@ -21,8 +21,8 @@ namespace WinFormsTest {
           for (int i = 0; i < 100; i++) {
                 characters.Add(new Character(2, i*10%64, i*10/64));
             }
-            Random rand = new Random(); // TODO: remove
-            Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
+            Random rand = new Random(1); // TODO: remove
+            Game.instance.localPlayer = new Player(5,5);// characters[rand.Next(characters.Count - 1)];
             characters.Add(Game.instance.localPlayer.character);
         }
 
@@ -39,8 +39,8 @@ namespace WinFormsTest {
             Ground, // 3
             Trees, // 0,1,2
             Mountain, //???
-            Path, // 3-18
-            Town // ????
+            Path=18, // 3-18
+            Town=20 // ????
         }
 
         private void generateWorld() { // TODO: seed?
@@ -52,7 +52,7 @@ namespace WinFormsTest {
                 }
             }
 
-            rand = new Random();
+            rand = new Random(2);
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
@@ -88,7 +88,8 @@ namespace WinFormsTest {
             }
 
             // path
-
+            RoadMaker roadmaker = new RoadMaker(this,weights);
+            roadmaker.MakeRoad(new []{0,0}, new []{200,200});
             //todo: choose which towns to link
 
             // Final tiles
@@ -105,7 +106,7 @@ namespace WinFormsTest {
                         this[x, y] = 19;
                         break;
                     case (int)GeneratedTile.Path:
-                        this[x, y] = 3+rand.Next()%15;
+                        this[x, y] = 18;
                         // directions
                         break;
                     default:
