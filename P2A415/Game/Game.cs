@@ -135,7 +135,14 @@ namespace WinFormsTest {
         }
         
         private void render() {
-            using (Bitmap bmp = new Bitmap(ClientSize.Width, ClientSize.Height))
+            int width = ClientSize.Width;
+            int height = ClientSize.Height;
+
+            if (width < 1 || height < 1) {
+                return;
+            }
+
+            using (Bitmap bmp = new Bitmap(width, height))
             using (Graphics gfx = Graphics.FromImage(bmp)) {
   
                 gfx.Clear(Color.Black);
