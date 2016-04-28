@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinFormsTest {
+namespace RPGame {
     public struct PlayerInput {
         public bool moveUp;
         public bool moveDown;

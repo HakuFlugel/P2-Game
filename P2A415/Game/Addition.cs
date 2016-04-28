@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinFormsTest {
+namespace RPGame {
     
     public class Addition : Question{
         

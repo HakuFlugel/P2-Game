@@ -15,7 +15,7 @@ using System.Collections;
  */
 
 
-namespace WinFormsTest {
+namespace RPGame {
     public class RoadMaker {
 
         public struct coords {

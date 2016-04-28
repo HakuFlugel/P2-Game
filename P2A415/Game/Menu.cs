@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Menu {
         public bool is_in_menu = true;
         public List<Control> listWithMenu = new List<Control>();

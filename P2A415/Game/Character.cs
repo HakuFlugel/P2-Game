@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WinFormsTest {
+namespace RPGame {
 
     public struct Stats {
         public double curHP;// = 100.0;
@@ -60,7 +60,7 @@ namespace WinFormsTest {
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             texture = ImageLoader.Load(charType.imageFile);
-            //Game.instance.Content.Load<Texture2D>("character.png");
+            //game.ClientSize.Content.Load<Texture2D>("character.png");
             calculateStats();
             
         }
@@ -79,33 +79,28 @@ namespace WinFormsTest {
             }
         }
 
-        public void draw(Graphics gfx, Position cameraPosition)
+        public void draw(Game game, Graphics gfx, Position cameraPosition)
         {
             double x, y;
-            x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + Game.instance.Width  / 2  - 64;
-            y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - Game.instance.Height / 2  + 64;
+            x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + game.ClientSize.Width  / 2  - 64;
+            y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
 
-            //gfx.DrawImage(texture, (float)x, (float)y);
             gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,64,64), GraphicsUnit.Pixel);
-            //Position*image size*image scale
-            //Game.instance.spriteBatch.Draw(texture,
-            //    new Vector2((position.x + (position.xoffset * position.offsetScale))*64, (position.y + (position.yoffset * position.offsetScale))*-64)
-            //    , null, Color.White, 0.0f, new Vector2(32f, 32f), 1.0f, SpriteEffects.None, layer);
 
         }
 
-        public void move(long x, long y) {
-            if (canMove(position.x + x, position.y + y)) {
-                int length = Game.instance.world.characters.Count;
+        public void move(Game game,long x, long y) {
+            if (canMove(game ,position.x + x, position.y + y)) {
+                int length = game.world.characters.Count;
                 for (int i = 0; i < length; i++) {
 
-                    Character character = Game.instance.world.characters[i];
+                    Character character = game.world.characters[i];
 
                     if (character != this
                         && character.position.x == this.position.x + x
                         && character.position.y == this.position.y + y)
                     {
-                        currentCombat = new Combat(this, character);
+                        currentCombat = new Combat(game, this, character);
                         break;
 
                     }
@@ -123,10 +118,9 @@ namespace WinFormsTest {
 
         }
 
-        public bool canMove(long x, long y) {
-            //if Game.instance.wo
+        public bool canMove(Game game, long x, long y) {
             try {
-                return TileType.tileTypes[Game.instance.world[x,y]].Moveable;
+                return TileType.tileTypes[game.world[x,y]].Moveable;
             } catch (Exception e) {
                 Console.WriteLine("Can't move: " + e);
                 return false;

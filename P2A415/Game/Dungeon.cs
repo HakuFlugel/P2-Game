@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WinFormsTest {
+namespace RPGame {
     class Dungeon {
         public TileType[,] DungoenTiles;
         long x, y;

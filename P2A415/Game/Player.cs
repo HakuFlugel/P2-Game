@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinFormsTest {
+namespace RPGame {
 //    public struct Currency {
 //        ulong triangles; // Geometri 
 //        ulong squares; // Algebra
@@ -20,7 +20,7 @@ namespace WinFormsTest {
             character = new Character(0, x, y, 0);
         }
 
-        public void update(double deltaTime)
+        public void update(Game game,double deltaTime)
         {
             if (character.currentCombat != null) { // Is the player in combat?
 
@@ -39,14 +39,14 @@ namespace WinFormsTest {
 
                     // Move the player according to their input
                     if (input.moveUp) {
-                        character.move(0, 1);
+                        character.move(game, 0, 1);
                     } else if (input.moveDown) {
-                        character.move(0, -1);
+                        character.move(game, 0, -1);
 
                     } else if (input.moveRight) {
-                        character.move(1, 0);
+                        character.move(game, 1, 0);
                     } else if (input.moveLeft) {
-                        character.move(-1, 0);
+                        character.move(game, -1, 0);
                     }
                 }
             }

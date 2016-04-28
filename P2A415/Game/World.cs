@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class World {
         public List<Character> characters = new List<Character>();
 
@@ -11,7 +11,10 @@ namespace WinFormsTest {
 
         private Random rand;
 
-        public World() {
+        private Game game;
+
+        public World(Game game) {
+            this.game = game;
 
             generateWorld();
 
@@ -22,8 +25,8 @@ namespace WinFormsTest {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
             Random rand = new Random(); // TODO: remove
-            Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
-            characters.Add(Game.instance.localPlayer.character);
+            game.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
+            characters.Add(game.localPlayer.character);
         }
 
         public int this[long x, long y] {
@@ -302,11 +305,11 @@ namespace WinFormsTest {
 
             for (int x = 0; x < xlen; x++) { // TODO: udregn interval
                 for (int y = 0; y < ylen; y++) {
-                    regions[x, y].draw(gfx, cameraPosition);
+                    regions[x, y].draw(game, gfx, cameraPosition);
                 }
             }
             foreach (var character in characters) {
-                character.draw(gfx, cameraPosition);
+                character.draw(game, gfx, cameraPosition);
             }
         }
 

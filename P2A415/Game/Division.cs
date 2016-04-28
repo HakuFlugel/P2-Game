@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinFormsTest {
+namespace RPGame {
     class Division : Question {
         int correctAnswer;
 

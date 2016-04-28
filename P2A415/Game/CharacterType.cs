@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class CharacterType {
         public Bitmap Image;
 
