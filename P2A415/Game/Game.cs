@@ -5,17 +5,15 @@ using System.Diagnostics; // fps osv.
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Game : Form {
         public Menu menu { get; set; }
-        public static Game instance;
 
         //public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
         private Graphics graphics;
-        private Pen Pen;
 
 
         private Stopwatch stopWatch = new Stopwatch();
@@ -26,17 +24,16 @@ namespace WinFormsTest {
         public World world;
 
 
-        public UserInterface userInterface = new UserInterface();
+        public UserInterface userInterface;
 
         public Game() {
-            instance = this;
 
+            userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
             this.WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
-            Pen = new Pen(Color.DarkRed,1);
 
             //CharacterType.loadCharacterTypes();
 
@@ -102,7 +99,7 @@ namespace WinFormsTest {
             stopWatch.Start();
 
 
-            world = new World();
+            world = new World(this);
 
             while(shouldRun) {
                 update();
@@ -126,30 +123,26 @@ namespace WinFormsTest {
 //            if (menu.is_in_menu) {
 //                return;
 //            }
-            localPlayer.update(deltaTime);
+            localPlayer.update(this, deltaTime);
 
-            if (Game.instance.localPlayer.character.currentCombat == null) {
+            if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
             // Clear input here?
         }
         
         private void render() {
-            using (Bitmap bmp = new Bitmap(ClientSize.Width, ClientSize.Height))
+            int width = ClientSize.Width;
+            int height = ClientSize.Height;
+
+            if (width < 1 || height < 1) {
+                return;
+            }
+
+            using (Bitmap bmp = new Bitmap(width, height))
             using (Graphics gfx = Graphics.FromImage(bmp)) {
   
                 gfx.Clear(Color.Black);
-
-                for (int i = 0; i < 500; i++) {
-                    Position position = localPlayer.character.position;
-                    float x,y;
-                    x = (float)(i % 50 - position.x - position.xoffset * position.offsetScale) * 64*2 + Game.instance.Width / 2 - 64;
-                    y = (float)(i / 50 - position.y - position.yoffset * position.offsetScale) * 64*2 - Game.instance.Height/ 2 + 64;
-
-                    gfx.DrawRectangle(Pen, x, -y, 128, 128);
-                    gfx.DrawRectangle(Pen, x+32, -y+32, 64, 64);
-
-                }
 
                 if (localPlayer.character.currentCombat == null) {
                     world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?

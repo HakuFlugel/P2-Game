@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WinFormsTest {
-
+namespace RPGame {
 
     public abstract class Question {
 
@@ -18,13 +17,6 @@ namespace WinFormsTest {
         }
 
         public static Question selectQuestion(int level) {
-
-            Console.WriteLine("Debug: questionTypes");
-            foreach (var item in questionTypes) {
-                Console.WriteLine(item.Item1 + " " + item.Item2);
-
-            }
-            Console.WriteLine("---");
 
             var possibleTypes = questionTypes.Where(tuple => tuple.Item2 <= level).Select(tuple => tuple.Item1);
             Type questionType = possibleTypes.ElementAt(rand.Next(possibleTypes.Count()));

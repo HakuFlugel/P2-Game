@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class World {
         public List<Character> characters = new List<Character>();
 
@@ -11,7 +11,10 @@ namespace WinFormsTest {
 
         private Random rand;
 
-        public World() {
+        private Game game;
+
+        public World(Game game) {
+            this.game = game;
 
             generateWorld();
 
@@ -22,8 +25,8 @@ namespace WinFormsTest {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
             Random rand = new Random(); // TODO: remove
-            Game.instance.localPlayer = new Player(rand.Next(10)+10, rand.Next(10));// characters[rand.Next(characters.Count - 1)];
-            characters.Add(Game.instance.localPlayer.character);
+            game.localPlayer = new Player(1, 1);// characters[rand.Next(characters.Count - 1)];
+            characters.Add(game.localPlayer.character);
         }
 
         public int this[long x, long y] {
@@ -35,12 +38,12 @@ namespace WinFormsTest {
             }
         }
 
-        private enum GeneratedTile {
-            Ground, // 3
-            Trees, // 0,1,2
-            Mountain, //???
-            Path, // 3-18
-            Town // ????
+        public enum GeneratedTile {
+            Ground=0, // 3
+            Trees=1, // 0,1,2
+            Mountain=19, //???
+            Path=18, // 3-18
+            Town=20 // ????
         }
 
         private void generateWorld() { // TODO: seed?
@@ -52,7 +55,7 @@ namespace WinFormsTest {
                 }
             }
 
-            rand = new Random();
+            rand = new Random(2);
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
@@ -75,9 +78,9 @@ namespace WinFormsTest {
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 64);
-            ttweight.Add(GeneratedTile.Path, 1);
+            //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
-            ttweight.Add(GeneratedTile.Town, 1);
+            //ttweight.Add(GeneratedTile.Town, 1);
 
 
             // Weights
@@ -92,6 +95,20 @@ namespace WinFormsTest {
 
 
             // path
+            RoadMaker roadmaker = new RoadMaker(this, weights);
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(511,511));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(128,64));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(64,128));
+
+            //TODO: hvorfor giver de 2 her exception???
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(0,32));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(32,0));
+
+//            for (int i = 0; i < 32; i++) {
+//                roadmaker.generatePath(new RoadMaker.coords(rand.Next()%512, rand.Next()%512), new RoadMaker.coords(rand.Next()%512, rand.Next()%512));
+//            }
+
+            //todo: choose which towns to link
 
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
@@ -107,18 +124,37 @@ namespace WinFormsTest {
                         this[x, y] = 19;
                         break;
                     case (int)GeneratedTile.Path:
-                        this[x, y] = 3+rand.Next()%15;
+
+                            int pathOffset = 0;
+                        pathOffset += shouldPathConnect(x, y + 1) ? 1 : 0;
+                        pathOffset += shouldPathConnect(x + 1, y) ? 2 : 0;
+                        pathOffset += shouldPathConnect(x, y - 1) ? 4 : 0;
+                        pathOffset += shouldPathConnect(x - 1, y) ? 8 : 0;
+
+                        this[x, y] = 3 + pathOffset;
+
                         // directions
                         break;
                     default:
                         break;
                     }
 
-                    this[x, y] += 19 * biomes[x/32, y/32];
-                    this[x, y] %= 19 * 4;
+                    this[x, y] += 21 * biomes[x/32, y/32];
+                    this[x, y] %= 21 * 4;
 
                 }
             }
+
+                }
+
+        private bool shouldPathConnect(int x, int y) {
+
+            try {
+                return this[x, y]%21 > 3 && this[x, y]%21 <= 18 || this[x, y]%21 == 20;
+            } catch (IndexOutOfRangeException ex) {
+                return false;
+            }
+
 
         }
 
@@ -146,6 +182,8 @@ namespace WinFormsTest {
 
         private void makeMonsters(int x, int y, int[,] weights) {
 
+            int lvl = (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
+
             for (int i = 0; i < rand.Next(1,8); i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
                     return;
@@ -154,14 +192,14 @@ namespace WinFormsTest {
                     return;
                 }
 
-                characters.Add(new Character(rand.Next(1,2), x, y));
+                characters.Add(new Character(rand.Next(1, 2), x, y, lvl));
 
-                modifyWeight(weights, x, y, 5);
+                modifyWeight(weights, x, y, 8);
 
-                modifyWeight(weights, x+1, y, 3);
-                modifyWeight(weights, x, y+1, 3);
-                modifyWeight(weights, x-1, y, 3);
-                modifyWeight(weights, x, y-1, 3);
+                modifyWeight(weights, x+1, y, 2);
+                modifyWeight(weights, x, y+1, 2);
+                modifyWeight(weights, x-1, y, 2);
+                modifyWeight(weights, x, y-1, 2);
 
                 modifyWeight(weights, x+1, y+1, 1);
                 modifyWeight(weights, x-1, y+1, 1);
@@ -292,11 +330,11 @@ namespace WinFormsTest {
 
             for (int x = 0; x < xlen; x++) { // TODO: udregn interval
                 for (int y = 0; y < ylen; y++) {
-                    regions[x, y].draw(gfx, cameraPosition);
+                    regions[x, y].draw(game, gfx, cameraPosition);
                 }
             }
             foreach (var character in characters) {
-                character.draw(gfx, cameraPosition);
+                character.draw(game, gfx, cameraPosition);
             }
         }
 

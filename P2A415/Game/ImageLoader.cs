@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Collections.Generic;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class ImageLoader {
 
         public class ImageResource {

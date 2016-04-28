@@ -4,7 +4,7 @@ using System.Drawing;
 // this is a change because git wont fix stuff
 using System.Windows.Forms;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Combat {
 
         Bitmap picture = ImageLoader.Load("Content/combatscreen.png");
@@ -15,6 +15,8 @@ namespace WinFormsTest {
         private Position whereThePlayerCameFrom = new Position();
 		public Question currentQuestion;
 
+        private Game game;
+
 		public bool hasEnded = false;
 
         public string answerString = "";
@@ -23,7 +25,8 @@ namespace WinFormsTest {
         public double enemyAttackTime;
 
 
-        public Combat(Character firstCharacter, Character secondCharacter) {
+        public Combat(Game game, Character firstCharacter, Character secondCharacter) {
+            this.game = game;
             this.firstCharacter = firstCharacter;
             this.secondCharacter = secondCharacter;
 
@@ -59,7 +62,7 @@ namespace WinFormsTest {
                 if (isCorrect) {
 					doAttack();
                 } else {
-                    enemyAttackTime -= 1;
+                    enemyAttackTime -= 2.5;
                     // TODO: effect, shake?
                 }
 
@@ -94,21 +97,30 @@ namespace WinFormsTest {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(attacker.stats.level, 1.4)*1.1+5)*100); // TODO: skal være victim.stats.level når monstre begynder at scale // TODO: fjern *100
+                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: skal være victim.stats.level når monstre begynder at scale // TODO: fjern *100
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
                 
 
-                Game.instance.world.characters.Remove(victim);
+                game.world.characters.Remove(victim);
 
 				hasEnded = true;
                 // Do victory/lose stuff
+
+                if (victim==firstCharacter) {
+                    victim.position = whereThePlayerCameFrom;
+                    victim.stats.curHP = victim.stats.maxHP / 16;
+                    game.world.characters.Add(victim);
+                    
+                }
             }
         }
 
         public void draw(Graphics gfx) {
+            int width = game.ClientSize.Width;
+            int height = game.ClientSize.Height;
 
-            gfx.DrawImage(picture, new RectangleF(0, 0, Game.instance.Width-15, Game.instance.Height),
+            gfx.DrawImage(picture, new RectangleF(0, 0, width, height),
                 new Rectangle(0, 0, 800, 600), GraphicsUnit.Pixel);
 
 
@@ -116,30 +128,42 @@ namespace WinFormsTest {
             //gfx.DrawImage         //maybe todo -> HAV SEX MED HEM og derefter, lav bluuuur med image i bagrund.
 
             gfx.DrawImage(firstCharacter.texture,
-                new RectangleF(Game.instance.Width / 2-50, Game.instance.Height / 15f, 500, 500),
+                new RectangleF(width / 4f - 50, height / 15f, 500, 500),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
 
 
             gfx.DrawImage(secondCharacter.texture,
-                new RectangleF(Game.instance.Width / 4f-50, Game.instance.Height / 15f , 500, 500),
+                new RectangleF(width / 2 - 50, height / 15f, 500, 500),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
             Font bigfont = new Font("Arial", 32, FontStyle.Regular);
             Brush brush = new SolidBrush(Color.WhiteSmoke);
 
-
+            string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
             double player_health = Math.Round(firstCharacter.stats.curHP, 0);
+            double player_level = firstCharacter.stats.level;
+            string monster_name = CharacterType.characterTypes[secondCharacter.characterType].name;
             double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
+            double monster_level = secondCharacter.stats.level;
 
-            gfx.DrawString($@"Time left: {enemyAttackTime}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 20f);
+            Bitmap lol = new Bitmap("Content/blankbar.png");
+            //gfx.DrawImage(lol, new RectangleF(width / 3f - 50, height / 20f, 500, 40), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.DrawImage(lol, new RectangleF(game.ClientSize.Width / 3f - 50, game.ClientSize.Height / 20f, (float)(enemyAttackTime / enemyTimePerAttack * game.ClientSize.Width/2 ), 30), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.DrawString($@"Time left: {enemyAttackTime}", bigfont, brush, width / 3f - 50, height / 20f);
+
+            gfx.DrawString($@"{player_name}
+Health: {player_health}
+Level: {player_level}", bigfont, brush, width / 10.0f, height / 4.0f);
+
+            gfx.DrawString($@"{monster_name}
+Health: {monster_health}
+Level: {monster_level}", bigfont, brush, width / 1.3f, height / 4.0f);
 
 
-            gfx.DrawString($@"Health: {player_health}", bigfont, brush, Game.instance.Width / 1.8f, Game.instance.Height / 1.6f);
-            gfx.DrawString($@"Health: {monster_health}", bigfont, brush, Game.instance.Width / 3.8f, Game.instance.Height / 1.6f);
 
-            gfx.DrawString($@"{currentQuestion.text}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.5f);
-            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.4f);
+            gfx.DrawString($@"{currentQuestion.text}", bigfont, brush, width / 3f - 50, height / 1.4f);
+            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, brush, width / 3f - 50, height / 1.3f);
 
 
         }
