@@ -19,19 +19,6 @@ namespace WinFormsTest {
         public Region(long x, long y) {
             this.x = x;
             this.y = y;
-
-            Random rand = new Random();
-
-//            for (int i = 0; i < tiles.GetLength(0); i++) {
-//                for (int j = 0; j < tiles.GetLength(1); j++) {
-//
-//                    tiles[i, j] = rand.Next(TileType.tileTypes.Count);
-//                    
-//                }
-//            }
-            Console.WriteLine(TileType.tileTypes.Count);
-            Console.WriteLine(TileType.tileTypes.Count);
-            Console.WriteLine(TileType.tileTypes.Count);
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {

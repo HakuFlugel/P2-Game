@@ -26,7 +26,7 @@ namespace WinFormsTest {
 
 
             Font font = new Font("Arial", 16, FontStyle.Regular);
-            gfx.DrawString($@"Unnamed Player | {(long)localCharacter.stats.hp} HP
+            gfx.DrawString($@"Unnamed Player | {(long)localCharacter.stats.curHP} HP
 Level: {localCharacter.stats.level}
 Experience: {localCharacter.stats.exp}/{localCharacter.expRequired()}" , font, brush, 10, 10);
 
