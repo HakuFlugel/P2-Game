@@ -212,7 +212,7 @@ namespace RPGame {
                 tile = cheapestTile;
                 Console.WriteLine(tile.x + "---" + tile.y);
                 world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
-                //weights[tile.x, tile.y] -= 1; /////// -= weight/2
+                weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
 
             }
             
@@ -224,87 +224,3 @@ namespace RPGame {
         }
     }
 }
-//        public void MakeRoad(int[] start, int[] end)
-//        {
-//            start = start;
-//            end = end;
-//            string path = "";
-//            int[] worldSize = new int[2];
-//            worldSize[0] = world.regions.GetLength(0);
-//            worldSize[1] = world.regions.GetLength(1);
-//            RegionAnalyzer(worldSize);
-//            path = ProcessTiles(path);
-//
-//            if (path != "")
-//            {
-//                Road road = new Road(path);
-//                road.AddRoadToWorld(world);
-//            }
-//            else
-//                Console.WriteLine("could not create road");
-//        }
-//
-//
-//
-//
-//
-//        private string ProcessTiles(string path)
-//        {
-//            Road startroad = new Road(path);
-//            startroad.AddPath(start, Weight);
-//            PathDictionary.Add(startroad.End, startroad);
-//            int[] newEnd = new int[2];
-//
-//            while (end[0] != newEnd[0] || end[1] != newEnd[1])
-//            {
-//                newEnd = ChooseNewRoad(out path);
-//                Console.WriteLine(path);
-//            }
-//            return path;
-//        }
-//
-//        private int[] ChooseNewRoad(out string path)
-//        {
-//            int best = 10000;
-//            int[] key = new int[2];
-//            int[] chosenRoad = new int[2];
-//            foreach (KeyValuePair<int[], Road> item in PathDictionary)
-//            {
-//                int[] newRoad;
-//                int newest = item.Value.CheckCardinals(out newRoad, Weight);
-//
-//                //if (newest == -1)
-//                //{
-//                //    PathDictionary.Remove(item.Value.End);
-//                //}
-//
-//                if (newest < best)
-//                {
-//                    best = newest;
-//                    key = item.Key;
-//                    chosenRoad = newRoad;
-//                }
-//            }
-//
-//            string tempPath = PathDictionary[key].Path;
-//            PathDictionary.Add(chosenRoad, new Road(tempPath));
-//            PathDictionary[chosenRoad].AddPath(chosenRoad, Weight);
-//            path = PathDictionary[chosenRoad].Path;
-//            return chosenRoad;
-//        }
-//        private void RegionAnalyzer(int[] size)
-//        {
-//            int[] coordinates = new int[2];
-//            for (int index = 0; index < size[0]; index++)
-//            {
-//                for (int jndex = 0; jndex < size[1]; jndex++)
-//                {
-//                    coordinates[0] = index;
-//                    coordinates[1] = jndex;
-//                    Weight[index, jndex] *= (int)Distance(coordinates, end);
-//                }
-//            }
-//        }
-//    }
-//
-

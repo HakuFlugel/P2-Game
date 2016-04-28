@@ -44,7 +44,6 @@
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="CharacterType.cs" />
-    <Compile Include="Road.cs" />
     <Compile Include="RoadMaker.cs" />
     <Compile Include="TileType.cs" />
     <Compile Include="UserInterface.cs" />

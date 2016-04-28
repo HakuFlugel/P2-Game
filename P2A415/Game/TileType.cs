@@ -30,6 +30,9 @@ namespace RPGame {
                 for (int i = 0; i < 16; i++) {
                     tileTypes.Add(new TileType() { Moveable = true });
                 }
+                tileTypes.Add(new TileType() { Moveable = false });
+                tileTypes.Add(new TileType() { Moveable = true }); // Town
+
 
             }
 
