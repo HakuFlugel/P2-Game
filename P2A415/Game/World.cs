@@ -35,12 +35,12 @@ namespace WinFormsTest {
             }
         }
 
-        private enum GeneratedTile {
+        public enum GeneratedTile {
             Ground, // 3
             Trees, // 0,1,2
             Mountain, //???
-            Path, // 3-18
-            Town // ????
+            Path=18, // 3-18
+            Town=20 // ????
         }
 
         private void generateWorld() { // TODO: seed?
@@ -52,7 +52,7 @@ namespace WinFormsTest {
                 }
             }
 
-            rand = new Random();
+            rand = new Random(2);
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
@@ -75,9 +75,9 @@ namespace WinFormsTest {
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 64);
-            ttweight.Add(GeneratedTile.Path, 1);
+            //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
-            ttweight.Add(GeneratedTile.Town, 1);
+            //ttweight.Add(GeneratedTile.Town, 1);
 
 
             // Weights
@@ -92,6 +92,14 @@ namespace WinFormsTest {
 
 
             // path
+            RoadMaker roadmaker = new RoadMaker(this, weights);
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(511,511));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(128,64));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(64,128));
+
+            //TODO: hvorfor giver de 2 her exception???
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(0,32));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(32,0));
 
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
@@ -107,7 +115,7 @@ namespace WinFormsTest {
                         this[x, y] = 19;
                         break;
                     case (int)GeneratedTile.Path:
-                        this[x, y] = 3+rand.Next()%15;
+                        this[x, y] = 18;
                         // directions
                         break;
                     default:
@@ -158,12 +166,12 @@ namespace WinFormsTest {
 
                 characters.Add(new Character(rand.Next(1, 2), x, y, lvl));
 
-                modifyWeight(weights, x, y, 5);
+                modifyWeight(weights, x, y, 8);
 
-                modifyWeight(weights, x+1, y, 3);
-                modifyWeight(weights, x, y+1, 3);
-                modifyWeight(weights, x-1, y, 3);
-                modifyWeight(weights, x, y-1, 3);
+                modifyWeight(weights, x+1, y, 2);
+                modifyWeight(weights, x, y+1, 2);
+                modifyWeight(weights, x-1, y, 2);
+                modifyWeight(weights, x, y-1, 2);
 
                 modifyWeight(weights, x+1, y+1, 1);
                 modifyWeight(weights, x-1, y+1, 1);
