@@ -89,32 +89,31 @@ namespace WinFormsTest {
             public int dist;
             public coords tile;
 
-            public NeighborEntry(double pathCost, coords tile) {
+            public NeighborEntry(int pathCost, coords tile, int dist) {
                 this.pathCost = pathCost;
                 this.tile = tile;
-                dist = RoadMaker.calculateDistance(end,)
+                this.dist = dist;
             }
 
-            public int CompareTo(object other) {
-//                if (other == null) throw new ArgumentException("NeighborEntry compared to null");
-
-                return pathCost.CompareTo(((NeighborEntry)other).pathCost);
+            public int CompareTo(object obj) {
+                NeighborEntry other = (NeighborEntry)obj;
+                return (this.pathCost + this.dist).CompareTo(other.pathCost + other.dist);
                 // TODO: kan det betale sig at invertere dette, så de laveste elementer er sidst i listen(arrayet), hvorved der er mindre der skal flyttes under .Insert()
             }
         }
 
 
-        public void addNeighbor(double prevCost, coords tile) {
+        public void addNeighbor(int prevCost, coords tile) {
             try {
                 Console.WriteLine(tile.x + "," + tile.y + ": " + prevCost);
-                double curCost = prevCost + /*1 +*/ weights[tile.x, tile.y] /*+ calculateDistance(tile, end)/64*/; // TODO: skal der ændres på hvordan vi vægter fx afstand?
+                int curCost = prevCost + weights[tile.x, tile.y]; // TODO: skal der ændres på hvordan vi vægter fx afstand?
 
                 if (curCost < shortestPathCost[tile.x, tile.y]) {
 
+                    int curDist = (int)(calculateDistance(tile, end)/64);
 
-                    Console.WriteLine (curCost);
                     shortestPathCost[tile.x, tile.y] = curCost;
-                    NeighborEntry newNeighbor = new NeighborEntry(curCost, tile);
+                    NeighborEntry newNeighbor = new NeighborEntry(curCost, tile, curDist);
 
                     int ret = neighbors.BinarySearch(newNeighbor);
 
@@ -140,24 +139,24 @@ namespace WinFormsTest {
             int xSize = world.regions.GetLength(0) * 32;
             int ySize = world.regions.GetLength(1) * 32;
 
-            shortestPathCost = new double[xSize, ySize];
+            shortestPathCost = new int[xSize, ySize];
             for (int x = 0; x < xSize; x++) {
                 for (int y = 0; y < ySize; y++) {
-                    shortestPathCost[x, y] = double.PositiveInfinity;
+                    shortestPathCost[x, y] = int.MaxValue;
                 }
             }
 
             neighbors = new List<NeighborEntry>();
-            neighbors.Add(new NeighborEntry(0, start));
+            neighbors.Add(new NeighborEntry(0, start, (int)calculateDistance(start, end)));
             shortestPathCost[start.x, start.y] = 0;
-            int iiii = 1;
+//            int iiii = 1;
 
             foundEnd = false;
             while (!foundEnd) {
-                Console.WriteLine(iiii++ + "             " + iiii);
+//                Console.WriteLine(iiii++ + "             " + iiii);
                 NeighborEntry firstNeightbor = neighbors[0];
                 coords first = firstNeightbor.tile;
-                double firstCost = shortestPathCost[first.x, first.y];
+                int firstCost = shortestPathCost[first.x, first.y];
 
                 addNeighbor(firstCost, new coords(first.x+1, first.y));
                 addNeighbor(firstCost, new coords(first.x-1, first.y));
@@ -181,7 +180,7 @@ namespace WinFormsTest {
 
             while (tile != start) {
                 coords cheapestTile = tile;
-                double cheapestCost = double.PositiveInfinity;
+                int cheapestCost = int.MaxValue;
 //
 //                try { 
 //                    cheapestTile = tile + direction[0];
@@ -193,7 +192,7 @@ namespace WinFormsTest {
                 for (int i = 0; i < direction.Length; i++) {
                     try { // TODO: lav range-check istedet
                         coords newTile = tile + direction[i];
-                        double directionCost = shortestPathCost[newTile.x, newTile.y];
+                        int directionCost = shortestPathCost[newTile.x, newTile.y];
                         Console.Write(newTile.x + "," + newTile.y + ": ");
                         Console.WriteLine(directionCost + "<" + cheapestCost + (directionCost<cheapestCost));
                         if (directionCost < cheapestCost) {
