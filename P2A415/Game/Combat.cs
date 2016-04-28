@@ -114,6 +114,7 @@ namespace WinFormsTest {
 
 
             //gfx.DrawImage         //maybe todo -> HAV SEX MED HEM og derefter, lav bluuuur med image i bagrund.
+            //TODO: Display level og navn på enemy?
 
             gfx.DrawImage(firstCharacter.texture,
                 new RectangleF(Game.instance.Width / 2-50, Game.instance.Height / 15f, 500, 500),
