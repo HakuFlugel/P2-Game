@@ -154,7 +154,7 @@ namespace WinFormsTest {
 
         private void makeMonsters(int x, int y, int[,] weights) {
 
-            int lvl = x / 64 * y / 32;
+            int lvl = (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
 
             for (int i = 0; i < rand.Next(1,8); i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
