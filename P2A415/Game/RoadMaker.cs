@@ -212,7 +212,7 @@ namespace WinFormsTest {
                 tile = cheapestTile;
                 Console.WriteLine(tile.x + "---" + tile.y);
                 world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
-                //weights[tile.x, tile.y] -= 1; /////// -= weight/2
+                weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
 
             }
             
