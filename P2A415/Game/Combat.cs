@@ -59,7 +59,7 @@ namespace WinFormsTest {
                 if (isCorrect) {
 					doAttack();
                 } else {
-                    enemyAttackTime -= 1;
+                    enemyAttackTime -= 2.5;
                     // TODO: effect, shake?
                 }
 
@@ -103,6 +103,13 @@ namespace WinFormsTest {
 
 				hasEnded = true;
                 // Do victory/lose stuff
+
+                if (victim==firstCharacter) {
+                    victim.position = whereThePlayerCameFrom;
+                    victim.stats.curHP = victim.stats.maxHP / 16;
+                    Game.instance.world.characters.Add(victim);
+                    
+                }
             }
         }
 
@@ -114,7 +121,6 @@ namespace WinFormsTest {
 
 
             //gfx.DrawImage         //maybe todo -> HAV SEX MED HEM og derefter, lav bluuuur med image i bagrund.
-            //TODO: Display level og navn på enemy?
 
             gfx.DrawImage(firstCharacter.texture,
                 new RectangleF(Game.instance.Width / 2-50, Game.instance.Height / 15f, 500, 500),
@@ -129,18 +135,25 @@ namespace WinFormsTest {
             Font bigfont = new Font("Arial", 32, FontStyle.Regular);
             Brush brush = new SolidBrush(Color.WhiteSmoke);
 
-
+            string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
             double player_health = Math.Round(firstCharacter.stats.curHP, 0);
+            double player_level = firstCharacter.stats.level;
+            string monster_name = CharacterType.characterTypes[secondCharacter.characterType].name;
             double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
+            double monster_level = secondCharacter.stats.level;
 
             gfx.DrawString($@"Time left: {enemyAttackTime}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 20f);
 
+            gfx.DrawString($@"{player_name}", bigfont, brush, Game.instance.Width / 1.8f, Game.instance.Height / 1.6f);
+            gfx.DrawString($@"Health: {player_health}", bigfont, brush, Game.instance.Width / 1.8f, Game.instance.Height / 1.5f);
+            gfx.DrawString($@"Level: {player_level}", bigfont, brush, Game.instance.Width / 1.8f, Game.instance.Height / 1.4f);
+            gfx.DrawString($@"{monster_name}", bigfont, brush, Game.instance.Width / 3.8f, Game.instance.Height / 1.6f);
+            gfx.DrawString($@"Health: {monster_health}", bigfont, brush, Game.instance.Width / 3.8f, Game.instance.Height / 1.5f);
+            gfx.DrawString($@"Level: {monster_level}", bigfont, brush, Game.instance.Width / 3.8f, Game.instance.Height / 1.4f);
 
-            gfx.DrawString($@"Health: {player_health}", bigfont, brush, Game.instance.Width / 1.8f, Game.instance.Height / 1.6f);
-            gfx.DrawString($@"Health: {monster_health}", bigfont, brush, Game.instance.Width / 3.8f, Game.instance.Height / 1.6f);
 
-            gfx.DrawString($@"{currentQuestion.text}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.5f);
-            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.4f);
+            gfx.DrawString($@"{currentQuestion.text}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.3f);
+            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, brush, Game.instance.Width / 3f - 50, Game.instance.Height / 1.2f);
 
 
         }
