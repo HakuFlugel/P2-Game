@@ -22,7 +22,7 @@ namespace WinFormsTest {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
             Random rand = new Random(); // TODO: remove
-            Game.instance.localPlayer = new Player(5,5);// characters[rand.Next(characters.Count - 1)];
+            Game.instance.localPlayer = new Player(511,511);// characters[rand.Next(characters.Count - 1)];
             characters.Add(Game.instance.localPlayer.character);
         }
 
@@ -35,7 +35,7 @@ namespace WinFormsTest {
             }
         }
 
-        private enum GeneratedTile {
+        public enum GeneratedTile {
             Ground, // 3
             Trees, // 0,1,2
             Mountain, //???
@@ -75,9 +75,9 @@ namespace WinFormsTest {
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 64);
-            ttweight.Add(GeneratedTile.Path, 1);
+            //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
-            ttweight.Add(GeneratedTile.Town, 1);
+            //ttweight.Add(GeneratedTile.Town, 1);
 
 
             // Weights
@@ -93,7 +93,18 @@ namespace WinFormsTest {
 
             // path
             RoadMaker roadmaker = new RoadMaker(this, weights);
-            roadmaker.MakeRoad(new[] { 0, 0 }, new[] { 32, 33 });
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(511,511));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(128,64));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(64,128));
+
+            //TODO: hvorfor giver de 2 her exception???
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(0,32));
+            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(32,0));
+
+//            for (int i = 0; i < 32; i++) {
+//                roadmaker.generatePath(new RoadMaker.coords(rand.Next()%512, rand.Next()%512), new RoadMaker.coords(rand.Next()%512, rand.Next()%512));
+//            }
+
             //todo: choose which towns to link
 
             // Final tiles
@@ -159,12 +170,12 @@ namespace WinFormsTest {
 
                 characters.Add(new Character(rand.Next(1,2), x, y));
 
-                modifyWeight(weights, x, y, 5);
+                modifyWeight(weights, x, y, 8);
 
-                modifyWeight(weights, x+1, y, 3);
-                modifyWeight(weights, x, y+1, 3);
-                modifyWeight(weights, x-1, y, 3);
-                modifyWeight(weights, x, y-1, 3);
+                modifyWeight(weights, x+1, y, 2);
+                modifyWeight(weights, x, y+1, 2);
+                modifyWeight(weights, x-1, y, 2);
+                modifyWeight(weights, x, y-1, 2);
 
                 modifyWeight(weights, x+1, y+1, 1);
                 modifyWeight(weights, x-1, y+1, 1);
