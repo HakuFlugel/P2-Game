@@ -17,7 +17,7 @@ namespace WinFormsTest {
         public PlayerInput input = new PlayerInput();
 
         public Player(long x = 0, long y = 0) {
-            character = new Character(0, x, y);
+            character = new Character(0, x, y, 0);
         }
 
         public void update(double deltaTime)

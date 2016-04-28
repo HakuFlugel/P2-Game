@@ -48,11 +48,12 @@ namespace WinFormsTest {
 
         public Combat currentCombat;
 
-        public Character(int characterType) : this(characterType, 0, 0) {}
-        public Character(int characterType, long x, long y)
+        public Character(int characterType, long x, long y, int level)
         {
             position.x = x;
             position.y = y;
+
+            this.stats.level = level;
 
             this.characterType = characterType;
 
