@@ -31,16 +31,17 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="Game.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Division.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Multiplication.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="CharacterType.cs" />
+    <Compile Include="RoadMaker.cs" />
     <Compile Include="TileType.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="World.cs" />

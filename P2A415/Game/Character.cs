@@ -4,7 +4,8 @@ using System.Drawing;
 namespace RPGame {
 
     public struct Stats {
-        public double hp;// = 100.0;
+        public double curHP;// = 100.0;
+        public double maxHP;
         public double attack;// = 1.0;
         public double defence;// = 1.0;
 
@@ -47,20 +48,21 @@ namespace RPGame {
 
         public Combat currentCombat;
 
-        public Character(int characterType) : this(characterType, 0, 0) {}
-        public Character(int characterType, long x, long y)
+        public Character(int characterType, long x, long y, int level)
         {
             position.x = x;
             position.y = y;
 
+            this.stats.level = level;
+
             this.characterType = characterType;
 
-            texture = ImageLoader.Load(CharacterType.characterTypes[characterType].imageFile);
-                //Game.instance.Content.Load<Texture2D>("character.png");
+            CharacterType charType = CharacterType.characterTypes[characterType];
 
-            stats.hp = 100;
-            stats.attack = 25;
-            stats.defence = 2;
+            texture = ImageLoader.Load(charType.imageFile);
+            //game.ClientSize.Content.Load<Texture2D>("character.png");
+            calculateStats();
+            
         }
 
         public void update(double deltaTime) {
@@ -77,32 +79,28 @@ namespace RPGame {
             }
         }
 
-        public void draw(Graphics gfx, Position cameraPosition)
+        public void draw(Game game, Graphics gfx, Position cameraPosition)
         {
             double x, y;
-            x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + Game.instance.Width  / 2  - 64;
-            y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - Game.instance.Height / 2  + 64;
+            x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + game.ClientSize.Width  / 2  - 64;
+            y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
 
-            //gfx.DrawImage(texture, (float)x, (float)y);
             gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,64,64), GraphicsUnit.Pixel);
-            //Position*image size*image scale
-            //Game.instance.spriteBatch.Draw(texture,
-            //    new Vector2((position.x + (position.xoffset * position.offsetScale))*64, (position.y + (position.yoffset * position.offsetScale))*-64)
-            //    , null, Color.White, 0.0f, new Vector2(32f, 32f), 1.0f, SpriteEffects.None, layer);
 
         }
 
-        public void move(long x, long y) {
-            if (canMove(position.x + x, position.y + y)) {
-                for (int i = 0; i < Game.instance.world.characters.Count; i++) {
+        public void move(Game game,long x, long y) {
+            if (canMove(game ,position.x + x, position.y + y)) {
+                int length = game.world.characters.Count;
+                for (int i = 0; i < length; i++) {
 
-                    Character character = Game.instance.world.characters[i];
+                    Character character = game.world.characters[i];
 
                     if (character != this
                         && character.position.x == this.position.x + x
                         && character.position.y == this.position.y + y)
                     {
-                        currentCombat = new Combat(this, character);
+                        currentCombat = new Combat(game, this, character);
                         break;
 
                     }
@@ -120,15 +118,24 @@ namespace RPGame {
 
         }
 
-        public bool canMove(long x, long y) {
-            //if Game.instance.wo
+        public bool canMove(Game game, long x, long y) {
             try {
-                return TileType.tileTypes[Game.instance.world[x,y]].Moveable;
+                return TileType.tileTypes[game.world[x,y]].Moveable;
             } catch (Exception e) {
                 Console.WriteLine("Can't move: " + e);
                 return false;
             }
 
+        }
+
+        public void calculateStats() {
+
+            CharacterType charType = CharacterType.characterTypes[characterType];
+
+            stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level);
+            stats.curHP = stats.maxHP;
+            stats.attack = charType.attack * Math.Pow(1.05, stats.level); ;
+            stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
         }
 
         public ulong expRequired() {
@@ -145,6 +152,8 @@ namespace RPGame {
 
                 stats.exp -= expRequired();
                 stats.level++;
+
+                calculateStats();
             }
             //stats.level = x^(1/2.5)/2.5
         }

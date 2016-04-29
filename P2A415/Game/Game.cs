@@ -7,15 +7,13 @@ using System.Security.Cryptography;
 
 namespace RPGame {
     public class Game : Form {
-        Menu menu;
-        public static Game instance;
+        private Menu menu;
 
         public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
         private Graphics graphics;
-        private Pen Pen;
 
 
         private Stopwatch stopWatch = new Stopwatch();
@@ -23,11 +21,11 @@ namespace RPGame {
         private long lastTime = 0;
         private long thisTime = 0;
 
-        public UserInterface userInterface = new UserInterface();
+        public UserInterface userInterface;
 
         public Game() {
-            instance = this;
 
+            userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
             this.WindowState = FormWindowState.Maximized;
@@ -61,7 +59,7 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-
+            
             //bool inCombat = localPlayer.character.currentCombat != null;
 
             if (menu.isOpen && isDown) {
@@ -101,7 +99,7 @@ namespace RPGame {
             stopWatch.Start();
 
 
-            world = new World();
+            world = new World(this);
 
             while(shouldRun) {
                 update();
@@ -127,19 +125,28 @@ namespace RPGame {
             }
             localPlayer.update(deltaTime);
 
-            if (Game.instance.localPlayer.character.currentCombat == null) {
+            if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
             // Clear input here?
         }
         
         private void render() {
-            using (Bitmap bmp = new Bitmap(ClientSize.Width, ClientSize.Height))
+            int width = ClientSize.Width;
+            int height = ClientSize.Height;
+
+            if (width < 1 || height < 1) {
+                return;
+            }
+
+            using (Bitmap bmp = new Bitmap(width, height))
             using (Graphics gfx = Graphics.FromImage(bmp)) {
   
                 gfx.Clear(Color.Black);
 
+                if (localPlayer.character.currentCombat == null) {
                 world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
+                }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
