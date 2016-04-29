@@ -81,10 +81,10 @@
     <Content Include="Content\tile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\tranbar.png" />
     <Content Include="Content\Transp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\transparentbar.png" />
     <Content Include="Content\zombie.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
