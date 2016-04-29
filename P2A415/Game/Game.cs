@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 namespace WinFormsTest {
     public class Game : Form {
         public Menu menu { get; set; }
+        public Inventory inve { get; set; }
         public static Game instance;
 
         //public World world;
@@ -41,7 +42,9 @@ namespace WinFormsTest {
             //CharacterType.loadCharacterTypes();
 
             //this.menu = new Menu(this);
-                  
+           
+
+
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -156,8 +159,50 @@ namespace WinFormsTest {
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
                 userInterface.draw(gfx);
+                
+                    Inventory invi = new Inventory();
 
+                List<Items> item = new List<Items>();
+                item.Add(new Items() {
+                    itemImageFile = "",
+                    itemName = "Sword of Slays",
+                    itemHP = 1,
+                    itemLVL = 1,
+                    itemDMG = 1,
+                    itemDEF = 0,
+                    equipSlot = new Items.itemType() {
+                        Hands = 1
+                    }
+                });
+                item.Add(new Items() {
+                    itemImageFile = "",
+                    itemName = "Sword of bobb",
+                    itemHP = 22,
+                    itemLVL = 100,
+                    itemDMG = 654,
+                    itemDEF = 2,
+                    equipSlot = new Items.itemType() {
+                        Hands = 1
+                    }
+                });
 
+                invi.DrawInvi(gfx);
+                invi.draw(gfx, item, new List<Items> {( new Items() {
+                itemImageFile = "",
+                itemName = "God's Gloves",
+                itemHP = 1,
+                itemLVL = 2,
+                itemDMG = 1,
+                itemDEF = 10,
+                equipSlot = new Items.itemType() {
+                    Gloves = 1,
+                    Hands = -1
+                } }) }, false);
+
+                
+                
+                
+                
                 graphics.DrawImage(bmp, 0, 0);
             }
 

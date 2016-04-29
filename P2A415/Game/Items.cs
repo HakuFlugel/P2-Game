@@ -18,7 +18,7 @@ namespace WinFormsTest {
         public double itemDMG;
         public double itemDEF;
 
-        private struct itemType {
+        public struct itemType {
             public int Hands;
             public int Gloves;
             public int Helmet;
@@ -27,7 +27,7 @@ namespace WinFormsTest {
             public int Pants;
             public int Boots;
         }
-        private itemType equipSlot;
+        public itemType equipSlot;
 
         static Items() {
             itemList.Add(itemID++, new Items() {
@@ -76,6 +76,25 @@ namespace WinFormsTest {
                 }
             });
         }
+        public string nameToString(int index) {
+            return itemList[index].itemName;
+        }
+        public string hpToString(int index) {
+            return "Health: " + itemList[index].itemHP.ToString();
+        }
+        public string lvlToString(int index) {
+            return "Level: " + itemList[index].itemLVL.ToString();
+        }
+        public string dmgToString(int index) {
+            return "Damage: " + itemList[index].itemDMG.ToString();
+        }
+        public string defToString(int index) {
+            return "Defence: " + itemList[index].itemDEF.ToString();
+        }
+        public string typeToString(int index) {
+            return itemList[index].equipSlot.ToString();
+        }
+
 
     }
 }
