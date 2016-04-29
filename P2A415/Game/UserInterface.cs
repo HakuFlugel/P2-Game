@@ -22,7 +22,7 @@ namespace RPGame {
         public void draw(Graphics gfx) {
 
             Character localCharacter = game.localPlayer.character;
-            Bitmap transparentbox = new Bitmap("Content/uiTransparentBar.png");
+            Bitmap transparentbox = new Bitmap("Content/transbar.png");
             gfx.DrawImage(transparentbox, new RectangleF(2, 2, 300, 100), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
 
             Font font = new Font("Arial", 16, FontStyle.Regular);
