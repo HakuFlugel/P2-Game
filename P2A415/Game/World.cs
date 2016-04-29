@@ -68,7 +68,7 @@ namespace RPGame {
                     biomes[x, y] = rand.Next() % 4;
                 }
             }
-            
+
 
             generateMountains();
 
@@ -76,7 +76,7 @@ namespace RPGame {
 
             // towns
             generateTowns();
-
+            
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 64);
@@ -145,7 +145,7 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-        }
+                }
 
         private bool shouldPathConnect(int x, int y) {
 
