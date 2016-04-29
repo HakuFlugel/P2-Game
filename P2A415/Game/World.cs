@@ -94,15 +94,15 @@ namespace RPGame {
             generateMonsters(weights);
 
 
-            // path
-            RoadMaker roadmaker = new RoadMaker(this, weights);
-            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(511,511));
-            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(128,64));
-            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(64,128));
+            //// path
+            //RoadMaker roadmaker = new RoadMaker(this, weights);
+            //roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(511,511));
+            //roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(128,64));
+            //roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(64,128));
 
-            //TODO: hvorfor giver de 2 her exception???
-            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(0,32));
-            roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(32,0));
+            ////TODO: hvorfor giver de 2 her exception???
+            //roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(0,32));
+            //roadmaker.generatePath(new RoadMaker.coords(0,0), new RoadMaker.coords(32,0));
 
 //            for (int i = 0; i < 32; i++) {
 //                roadmaker.generatePath(new RoadMaker.coords(rand.Next()%512, rand.Next()%512), new RoadMaker.coords(rand.Next()%512, rand.Next()%512));

@@ -138,7 +138,6 @@ namespace RPGame {
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
             Font bigfont = new Font("Arial", 32, FontStyle.Regular);
-            Brush brush = new SolidBrush(Color.WhiteSmoke);
 
             string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
             double player_health = Math.Round(firstCharacter.stats.curHP, 0);
@@ -147,24 +146,27 @@ namespace RPGame {
             double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
             double monster_level = secondCharacter.stats.level;
 
-            Bitmap lol = new Bitmap("Content/blankbar.png");
-            //gfx.DrawImage(lol, new RectangleF(width / 3f - 50, height / 20f, 500, 40), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
-            gfx.DrawImage(lol, new RectangleF(game.ClientSize.Width / 3f - 50, game.ClientSize.Height / 20f, (float)(enemyAttackTime / enemyTimePerAttack * game.ClientSize.Width/2 ), 30), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
-            gfx.DrawString($@"Time left: {enemyAttackTime}", bigfont, brush, width / 3f - 50, height / 20f);
+
+            string timeleft = enemyAttackTime.ToString("0.#0");
+            Bitmap barimg = new Bitmap("Content/blankbar.png");
+            Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
+
+            gfx.DrawImage(barimg2, new RectangleF(width / 2 - ((width / 2) - 70) / 2, height / 22f, (width / 2) - 70, 50), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.DrawImage(barimg, new RectangleF(width / 2 - ((width / 2) - 70) / 2 + 2, height / 20f, (float)(enemyAttackTime / enemyTimePerAttack * (width / 2 - 100)), 44), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.DrawString($@"{timeleft}", bigfont, Brushes.OrangeRed, width / 2f - gfx.MeasureString(timeleft,bigfont).Width / 2, height / 20f);
+
 
             gfx.DrawString($@"{player_name}
 Health: {player_health}
-Level: {player_level}", bigfont, brush, width / 10.0f, height / 4.0f);
+Level: {player_level}", bigfont, Brushes.WhiteSmoke, width / 10.0f, height / 4.0f);
 
             gfx.DrawString($@"{monster_name}
 Health: {monster_health}
-Level: {monster_level}", bigfont, brush, width / 1.3f, height / 4.0f);
+Level: {monster_level}", bigfont, Brushes.WhiteSmoke, width / 1.3f, height / 4.0f);
 
 
-
-            gfx.DrawString($@"{currentQuestion.text}", bigfont, brush, width / 3f - 50, height / 1.4f);
-            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, brush, width / 3f - 50, height / 1.3f);
-
+            gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.4f);
+            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
 
         }
     }
