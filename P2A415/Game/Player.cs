@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WinFormsTest {
+namespace RPGame {
 //    public struct Currency {
 //        ulong triangles; // Geometri 
 //        ulong squares; // Algebra

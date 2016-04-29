@@ -4,7 +4,7 @@ using System.Drawing;
 // this is a change because git wont fix stuff
 using System.Windows.Forms;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Combat {
 
         Bitmap picture = ImageLoader.Load("Content/combatscreen.png");

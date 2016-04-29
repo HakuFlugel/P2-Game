@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-namespace WinFormsTest {
+namespace RPGame {
     public class TileType {
         public static List<TileType> tileTypes = new List<TileType>();
 

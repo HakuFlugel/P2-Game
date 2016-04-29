@@ -2,7 +2,7 @@
 using System.Drawing;
 
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Region {
         private int[,] tiles = new int[32,32];
         public int this[long x, long y] {

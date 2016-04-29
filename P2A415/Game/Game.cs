@@ -5,12 +5,12 @@ using System.Diagnostics; // fps osv.
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Game : Form {
-        public Menu menu { get; set; }
+        Menu menu;
         public static Game instance;
 
-        //public World world;
+        public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
@@ -23,9 +23,6 @@ namespace WinFormsTest {
         private long lastTime = 0;
         private long thisTime = 0;
 
-        public World world;
-
-
         public UserInterface userInterface = new UserInterface();
 
         public Game() {
@@ -36,11 +33,10 @@ namespace WinFormsTest {
             this.WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
-            Pen = new Pen(Color.DarkRed,1);
 
             //CharacterType.loadCharacterTypes();
 
-            //this.menu = new Menu(this);
+            menu = new Menu(this);                                                             //menu ting
                   
             FormClosing += delegate {
                 shouldRun = false;
@@ -57,17 +53,20 @@ namespace WinFormsTest {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == (char) Keys.Escape) {
-                //menu.Update_menu();
-            }
-            if (localPlayer.character.currentCombat != null) {
+            if(e.KeyChar == (char)Keys.Escape) {
+                menu.toggle();                                                                 //menu ting
+            } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            
+
             //bool inCombat = localPlayer.character.currentCombat != null;
+
+            if (menu.isOpen && isDown) {
+                menu.keyInput(e);
+            }
 
             switch (e.KeyCode) {
             case Keys.W:
@@ -123,9 +122,9 @@ namespace WinFormsTest {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-//            if (menu.is_in_menu) {
-//                return;
-//            }
+            if (menu.isOpen) {                                                                      //menu ting
+                return;
+            }
             localPlayer.update(deltaTime);
 
             if (Game.instance.localPlayer.character.currentCombat == null) {
@@ -140,23 +139,14 @@ namespace WinFormsTest {
   
                 gfx.Clear(Color.Black);
 
-                for (int i = 0; i < 500; i++) {
-                    Position position = localPlayer.character.position;
-                    float x,y;
-                    x = (float)(i % 50 - position.x - position.xoffset * position.offsetScale) * 64*2 + Game.instance.Width / 2 - 64;
-                    y = (float)(i / 50 - position.y - position.yoffset * position.offsetScale) * 64*2 - Game.instance.Height/ 2 + 64;
-
-                    gfx.DrawRectangle(Pen, x, -y, 128, 128);
-                    gfx.DrawRectangle(Pen, x+32, -y+32, 64, 64);
-
-                }
-
                 world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
                 userInterface.draw(gfx);
-
+                if (menu.isOpen) {
+                    menu.draw(gfx);
+                }
 
                 graphics.DrawImage(bmp, 0, 0);
             }

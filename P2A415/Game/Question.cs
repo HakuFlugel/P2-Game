@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WinFormsTest {
+namespace RPGame {
 
 
     public abstract class Question {

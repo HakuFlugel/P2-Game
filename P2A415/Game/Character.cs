@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WinFormsTest {
+namespace RPGame {
 
     public struct Stats {
         public double hp;// = 100.0;

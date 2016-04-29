@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class UserInterface {
 
         private Brush brush;

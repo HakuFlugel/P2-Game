@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class World {
         public List<Character> characters = new List<Character>();
 
