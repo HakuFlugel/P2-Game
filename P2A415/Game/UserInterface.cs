@@ -5,13 +5,9 @@ using System.Windows.Forms;
 namespace RPGame {
     public class UserInterface {
 
-        private Brush brush;
-
         private Game game;
 
         ///private int screenWidth, screenHeight;
-
-
 
         public UserInterface(Game game) {
             //screenWidth = 1920;//game.ClientSize.Width;
