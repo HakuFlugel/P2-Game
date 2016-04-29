@@ -118,7 +118,7 @@ namespace RPGame {
                     buttonHeight
                     );
 
-                gfx.DrawImage(buttonImage, buttonRect/*new Rectangle(0, 48 * 4 * i, 96*4, 32*4)*/, new Rectangle(384*1/*TODO: is in game*/, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
+                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(384*1/*TODO: is in game*/, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
                 ////SizeF textSize = gfx.MeasureString()
 
                 StringFormat stringFormat = new StringFormat();

@@ -123,7 +123,7 @@ namespace RPGame {
             if (menu.isOpen) {                                                                      //menu ting
                 return;
             }
-            localPlayer.update(deltaTime);
+            localPlayer.update(this, deltaTime);
 
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
