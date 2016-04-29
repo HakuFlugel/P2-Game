@@ -138,6 +138,7 @@ namespace RPGame {
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
             Font bigfont = new Font("Arial", 32, FontStyle.Regular);
+            Font biggerfont = new Font("Arial", 44, FontStyle.Regular);
 
             string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
             double player_health = Math.Round(firstCharacter.stats.curHP, 0);
@@ -165,8 +166,8 @@ Health: {monster_health}
 Level: {monster_level}", bigfont, Brushes.WhiteSmoke, width / 1.3f, height / 4.0f);
 
 
-            gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.4f);
-            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
+            gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
+            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.2f);
 
         }
     }
