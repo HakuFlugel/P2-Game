@@ -154,7 +154,7 @@ namespace RPGame {
 
                 userInterface.draw(gfx);
 
-                    Inventory invi = new Inventory();
+                    Inventory invi = new Inventory(this);
 
                 List<Items> item = new List<Items>();
                 item.Add(new Items() {

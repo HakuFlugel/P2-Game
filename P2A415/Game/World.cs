@@ -96,9 +96,9 @@ namespace RPGame {
 
             // path
             RoadMaker roadmaker = new RoadMaker(this, weights);
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(64, 128));
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(2, 2));
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(2, 2));
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(2, 2));
 
             //TODO: hvorfor giver de 2 her exception???
             roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(0, 32));

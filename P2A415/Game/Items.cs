@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Items {
 
         public static Dictionary<int, Items> itemList = new Dictionary<int, Items>();
@@ -17,15 +17,16 @@ namespace WinFormsTest {
         public double itemLVL;
         public double itemDMG;
         public double itemDEF;
+        public string flavortext;
 
         public struct itemType {
-            public int Hands;
-            public int Gloves;
-            public int Helmet;
-            public int Chest;
-            public int Belt;
-            public int Pants;
-            public int Boots;
+            public int Hands; //2
+            public int Gloves; //1
+            public int Helmet; //1
+            public int Chest; //1
+            public int Belt; //1
+            public int Pants; //1
+            public int Boots; //1
         }
         public itemType equipSlot;
 
