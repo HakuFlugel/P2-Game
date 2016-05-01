@@ -15,10 +15,19 @@ namespace RPGame {
         }
 
         public long x, y;
+        public int townx, towny;
 
         public Region(long x, long y) {
             this.x = x;
             this.y = y;
+        }
+        public void makeTown(Random rand) {
+            int x, y;
+            while (this[x = 4+rand.Next() % 24, y = 4+rand.Next() % 24] != (int)World.GeneratedTile.Ground);
+
+            this[x, y] = (int)World.GeneratedTile.Town;
+            townx = x;
+            towny = y;
         }
 
         public void draw(Game game, Graphics gfx, Position cameraPosition) {
@@ -63,7 +72,7 @@ namespace RPGame {
 
                     gfx.DrawImage( TileType.Image ,
                                 new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2),
-                                new Rectangle(tt.imageIndex % 21 * 64, tt.imageIndex / 21 * 64, 64, 64), 
+                                new Rectangle(tt.imageIndex % 21 * 64, tt.imageIndex / 21 * 64, 63, 63), 
                                 GraphicsUnit.Pixel);
 
                 }

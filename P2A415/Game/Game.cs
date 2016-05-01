@@ -7,9 +7,9 @@ using System.Security.Cryptography;
 
 namespace RPGame {
     public class Game : Form {
-        public Menu menu { get; set; }
+        private Menu menu;
 
-        //public World world;
+        public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
@@ -20,9 +20,6 @@ namespace RPGame {
 
         private long lastTime = 0;
         private long thisTime = 0;
-
-        public World world;
-
 
         public UserInterface userInterface;
 
@@ -37,10 +34,8 @@ namespace RPGame {
 
             //CharacterType.loadCharacterTypes();
 
-            //this.menu = new Menu(this);
+            menu = new Menu(this);                                                             //menu ting
                   
-
-
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -56,10 +51,9 @@ namespace RPGame {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == (char) Keys.Escape) {
-                //menu.Update_menu();
-            }
-            if (localPlayer.character.currentCombat != null) {
+            if(e.KeyChar == (char)Keys.Escape) {
+                menu.toggle();                                                                 //menu ting
+            } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
         }
@@ -67,6 +61,10 @@ namespace RPGame {
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
             //bool inCombat = localPlayer.character.currentCombat != null;
+
+            if (menu.isOpen && isDown) {
+                menu.keyInput(e);
+            }
 
             switch (e.KeyCode) {
             case Keys.W:
@@ -122,9 +120,9 @@ namespace RPGame {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-//            if (menu.is_in_menu) {
-//                return;
-//            }
+            if (menu.isOpen) {                                                                      //menu ting
+                return;
+            }
             localPlayer.update(this, deltaTime);
 
             if (this.localPlayer.character.currentCombat == null) {
@@ -153,49 +151,9 @@ namespace RPGame {
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
                 userInterface.draw(gfx);
-
-                    Inventory invi = new Inventory(this);
-
-                List<Items> item = new List<Items>();
-                item.Add(new Items() {
-                    itemImageFile = "",
-                    itemName = "Sword of Slays",
-                    itemHP = 1,
-                    itemLVL = 1,
-                    itemDMG = 1,
-                    itemDEF = 0,
-                    equipSlot = new Items.itemType() {
-                        Hands = 1
-                    }
-                });
-                item.Add(new Items() {
-                    itemImageFile = "",
-                    itemName = "Sword of bobb",
-                    itemHP = 22,
-                    itemLVL = 100,
-                    itemDMG = 654,
-                    itemDEF = 2,
-                    equipSlot = new Items.itemType() {
-                        Hands = 1
-                    }
-                });
-
-                invi.DrawInvi(gfx);
-                invi.draw(gfx, item, new List<Items> {( new Items() {
-                itemImageFile = "",
-                itemName = "God's Gloves",
-                itemHP = 1,
-                itemLVL = 2,
-                itemDMG = 1,
-                itemDEF = 10,
-                equipSlot = new Items.itemType() {
-                    Gloves = 1,
-                    Hands = -1
-                } }) }, false);
-
-                
-                
-                
+                if (menu.isOpen) {
+                    menu.draw(gfx);
+                }
 
                 graphics.DrawImage(bmp, 0, 0);
             }

@@ -2,88 +2,132 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+
 
 namespace RPGame {
     public class Menu {
-        public bool is_in_menu = true;
-        public List<Control> listWithMenu = new List<Control>();
-        public Form form;
-        public Menu(Form form) {
 
-            this.form = form;
-
-            int where_button_start = 300;
-
-            listWithMenu.Add(new Button());
-            listWithMenu.Add(new Button());
-            listWithMenu.Add(new Label());
-            listWithMenu.Add(new Panel());
-
-            foreach(var item in listWithMenu) {
-                if(item.GetType() == typeof(Button)) {
-
-                    item.Location = new Point(form.Width / 2 - 100, where_button_start += 100);
-                    item.Width = 200; item.Height = 50;
-                    item.Font = new Font("Bradley Hand ITC", (float)20, FontStyle.Italic);
-                    form.Controls.Add(item);
-
-                }else if(item.GetType() == typeof(Label)) {
-
-                    item.Text = "RPG - Game";
-                    item.Font = new Font("Bradley Hand ITC", (float)175, FontStyle.Bold);
-                    item.Location = new Point(10, 20);
-                    item.BackColor = Color.Transparent;
-                    item.AutoSize = true;
-                    form.Controls.Add(item);
-
-                }else if(item.GetType() == typeof(Panel)) {
-
-                    item.Width = form.Width;
-                    item.Height = form.Height;
-                    item.SendToBack();
-                    form.Controls.Add(item);
-                }
+        private class Button {
+            public string text;
+            public Action<Button> onPress;
+            public Button(string text, Action<Button> onPress) {
+                this.text = text;
+                this.onPress = onPress;
             }
-            
-            listWithMenu[0].Text = "Start";
-            listWithMenu[1].Text = "Quit";
-
-            listWithMenu[1].Click += new EventHandler(Quit_is_click);
-            listWithMenu[0].Click += new EventHandler(Start_is_click);
         }
 
-        public void Update_menu() {
+        Game game;
+        private List<Button> buttons = new List<Button>();
+        public  int selected = 0;
+        public bool isOpen { get; private set; } = false;
 
-            is_in_menu = true;
+        private Bitmap menuImage;
+        private Bitmap buttonImage;
+        Font font;
 
-            listWithMenu[0].Text = "Continue";
 
-            listWithMenu[0].Show();
-            listWithMenu[1].Show();
+        public Menu(Game game) {
+            this.game = game;
+
+            menuImage = ImageLoader.Load("Content/TransBlackground.png");
+            buttonImage = ImageLoader.Load("Content/Buttons.png");
+
+            font = new Font("Arial", 32
+                , FontStyle.Bold);
+
+            buttons.Add(new Button("Resume Game", (button) => {
+                //button.text = "Resume Game";
+                this.isOpen = false;
+            }));
+            //buttons.Add(new Button("Inventory", (button) => { return; })); // TODO: open inventory @Asger
+            buttons.Add(new Button("New Game", (button) => {
+                this.isOpen = false;
+            }));
+
+            buttons.Add(new Button("Quit", (button) => {
+                game.shouldRun = false;
+            }));
         }
 
-        public void Quit_is_click(Object sender, EventArgs e) {
-            
-            DialogResult dialog = MessageBox.Show("R u sure?","Quit", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
-            
-            if(dialog == DialogResult.Yes) {
-                Application.Exit();
+        public void toggle() {
+            isOpen = !isOpen;
+            selected = 0;
+        }
+
+
+        public void keyInput(KeyEventArgs e) {
+            switch (e.KeyCode) {
+
+                case Keys.W:
+                case Keys.Up:
+                    if(--selected < 0) {
+                        selected = 0;
+                    }
+                    break;
+
+                case Keys.S:
+                case Keys.Down:
+                    if (++selected > buttons.Count-1) {
+                        selected = buttons.Count-1;
+                    }
+                    break;
+
+                case Keys.Enter:
+                    selectItem();
+                    break;
+
+                default:
+                    break;
+            }
+            Console.WriteLine("selected: " + selected);
+        }
+
+        public void selectItem() {
+            Button selectedButton = buttons[selected];
+            Console.WriteLine("selected" + selected + selectedButton);
+            selectedButton.onPress(selectedButton);
+        }
+
+
+        public void draw(Graphics gfx) {
+
+            const int padding = 16;
+            const int buttonWidth = 384;
+            const int buttonHeight = 128;
+
+
+            Rectangle menuRect = new Rectangle(
+                game.ClientSize.Width / 2 - buttonWidth / 2 - padding,
+                game.ClientSize.Height / 2 - ((buttonHeight + padding) * buttons.Count + padding) / 2,
+                buttonWidth + padding*2,
+                ((buttonHeight + padding) * buttons.Count + padding)
+                );
+
+
+
+            gfx.DrawImage(menuImage, menuRect, new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+
+            for (int i = 0; i < buttons.Count; i++) {
+
+                Rectangle buttonRect = new Rectangle(
+                    menuRect.X + padding,
+                    menuRect.Y + padding + i * (buttonHeight + padding),
+                    buttonWidth,
+                    buttonHeight
+                    );
+
+                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(384*1/*TODO: is in game*/, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
+                ////SizeF textSize = gfx.MeasureString()
+
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+                gfx.DrawString(buttons[i].text, font, Brushes.DeepPink, buttonRect, stringFormat);
             }
 
-            return;
+            // selected == i ? 64 : 0
         }
-        public void Start_is_click(Object sender, EventArgs e) {
-            foreach(var item in listWithMenu) {
-                item.Hide();
-                form.Focus();
-                is_in_menu = false;
-            }
-           
-            return;
-        }
-
     }
 }
