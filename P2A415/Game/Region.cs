@@ -35,18 +35,18 @@ namespace RPGame {
             long cameraPositionRegionY = cameraPosition.y - this.y * tiles.GetLength(1);// * 64 * 2;
 
             // X range
-            long cameraStartRegionX = cameraPositionRegionX - (game.ClientSize.Width / 2 / (64 * 2)) - 1; // -1 ekstra?
+            long cameraStartRegionX = cameraPositionRegionX - (game.ClientSize.Width / 2 / (64 * 2)) - 2;
             cameraStartRegionX = Math.Max(cameraStartRegionX, 0);
 
-            long cameraEndRegionX = cameraPositionRegionX + (game.ClientSize.Width / 2 / (64 * 2)) + 1; // +1 ekstra?
+            long cameraEndRegionX = cameraPositionRegionX + (game.ClientSize.Width / 2 / (64 * 2)) + 2;
             cameraEndRegionX = Math.Min(cameraEndRegionX, tiles.GetUpperBound(0));
 
             // Y range
-            long cameraStartRegionY = cameraPositionRegionY - (game.ClientSize.Height / 2 / (64 * 2)) - 1; // -1 ekstra?
+            long cameraStartRegionY = cameraPositionRegionY - (game.ClientSize.Height / 2 / (64 * 2)) - 2;
             cameraStartRegionY = Math.Max(cameraStartRegionY, 0);
 
 
-            long cameraEndRegionY = cameraPositionRegionY + (game.ClientSize.Height / 2 / (64 * 2)) + 1; // +1 ekstra?
+            long cameraEndRegionY = cameraPositionRegionY + (game.ClientSize.Height / 2 / (64 * 2)) + 2;
             cameraEndRegionY = Math.Min(cameraEndRegionY, tiles.GetUpperBound(1));
 
             // drawing it
@@ -70,10 +70,10 @@ namespace RPGame {
                     
                     TileType tt = TileType.tileTypes[tileID];
 
-                    gfx.DrawImage( TileType.Image ,
-                                new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2),
-                                new Rectangle(tt.imageIndex % 21 * 64, tt.imageIndex / 21 * 64, 63, 63), 
-                                GraphicsUnit.Pixel);
+                    gfx.DrawImage( TileType.Image,
+                        new RectangleF((float)x, -(float)y, 64.0f * 2, 64.0f * 2),
+                        new Rectangle(tt.imageIndex % 21 * 64, tt.imageIndex / 21 * 64, 63, 63), 
+                        GraphicsUnit.Pixel);
 
                 }
             }
