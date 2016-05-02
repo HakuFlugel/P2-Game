@@ -26,7 +26,7 @@ namespace RPGame {
           //for (int i = 0; i < 1000; i++) {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
-            game.localPlayer = new Player(32 * 2 + regions[2, 3].townx, 32 * 3 + regions[2, 3].towny);// characters[rand.Next(characters.Count - 1)];
+            game.localPlayer = new Player(32 * 15 + regions[15, 15].townx, 32 * 15 + regions[15, 15].towny);// characters[rand.Next(characters.Count - 1)];
             characters.Add(game.localPlayer.character);
         }
 
@@ -100,13 +100,13 @@ namespace RPGame {
             RoadMaker roadmaker = new RoadMaker(this, weights);
             roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
             int count = 0;
-            for (int x = 0; x <= regions.GetLength(0); x++) {
-                for (int y = 0; y <= regions.GetLength(1); y++) {
-                    if (x != regions.GetLength(0)) {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    if (x < regions.GetLength(0)-1) {
                         count++;
                         roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
                     }
-                    if (y != regions.GetLength(1)) {
+                    if (y < regions.GetLength(1)-1) {
                         count++;
                         roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
                     }
