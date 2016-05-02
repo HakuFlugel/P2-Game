@@ -148,7 +148,7 @@ namespace RPGame {
             double monster_level = secondCharacter.stats.level;
 
 
-            string timeleft = enemyAttackTime.ToString("0.#0");
+            string timeleft = enemyAttackTime.ToString("0.00");
             Bitmap barimg = new Bitmap("Content/blankbar.png");
             Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
 
