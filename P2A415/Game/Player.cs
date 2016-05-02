@@ -16,7 +16,7 @@ namespace RPGame {
 
         public PlayerInput input = new PlayerInput();
 
-        public Player(long x = 0, long y = 0) {
+        public Player(int x = 0, int y = 0) {
             character = new Character(0, x, y, 0);
         }
 

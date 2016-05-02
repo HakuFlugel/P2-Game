@@ -328,11 +328,29 @@ namespace RPGame {
         public void draw(Graphics gfx, Position cameraPosition) {
             int xlen = regions.GetLength(0), ylen = regions.GetLength(1);
 
-            for (int x = 0; x < xlen; x++) { // TODO: udregn interval
-                for (int y = 0; y < ylen; y++) {
+            // X range
+            int cameraStartX = (cameraPosition.x - game.ClientSize.Width / 2 / (64 * 2) - 2)/32;//- 2;
+            cameraStartX = Math.Max(cameraStartX, 0);
+
+            int cameraEndX = (cameraPosition.x + game.ClientSize.Width / 2 / (64 * 2) + 2) / 32;//+ 2;
+            cameraEndX = Math.Min(cameraEndX, xlen);
+
+            // Y range
+            int cameraStartY = (cameraPosition.y - game.ClientSize.Height / 2 / (64 * 2) - 2)/32;//- 2;
+            cameraStartY = Math.Max(cameraStartY, 0);
+
+
+            int cameraEndY = (cameraPosition.y + game.ClientSize.Height / 2 / (64 * 2) + 2) / 32;//+ 2;
+            cameraEndY = Math.Min(cameraEndY, ylen);
+
+
+            for (int x = cameraStartX; x <= cameraEndX; x++) { // TODO: udregn interval
+                for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].draw(game, gfx, cameraPosition);
                 }
             }
+
+            //TODO: draw in regions
             foreach (var character in characters) {
                 character.draw(game, gfx, cameraPosition);
             }

@@ -17,15 +17,15 @@ namespace RPGame {
     }
 
     public struct Position {
-        public long x;// = 0;
-        public long y;// = 0;
+        public int x;// = 0;
+        public int y;// = 0;
 
         public double xoffset;// = 0.0;
         public double yoffset;// = 0.0;
 
         public double offsetScale;
 
-        public Position (long x, long y) {
+        public Position (int x, int y) {
             this.x = x;
             this.y = y;
 
@@ -48,7 +48,7 @@ namespace RPGame {
 
         public Combat currentCombat;
 
-        public Character(int characterType, long x, long y, int level)
+        public Character(int characterType, int x, int y, int level)
         {
             position.x = x;
             position.y = y;
@@ -96,7 +96,7 @@ namespace RPGame {
 
         }
 
-        public void move(Game game,long x, long y) {
+        public void move(Game game,int x, int y) {
             if (canMove(game ,position.x + x, position.y + y)) {
                 int length = game.world.characters.Count;
                 for (int i = 0; i < length; i++) {
