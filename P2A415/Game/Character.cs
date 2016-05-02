@@ -79,7 +79,7 @@ namespace RPGame {
 
 
                 Region region = game.world.regions[position.x / 32, position.y / 32];
-                if (region.townx == position.x && region.towny == position.y) {
+                if (region.townx == position.x % 32 && region.towny == position.y % 32) {
                     stats.curHP = stats.maxHP;
                 }
                 
