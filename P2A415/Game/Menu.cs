@@ -23,7 +23,7 @@ namespace RPGame {
         public  int selected = 0;
         public bool isOpen { get; private set; } = false;
 
-        private Bitmap menuImage;
+        private SolidBrush menuBackground;
         private Bitmap buttonImage;
         Font font;
 
@@ -31,7 +31,7 @@ namespace RPGame {
         public Menu(Game game) {
             this.game = game;
 
-            menuImage = ImageLoader.Load("Content/TransBlackground.png");
+            menuBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
             buttonImage = ImageLoader.Load("Content/Buttons.png");
 
             font = new Font("Arial", 32
@@ -106,8 +106,8 @@ namespace RPGame {
                 );
 
 
-
-            gfx.DrawImage(menuImage, menuRect, new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.FillRectangle(menuBackground, menuRect);
+//            gfx.DrawImage(menuImage, menuRect, new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
 
             for (int i = 0; i < buttons.Count; i++) {
 
