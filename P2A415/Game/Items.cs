@@ -26,7 +26,7 @@ namespace RPGame {
             public int Chest; //1
             public int Belt; //1
             public int Pants; //1
-            public int Boots; //1
+            public int Boots; //1 total = 8
         }
         public itemType equipSlot;
 

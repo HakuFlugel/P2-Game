@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 namespace RPGame {
     public class Game : Form {
         private Menu menu;
+        private Inventory invi;
 
         public World world;
         public Player localPlayer;
@@ -35,7 +36,31 @@ namespace RPGame {
             //CharacterType.loadCharacterTypes();
 
             menu = new Menu(this);                                                             //menu ting
-                  
+            invi = new Inventory(this);                                                         //inventory ting
+
+            invi.GetItem(new Items() {
+                itemImageFile = "",
+                itemName = "Sword of Slays",
+                itemHP = 1,
+                itemLVL = 1,
+                itemDMG = 1,
+                itemDEF = 0,
+                equipSlot = new Items.itemType {
+                    Hands = 1
+                }
+            });
+            invi.GetItem(new Items() {
+                itemImageFile = "",
+                itemName = "Bobob",
+                itemHP = 55,
+                itemLVL = 34,
+                itemDMG = 22,
+                itemDEF = 1,
+                equipSlot = new Items.itemType {
+                    Belt = 1
+                }
+            });
+
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -51,8 +76,15 @@ namespace RPGame {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == (char)Keys.Escape) {
+
+
+            if (e.KeyChar == (char)Keys.Escape) {
                 menu.toggle();                                                                 //menu ting
+
+            } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
+                invi.toggle();
+                
+
             } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
@@ -64,7 +96,11 @@ namespace RPGame {
 
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
-            }
+            } else if(invi.isOpen && isDown) {
+                invi.keyInput(e);
+            } else
+            
+                
 
             switch (e.KeyCode) {
             case Keys.W:
@@ -150,7 +186,15 @@ namespace RPGame {
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
+                
+                
+
                 userInterface.draw(gfx);
+
+                if (invi.isOpen) {
+                    invi.draw(gfx);
+                }
+                
                 if (menu.isOpen) {
                     menu.draw(gfx);
                 }
