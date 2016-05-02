@@ -141,7 +141,7 @@ namespace RPGame {
 
             stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level);
             stats.curHP = stats.maxHP;
-            stats.attack = charType.attack * Math.Pow(1.05, stats.level); ;
+            stats.attack = charType.attack * Math.Pow(1.10, stats.level); ;
             stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
         }
 
