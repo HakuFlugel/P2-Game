@@ -78,7 +78,7 @@ namespace RPGame {
             
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
-            ttweight.Add(GeneratedTile.Mountain, 64);
+            ttweight.Add(GeneratedTile.Mountain, 32);
             //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
             ttweight.Add(GeneratedTile.Town, 1);
