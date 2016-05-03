@@ -14,7 +14,7 @@ namespace RPGame {
 
 
         Reward(int monsterLevel) {
-            1.01
+      
 
 
         }
@@ -25,9 +25,9 @@ namespace RPGame {
 
         }
 
-        public Items generating() {
+        public Items generating(Items item) {
 
-
+            return item;
         }
         
     }

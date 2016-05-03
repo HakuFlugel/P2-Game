@@ -33,9 +33,11 @@ namespace RPGame {
         }
 
         private Game game;
+        private bool isEquipped = false;
 
         static List<RectangleF> itemsInInventry = new List<RectangleF>();
-        private itemindex[][] totalItems = new itemindex[8][];
+        private itemindex[][] totalCarried = new itemindex[8][];
+        private itemindex[][] totalEquipped = new itemindex[4][];
 
         private int selectedX = 0;
         private int selectedY = 0;
@@ -56,17 +58,26 @@ namespace RPGame {
         ToolTip bob = new ToolTip();
 
         public Inventory(Game game) {
-            int length = totalItems.Length;
-            for (int i = 0; i < length; i++)
-                totalItems[i] = new itemindex[9];
+            int lengthCarried = totalCarried.Length;
+            int lengthEquipped = totalEquipped.Length;
+
+            for (int i = 0; i < lengthCarried; i++)
+                totalCarried[i] = new itemindex[9];
+            for (int i = 0; i < lengthEquipped; i++)
+                totalEquipped[i] = new itemindex[3];
 
             this.game = game;
             menuImage = ImageLoader.Load("Content/TransBlackground.png");
 
             for(int indey = 0; indey < 8; indey++) {
-                for (int index = 0; index < 9; index++)
-                    totalItems[indey][index] = new itemindex(indey, index);
+                for (int index = 0; index < 8; index++)
+                    totalCarried[indey][index] = new itemindex(indey, index);
 
+            }
+
+            for(int indey = 0; indey < 4;indey++) {
+                for (int index = 0; index < 3; index++)
+                    totalEquipped[indey][index] = new itemindex(indey, index);
             }
 
         }
@@ -105,6 +116,9 @@ namespace RPGame {
                     Console.WriteLine("Enter is pressed");
                     Console.WriteLine(tryEquip()); 
                     break;
+                case Keys.Control:
+                    Toggle_menu();
+                    break;
 
                 default:
                     break;
@@ -114,37 +128,45 @@ namespace RPGame {
  
         public int tryEquip() {
 
-            if (selectedX == 8)
-                if (AreYouSure("unequip")) {
-                    if(totalItems[selectedY][selectedX].item != null) {
-                        GetItem(totalItems[selectedY][selectedX].item);
+            if(isEquipped) {
+                if (selectedX == 8)
+                    if (AreYouSure("unequip")) {
+                        if (totalCarried[selectedY][selectedX].item != null) {
+                            GetItem(totalCarried[selectedY][selectedX].item);
 
-                        Eqipped.Remove(totalItems[selectedY][selectedX].item);
+                            Eqipped.Remove(totalCarried[selectedY][selectedX].item);
+                        }
+
+
+                        return 0;
                     }
-                    
+            }else {
 
-                    return 0;
-                } 
+                int itterate = 0;
+                foreach (var item in Eqipped) {
+                    if (item != null && totalCarried[selectedY][selectedX].item != null && totalCarried[selectedY][selectedX].item.equipSlot.Equals(item.equipSlot)) {
+                        Eqipped[itterate] = totalCarried[selectedY][selectedX].item;
 
-            int itterate = 0;
-            foreach(var item in Eqipped) {
-                if (item != null && totalItems[selectedY][selectedX].item != null && totalItems[selectedY][selectedX].item.equipSlot.Equals(item.equipSlot)) {
-                    Eqipped[itterate] = totalItems[selectedY][selectedX].item;
+                        Carried.Remove(totalCarried[selectedY][selectedX].item);
+                        totalCarried[selectedY][selectedX].setItem(null);
 
-                    Carried.Remove(totalItems[selectedY][selectedX].item);
-                    totalItems[selectedY][selectedX].setItem(null);
-                    
-                    return 1;
+                        return 1;
+                    }
+                    itterate++;
                 }
-                itterate++;
+                if (totalCarried[selectedY][selectedX].item != null) {
+                    itterate = 0;
+                    Eqipped.Add(totalCarried[selectedY][selectedX].item);
+                    Carried.Remove(totalCarried[selectedY][selectedX].item);
+                    totalCarried[selectedY][selectedX].setItem(null);
+                    return 2;
+                }
+
             }
-            if(totalItems[selectedY][selectedX].item != null) {
-                itterate = 0;
-                Eqipped.Add(totalItems[selectedY][selectedX].item);
-                Carried.Remove(totalItems[selectedY][selectedX].item);
-                totalItems[selectedY][selectedX].setItem(null);
-                return 2;
-            }             
+
+            
+
+                  
             
             return -10;
         }
@@ -170,17 +192,26 @@ namespace RPGame {
 
                 for(int indey = 0; indey < 8; indey++) 
 
-                    if (totalItems[index][indey].item == null) {
+                    if (totalCarried[index][indey].item == null) {
 
-                        totalItems[index][indey].setItem(item);
+                        totalCarried[index][indey].setItem(item);
 
                         return;
                     }
         }
 
+        private void Toggle_menu() {
+            isEquipped = !isEquipped;
+            selectedX = 0;
+            selectedY = 0;
+        }
+
         public void draw(Graphics gfx) {
 
-            DrawInvi(gfx);
+
+            DrawCarried(gfx);
+
+
 
             Font namefont = new Font("Arial", 15, FontStyle.Bold), 
                  lvlfont = new Font("Arial", 10, FontStyle.Regular), 
@@ -200,23 +231,20 @@ namespace RPGame {
             int xdex = 0;
             int y=0, x=0;
             for (int ypp = 0; ypp < 8; ypp++) 
-                for (int xpp = 0; xpp < 9; xpp++)
-                    totalItems[ypp][xpp].setItem(null);
+                for (int xpp = 0; xpp < 8; xpp++)
+                    totalCarried[ypp][xpp].setItem(null);
 
             foreach (var item in Carried_sorted) {
-                totalItems[y][x].setItem(item);
+                totalCarried[y][x].setItem(item);
                 
                 x++;
                 if (x == 8) { x = 0; y++; }
             }
             y = 0;
-            foreach(var item in Eqipped) {
-                totalItems[y][8].setItem(item);
-                y++;
-            }
+            
 
-            if(totalItems[selectedY][selectedX].item != null) {
-                Items item = totalItems[selectedY][selectedX].item;
+            if(totalCarried[selectedY][selectedX].item != null) {
+                Items item = totalCarried[selectedY][selectedX].item;
                 int index = xdex - 1;
 
                 string name = item.itemName,
@@ -229,8 +257,8 @@ namespace RPGame {
                     flavortext = item.flavortext;
                 }
 
-                textPositionX = totalItems[selectedY][selectedX].X + 65;
-                textPositionY = totalItems[selectedY][selectedX].Y + 65;
+                textPositionX = totalCarried[selectedY][selectedX].X + 65;
+                textPositionY = totalCarried[selectedY][selectedX].Y + 65;
 
 
                 int heightOfItAll = (int)(gfx.MeasureString(name, namefont).Height +
@@ -263,10 +291,12 @@ namespace RPGame {
         }
 
 
-        public void DrawInvi(Graphics gfx) {
+        public void DrawCarried(Graphics gfx) {
+
             int width = (int)(game.Width / 1.2), height = (int)(game.Height / 1.2);
             int placex = game.Width / 2 - width / 2;
             int placey = game.Height / 2 - height / 2;
+
             Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
             gfx.DrawImage(menuImage, new Rectangle(0,0,game.Width,game.Height), new Rectangle(0,0,1,1), GraphicsUnit.Pixel);
             gfx.FillRectangle(new SolidBrush(Color.DarkGray), new Rectangle(placex, placey, width, height));
@@ -280,155 +310,36 @@ namespace RPGame {
             float equippedSlots = height + outterboxHei;
 
             for (int indey = 0; indey < 8; indey++) {
-                for (int index = 0; index < 9; index++) {
-                    
-                    if(index == 8) {
-                        tempxdex = xdex;
-                        tempydex = ydex;
-                        xdex = width - outterboxWid - 5;
-                        
-                    }
 
-                    totalItems[indey][index].X = xdex + 2;
-                    totalItems[indey][index].Y = ydex + 2;
+                for (int index = 0; index < 8; index++) {
+                    if(index % 8 == 0 && index != 0) {
+                        xdex = placex + 72;
+                        ydex += 70;
+                    }
+                    
+
+                    totalCarried[indey][index].X = xdex + 2;
+                    totalCarried[indey][index].Y = ydex + 2;
 
                     if (indey == selectedY && index == selectedX) {
-                        gfx.FillRectangle(new SolidBrush(Color.Orange), new RectangleF(xdex, ydex, outterboxWid+5, outterboxHei+5));
+                        gfx.FillRectangle(new SolidBrush(Color.Orange), new RectangleF(xdex, ydex, outterboxWid + 5, outterboxHei + 5));
                         gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
                     } else {
                         gfx.FillRectangle(new SolidBrush(Color.Black), new RectangleF(xdex, ydex, outterboxWid, outterboxHei));
                         gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
                     }
                     xdex += 70;
-                    if (index == 8) {
-                        xdex = placex + 72;
-                        ydex = tempydex + height / 6 - 40;
-                    }
                     
                 }
-                    
-
             }
 
 
+        }
+        
+        
+        public void DrawEqipped(Graphics gfx) {
 
-            //for (int index = 0; index < 8; index++) {
-            //    gfx.FillRectangle(new SolidBrush(Color.Black), new RectangleF(width-outterboxWid, equippedSlots -= 70, outterboxWid,outterboxHei));
-            //    gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(width - outterboxWid + 2, equippedSlots + 2, outterboxWid - 4, outterboxWid - 4));
-            //}
-
-
-            //for (int index = 0; index < 32;index++) {
-            //    if(index % 8 == 0) { xdex = placex + 2; ydex += height / 4 - 40; }
-            //    gfx.FillRectangle(new SolidBrush(Color.Black), new RectangleF(xdex ,ydex , outterboxWid, outterboxHei));
-            //    gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
-
-            //    itemsInInventry.Add(new RectangleF(xdex, ydex, 51, 51));
-
-            //    xdex += 70;
-            //}
-            
         }
 
-
-        //private string StringHandler(string str) {
-
-        //    string[] split_string = str.Split(' ');
-        //    int nrOfStrings = split_string.Count();
-
-        //    StringBuilder sb = new StringBuilder();
-
-        //    if (nrOfStrings > 4)
-        //        throw new Exception("Too long name");
-
-        //    if (nrOfStrings == 1) {
-
-        //        font.Size -= 1;
-
-        //    } else {
-        //        Optimal_string_editor(split_string, nrOfStrings);
-
-        //        foreach(string strinb in split_string) {
-                    
-        //            sb.Append(strinb);
-        //        }
-                
-        //    }
-        //    return sb.ToString();
-        //}
-
-        //private void Optimal_string_editor(string[] str,int nrOfStrings) {
-
-        //    switch (nrOfStrings) {
-
-        //        case 5:
-        //            if (str[0].Count() > str[1].Count() + str[2].Count() + str[3].Count() + str[4].Count()) {
-        //                str[5] = str[4];
-        //                str[4] = str[3];
-        //                str[3] = str[2];
-        //                str[2] = str[1];
-        //                str[1] = Environment.NewLine;
-        //            } else if (str[0].Count() + str[1].Count() > str[2].Count() + str[3].Count() + str[4].Count()) {
-        //                str[5] = str[4];
-        //                str[4] = str[3];
-        //                str[3] = str[2];
-        //                str[2] = Environment.NewLine;
-        //            } else if (str[0].Count() + str[1].Count() + str[2].Count() > str[3].Count() + str[4].Count()) {
-        //                str[5] = str[4];
-        //                str[4] = str[3];
-        //                str[3] = Environment.NewLine;
-        //            } else {
-        //                str[5] = str[4];
-        //                str[4] = Environment.NewLine;
-        //            }
-        //            break;
-
-        //        case 4:
-        //            if (str[0].Count() > str[1].Count() + str[2].Count() + str[3].Count()) {
-        //                str[4] = str[3];
-        //                str[3] = str[2];
-        //                str[2] = str[1];
-        //                str[1] = Environment.NewLine;
-        //            } else if (str[0].Count() + str[1].Count() + str[1].Count() > str[3].Count()) {
-        //                str[4] = str[3];
-        //                str[3] = Environment.NewLine;
-        //            } else {
-        //                str[4] = str[3];
-        //                str[3] = str[2];
-        //                str[3] = Environment.NewLine;
-        //            }
-        //            break;
-
-        //        case 3:
-        //            if (str[0].Count() > str[1].Count() + str[2].Count()) {
-        //                str[3] = str[2];
-        //                str[2] = str[1];
-        //                str[1] = Environment.NewLine;
-        //            } else {
-        //                str[3] = str[2];
-        //                str[2] = Environment.NewLine;
-        //            }
-        //            break;
-
-        //        case 2:
-
-        //            str[2] = str[1];
-        //            str[1] = Environment.NewLine;
-
-        //            break;
-
-        //        default:
-        //            break;
-        //    }
-
-
-
-        //}
-
-        private void Inventory_MouseHover(object sender, EventArgs e, bool is_hover) {
-            
-
-        }
     }
-
 }
