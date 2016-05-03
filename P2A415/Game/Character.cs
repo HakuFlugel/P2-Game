@@ -8,6 +8,8 @@ namespace RPGame {
         public double maxHP;
         public double attack;// = 1.0;
         public double defence;// = 1.0;
+        public double armorPen;
+        public double attackSpeed;
 
         public int level;// = 0;
         public ulong exp;// = 0.0;
@@ -40,16 +42,14 @@ namespace RPGame {
         public static double moveDelay = 0.25;
 
         public Bitmap texture;
-
         public Position position;
         public Stats stats = new Stats();
+        public Combat currentCombat;
+        public Inventory invetory;
 
         public int characterType;
 
-        public Combat currentCombat;
-
-        public Character(int characterType, long x, long y, int level)
-        {
+        public Character(int characterType, long x, long y, int level) {
             position.x = x;
             position.y = y;
 
@@ -62,7 +62,6 @@ namespace RPGame {
             texture = ImageLoader.Load(charType.imageFile);
             //game.ClientSize.Content.Load<Texture2D>("character.png");
             calculateStats();
-            
         }
 
         public void update(Game game, double deltaTime) {
@@ -77,17 +76,14 @@ namespace RPGame {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
 
-
                 Region region = game.world.regions[position.x / 32, position.y / 32];
                 if (region.townx == position.x && region.towny == position.y) {
                     stats.curHP = stats.maxHP;
-                }
-                
+                } 
             }
         }
 
-        public void draw(Game game, Graphics gfx, Position cameraPosition)
-        {
+        public void draw(Game game, Graphics gfx, Position cameraPosition) {
             double x, y;
             x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + game.ClientSize.Width  / 2  - 64;
             y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
@@ -113,7 +109,6 @@ namespace RPGame {
                     }
                 }
 
-
                 position.x += x;
                 position.y += y;
 
@@ -122,7 +117,6 @@ namespace RPGame {
 
                 position.offsetScale = 1.0f;
             } // else // TODO: feedback?
-
         }
 
         public bool canMove(Game game, long x, long y) {
@@ -132,17 +126,30 @@ namespace RPGame {
                 Console.WriteLine("Can't move: " + e);
                 return false;
             }
-
         }
 
         public void calculateStats() {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
+            double[] invetentoryStats;
+            invetory.calStats(out invetentoryStats);    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
 
-            stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level);
+            if (charType.name == "Player") {
+                stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + invetentoryStats[0];
+                stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + invetentoryStats[1];
+                stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + invetentoryStats[2];
+                stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + invetentoryStats[3];
+                stats.attackSpeed = charType.attackSpeed +                       + invetentoryStats[4];
+            } else { // mobs
+                stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level);
+                stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
+                stats.attack = charType.attack * Math.Pow(1.07, stats.level);
+                stats.armorPen = charType.armorPen * Math.Pow(1.07, stats.level);
+                stats.attackSpeed = charType.attackSpeed + (3 / (stats.level / 5 + 1));
+            }
+
             stats.curHP = stats.maxHP;
-            stats.attack = charType.attack * Math.Pow(1.05, stats.level); ;
-            stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
+          
         }
 
         public ulong expRequired() {

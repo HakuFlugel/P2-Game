@@ -356,5 +356,23 @@ namespace RPGame {
 
         }
 
+        public void calStats(out double[] array) {
+            double tempHP = 0;
+            double tempDefence = 0;
+            double tempAttack = 0;
+            double tempPen = 0;
+            double tempSpeed = 0;
+
+            foreach (var item in Eqipped) {
+                tempHP += item.itemHP;
+                tempDefence += item.itemDEF;
+                tempAttack += item.itemDMG;
+                tempPen += item.itemPENE;
+                tempSpeed += item.itemSPEED;
+            }
+            array = new double[5] { tempHP, tempDefence, tempAttack, tempPen, tempSpeed };
+
+        }
+
     }
 }
