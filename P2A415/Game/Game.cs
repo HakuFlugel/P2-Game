@@ -5,17 +5,16 @@ using System.Diagnostics; // fps osv.
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace WinFormsTest {
+namespace RPGame {
     public class Game : Form {
-        public Menu menu { get; set; }
-        public static Game instance;
+        private Menu menu;
+        private Inventory invi;
 
-        //public World world;
+        public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
         private Graphics graphics;
-        private Pen Pen;
 
 
         private Stopwatch stopWatch = new Stopwatch();
@@ -23,25 +22,45 @@ namespace WinFormsTest {
         private long lastTime = 0;
         private long thisTime = 0;
 
-        public World world;
-
-
-        public UserInterface userInterface = new UserInterface();
+        public UserInterface userInterface;
 
         public Game() {
-            instance = this;
 
+            userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
             this.WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
-            Pen = new Pen(Color.DarkRed,1);
 
             //CharacterType.loadCharacterTypes();
 
-            //this.menu = new Menu(this);
-                  
+            menu = new Menu(this);                                                             //menu ting
+            invi = new Inventory(this);                                                         //inventory ting
+
+            invi.GetItem(new Items() {
+                itemImageFile = "",
+                itemName = "Sword of Slays",
+                itemHP = 1,
+                itemLVL = 1,
+                itemDMG = 1,
+                itemDEF = 0,
+                equipSlot = new Items.itemType {
+                    Hands = 1
+                }
+            });
+            invi.GetItem(new Items() {
+                itemImageFile = "",
+                itemName = "Bobob",
+                itemHP = 55,
+                itemLVL = 34,
+                itemDMG = 22,
+                itemDEF = 1,
+                equipSlot = new Items.itemType {
+                    Belt = 1
+                }
+            });
+
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -57,10 +76,16 @@ namespace WinFormsTest {
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == (char) Keys.Escape) {
-                //menu.Update_menu();
-            }
-            if (localPlayer.character.currentCombat != null) {
+
+
+            if (e.KeyChar == (char)Keys.Escape) {
+                menu.toggle();                                                                 //menu ting
+
+            } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
+                invi.toggle();
+                
+
+            } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
         }
@@ -68,6 +93,14 @@ namespace WinFormsTest {
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
             //bool inCombat = localPlayer.character.currentCombat != null;
+
+            if (menu.isOpen && isDown) {
+                menu.keyInput(e);
+            } else if(invi.isOpen && isDown) {
+                invi.keyInput(e);
+            } else
+            
+                
 
             switch (e.KeyCode) {
             case Keys.W:
@@ -102,7 +135,7 @@ namespace WinFormsTest {
             stopWatch.Start();
 
 
-            world = new World();
+            world = new World(this);
 
             while(shouldRun) {
                 update();
@@ -123,40 +156,48 @@ namespace WinFormsTest {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-//            if (menu.is_in_menu) {
-//                return;
-//            }
-            localPlayer.update(deltaTime);
+            if (menu.isOpen) {                                                                      //menu ting
+                return;
+            }
+            localPlayer.update(this, deltaTime);
 
-            if (Game.instance.localPlayer.character.currentCombat == null) {
+            if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
             // Clear input here?
         }
         
         private void render() {
-            using (Bitmap bmp = new Bitmap(ClientSize.Width, ClientSize.Height))
+            int width = ClientSize.Width;
+            int height = ClientSize.Height;
+
+            if (width < 1 || height < 1) {
+                return;
+            }
+
+            using (Bitmap bmp = new Bitmap(width, height))
             using (Graphics gfx = Graphics.FromImage(bmp)) {
   
                 gfx.Clear(Color.Black);
 
-                for (int i = 0; i < 500; i++) {
-                    Position position = localPlayer.character.position;
-                    float x,y;
-                    x = (float)(i % 50 - position.x - position.xoffset * position.offsetScale) * 64*2 + Game.instance.Width / 2 - 64;
-                    y = (float)(i / 50 - position.y - position.yoffset * position.offsetScale) * 64*2 - Game.instance.Height/ 2 + 64;
-
-                    gfx.DrawRectangle(Pen, x, -y, 128, 128);
-                    gfx.DrawRectangle(Pen, x+32, -y+32, 64, 64);
-
-                }
-
+                if (localPlayer.character.currentCombat == null) {
                 world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
+                }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
+                
+                
+
                 userInterface.draw(gfx);
 
+                if (invi.isOpen) {
+                    invi.draw(gfx);
+                }
+                
+                if (menu.isOpen) {
+                    menu.draw(gfx);
+                }
 
                 graphics.DrawImage(bmp, 0, 0);
             }
