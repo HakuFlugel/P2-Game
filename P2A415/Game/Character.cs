@@ -104,7 +104,7 @@ namespace RPGame {
 
         public void move(Game game,int x, int y) {
             if (canMove(game, position.x + x, position.y + y)) {
-                int length = game.world.regions[position.x / 32, position.y / 32].characters.Count;
+                int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
                     Character character = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters[i];

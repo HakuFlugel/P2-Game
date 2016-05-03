@@ -343,13 +343,13 @@ namespace RPGame {
             cameraEndY = Math.Min(cameraEndY, ylen-1);
 
 
-            for (int x = cameraStartX; x <= cameraEndX; x++) { // TODO: udregn interval
+            for (int x = cameraStartX; x <= cameraEndX; x++) {
                 for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].draw(game, gfx, cameraPosition);
                 }
             }
 
-            for (int x = cameraStartX; x <= cameraEndX; x++) { // TODO: udregn interval
+            for (int x = cameraStartX; x <= cameraEndX; x++) { 
                 for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].drawCharacters(game, gfx, cameraPosition);
                 }
