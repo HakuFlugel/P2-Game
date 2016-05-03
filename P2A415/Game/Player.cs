@@ -17,7 +17,7 @@ namespace RPGame {
         public PlayerInput input = new PlayerInput();
 
         public Player(Region region) {
-            character = new Character(region, 0, region.x * 32 + region.townx, region.x * 32 + region.towny, 0);
+            character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);
         }
 
         public void update(Game game,double deltaTime)

@@ -25,7 +25,7 @@ namespace RPGame {
           //for (int i = 0; i < 1000; i++) {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
-            game.localPlayer = new Player(regions[7,7]);// characters[rand.Next(characters.Count - 1)];
+            game.localPlayer = new Player(regions[7,1]);// characters[rand.Next(characters.Count - 1)];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
@@ -98,22 +98,18 @@ namespace RPGame {
             //// path
             RoadMaker roadmaker = new RoadMaker(this, weights);
             roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
-            int count = 0;
+
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
                     int graph = (Math.Abs(x - 8) * Math.Abs(y - 8));
-                    Console.WriteLine(graph);
-                    if (x < regions.GetLength(0) - 1 && graph >= rand.Next(0, 60)) {
-                        count++;
+                    if (x < regions.GetLength(0) - 1 && graph >= rand.Next(-15, 63)) {
                         roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
                     }
-                    if (y < regions.GetLength(1) - 1 && graph >= rand.Next(0, 60)) {
-                        count++;
+                    if (y < regions.GetLength(1) - 1 && graph >= rand.Next(-15, 63)) {
                         roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
                     }
                 }
             }
-            Console.WriteLine("Number of town roads made: " + count);
             //roadmaker.generatePath(new RoadMaker.coords(0 * 32 + regions[0, 0].townx, 0 * 32 + regions[0, 0].towny), 1*32 + regions[1, 1].townx, 1 * 32 + regions[1, 1].towny));
 
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
