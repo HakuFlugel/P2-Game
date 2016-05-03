@@ -110,7 +110,7 @@ namespace RPGame {
 
                 if (curCost < shortestPathCost[tile.x, tile.y]) {
 
-                    int curDist = (int)(calculateDistance(tile, end)/64);
+                    int curDist = (int)(calculateDistance(tile, end)/32);
 
                     shortestPathCost[tile.x, tile.y] = curCost;
                     NeighborEntry newNeighbor = new NeighborEntry(curCost, tile, curDist);
