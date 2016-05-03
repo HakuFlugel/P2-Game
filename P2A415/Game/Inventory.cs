@@ -45,7 +45,7 @@ namespace RPGame {
         public bool isOpen { get; private set; } = false;
 
         private Bitmap menuImage;
-        private Bitmap buttonImage;
+        private Bitmap EqippedImage;
         
 
         private int totalNrOfInventory = (8*8) + 8; //64 items in inventory + 8 equipped.
@@ -305,7 +305,6 @@ namespace RPGame {
             SizeF stringSize = gfx.MeasureString("Equipped", font);
             
             gfx.DrawString("Inventory", font, Brushes.Black,new Point(placex + 2,placey + 5));
-            gfx.DrawString("Equipped", font, Brushes.Black, new PointF(width - stringSize.Width - 5, placey + 5));
 
             float equippedSlots = height + outterboxHei;
 
@@ -338,6 +337,22 @@ namespace RPGame {
         
         
         public void DrawEqipped(Graphics gfx) {
+
+            int width = (int)(game.Width / 1.2), height = (int)(game.Height / 1.2);
+            int placex = game.Width / 2 - width / 2;
+            int placey = game.Height / 2 - height / 2;
+
+            Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
+            gfx.DrawImage(menuImage, new Rectangle(0, 0, game.Width, game.Height), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.FillRectangle(new SolidBrush(Color.DarkGray), new Rectangle(placex, placey, width, height));
+            gfx.DrawImage()
+
+            float xdex = placex + 72, ydex = placey + 70, outterboxWid = 60, outterboxHei = 60, tempxdex = 0, tempydex = 0;
+            SizeF stringSize = gfx.MeasureString("Equipped", font);
+
+            gfx.DrawString("Inventory", font, Brushes.Black, new Point(placex + 2, placey + 5));
+
+
 
         }
 
