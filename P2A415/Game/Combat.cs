@@ -126,18 +126,12 @@ namespace RPGame {
             gfx.DrawImage(picture, new RectangleF(0, 0, width, height),
                 new Rectangle(0, 0, 800, 600), GraphicsUnit.Pixel);
 
-
-
-            //gfx.DrawImage         //maybe todo -> HAV SEX MED HEM og derefter, lav bluuuur med image i bagrund.
-
             gfx.DrawImage(firstCharacter.texture,
-                new RectangleF(width / 4f - 50, height / 15f, 500, 500),
+                new RectangleF(width / 4f - 32, height / 4f - 32, 500, 500),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
-
-
             gfx.DrawImage(secondCharacter.texture,
-                new RectangleF(width / 2 - 50, height / 15f, 500, 500),
+                new RectangleF(width / 2 - 32, height / 4f -32, 500, 500),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
             Font bigfont = new Font("Arial", 32, FontStyle.Regular);
@@ -185,18 +179,37 @@ namespace RPGame {
             //gfx.MeasureString($"{timeleft}",);
             //gfx.DrawString($@"{timeleft}", bigfont, Brushes.OrangeRed, width / 2f - gfx.MeasureString(timeleft,bigfont).Width / 2, height / 20f);
 
+            // draw player and monster text
+            string left = $@"Name: {player_name}" + "\n" + $@"Health: {player_health} " + "\n" + $@"Level: {player_level}";
+            string right = $@"Name: { monster_name}" + "\n" + $@"Health: {monster_health}" + "\n" + $@"Level: {monster_level}";
 
-            gfx.DrawString($@"{player_name}
-Health: {player_health}
-Level: {player_level}", bigfont, Brushes.WhiteSmoke, width / 10.0f, height / 4.0f);
-
-            gfx.DrawString($@"{monster_name}
-Health: {monster_health}
-Level: {monster_level}", bigfont, Brushes.WhiteSmoke, width / 1.3f, height / 4.0f);
-
+            drawinfo(left, gfx, 0); // left
+            drawinfo(right, gfx, 1); // right
 
             gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
             gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.2f);
+
+        }
+
+
+        public void drawinfo(string text, Graphics gfx, int i ) {
+
+            if (i > 1 || i < 0) {
+                throw new ArgumentOutOfRangeException("Can be either left(0) or right(1)");
+            }
+
+            SolidBrush background = new SolidBrush(Color.FromArgb(128, Color.Black));
+            int padding = 4;
+            Font font = new Font("Arial", 32, FontStyle.Regular);
+
+            SizeF size = gfx.MeasureString(text, font);
+            PointF boxCenter = new PointF(i==0 ? game.ClientSize.Width/8 : game.ClientSize.Width/8*7, game.ClientSize.Height / 3);
+
+            RectangleF uiRect = new RectangleF(boxCenter.X - size.Width/2-padding, boxCenter.Y - size.Height / 2 - padding, size.Width + 2 * padding, size.Height + 2 * padding);
+            RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
+            gfx.FillRectangle(background, uiRect);
+
+            gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
 
         }
     }
