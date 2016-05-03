@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 
 namespace RPGame {
     public class Region {
+        public List<Character> characters = new List<Character>();
+
         private int[,] tiles = new int[32,32];
         public int this[long x, long y] {
             get {
@@ -71,7 +74,19 @@ namespace RPGame {
 
                 }
             }
+
+        }
+
+        public void drawCharacters(Game game, Graphics gfx, Position cameraPosition) {
+            foreach (var character in characters) {
+                character.draw(game, gfx, cameraPosition);
+            }
+        }
+
+        public void update(Game game, double deltaTime) {
+            foreach (var character in characters) {
+                character.update(game, deltaTime);
+            }
         }
     }
 }
-

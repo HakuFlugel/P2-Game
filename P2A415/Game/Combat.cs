@@ -100,12 +100,12 @@ namespace RPGame {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: skal være victim.stats.level når monstre begynder at scale // TODO: fjern *100
+                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: fjern *100
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
-                
 
-                game.world.characters.Remove(victim);
+
+            game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Remove(victim);
 
 				hasEnded = true;
                 // Do victory/lose stuff
@@ -113,7 +113,7 @@ namespace RPGame {
                 if (victim==firstCharacter) {
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
-                    game.world.characters.Add(victim);
+                    game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);
                     
                 }
             }
@@ -151,7 +151,7 @@ namespace RPGame {
             double monster_level = secondCharacter.stats.level;
 
 
-            string timeleft = enemyAttackTime.ToString("0.#0");
+            string timeleft = enemyAttackTime.ToString("0.00");
 //            Bitmap barimg = new Bitmap("Content/blankbar.png");
 //            Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
 

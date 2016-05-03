@@ -5,7 +5,6 @@ using System.IO;
 
 namespace RPGame {
     public class World {
-        public List<Character> characters = new List<Character>();
 
         public Region[,] regions = new Region[16,16];
 
@@ -26,8 +25,8 @@ namespace RPGame {
           //for (int i = 0; i < 1000; i++) {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
-            game.localPlayer = new Player(1, 1);// characters[rand.Next(characters.Count - 1)];
-            characters.Add(game.localPlayer.character);
+            game.localPlayer = new Player(regions[15,15]);// characters[rand.Next(characters.Count - 1)];
+            regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
         public int this[long x, long y] {
@@ -185,7 +184,7 @@ namespace RPGame {
 
             int lvl = calculateLevel(x, y);
 
-            for (int i = 0; i < rand.Next(1,8); i++) {
+            for (int i = 0; i < rand.Next(1,6); i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
                     return;
                 }
@@ -193,7 +192,7 @@ namespace RPGame {
                     return;
                 }
 
-                characters.Add(new Character(rand.Next(1, 2), x, y, lvl));
+                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next(1, 2), x, y, lvl));
 
                 modifyWeight(weights, x, y, 8);
 
@@ -207,8 +206,8 @@ namespace RPGame {
                 modifyWeight(weights, x+1, y-1, 1);
                 modifyWeight(weights, x-1, y-1, 1);
 
-                x += rand.Next(-3, 3);
-                y += rand.Next(-3, 3);
+                x += rand.Next(-2, 2);
+                y += rand.Next(-2, 2);
             }
         }
 
@@ -321,12 +320,8 @@ namespace RPGame {
             }
         }
 
-
         public void update(double deltaTime) {
-
-            foreach (var character in characters) {
-                character.update(game, deltaTime); // TODO: update each region instead, which should then update characters
-            }
+            regions[game.localPlayer.character.position.x / 32, game.localPlayer.character.position.y / 32].update(game, deltaTime);
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {
@@ -337,7 +332,7 @@ namespace RPGame {
             cameraStartX = Math.Max(cameraStartX, 0);
 
             int cameraEndX = (cameraPosition.x + game.ClientSize.Width / 2 / (64 * 2) + 2) / 32;//+ 2;
-            cameraEndX = Math.Min(cameraEndX, xlen);
+            cameraEndX = Math.Min(cameraEndX, xlen-1);
 
             // Y range
             int cameraStartY = (cameraPosition.y - game.ClientSize.Height / 2 / (64 * 2) - 2)/32;//- 2;
@@ -345,7 +340,7 @@ namespace RPGame {
 
 
             int cameraEndY = (cameraPosition.y + game.ClientSize.Height / 2 / (64 * 2) + 2) / 32;//+ 2;
-            cameraEndY = Math.Min(cameraEndY, ylen);
+            cameraEndY = Math.Min(cameraEndY, ylen-1);
 
 
             for (int x = cameraStartX; x <= cameraEndX; x++) { // TODO: udregn interval
@@ -354,9 +349,10 @@ namespace RPGame {
                 }
             }
 
-            //TODO: draw in regions
-            foreach (var character in characters) {
-                character.draw(game, gfx, cameraPosition);
+            for (int x = cameraStartX; x <= cameraEndX; x++) { // TODO: udregn interval
+                for (int y = cameraStartY; y <= cameraEndY; y++) {
+                    regions[x, y].drawCharacters(game, gfx, cameraPosition);
+                }
             }
         }
 
@@ -371,5 +367,3 @@ namespace RPGame {
         }*/
     }
 }
-
-
