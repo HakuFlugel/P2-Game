@@ -98,6 +98,22 @@ namespace RPGame {
             //// path
             RoadMaker roadmaker = new RoadMaker(this, weights);
             roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
+            int count = 0;
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    if (x < regions.GetLength(0) - 1) {
+                        count++;
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
+                    }
+                    if (y < regions.GetLength(1) - 1) {
+                        count++;
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
+                    }
+                }
+            }
+            Console.WriteLine("THIS IS THE NUMBER YOU ARE LOOKING FOR:" + count);
+            //roadmaker.generatePath(new RoadMaker.coords(0 * 32 + regions[0, 0].townx, 0 * 32 + regions[0, 0].towny), 1*32 + regions[1, 1].townx, 1 * 32 + regions[1, 1].towny));
+
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(64, 128));
