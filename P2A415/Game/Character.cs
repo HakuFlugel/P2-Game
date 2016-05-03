@@ -25,6 +25,7 @@ namespace RPGame {
 
         public double offsetScale;
 
+
         public Position (int x, int y) {
             this.x = x;
             this.y = y;
@@ -39,6 +40,9 @@ namespace RPGame {
     public class Character {
         public static double moveDelay = 0.25;
 
+
+        public Region region;
+
         public Bitmap texture;
 
         public Position position;
@@ -48,10 +52,12 @@ namespace RPGame {
 
         public Combat currentCombat;
 
-        public Character(int characterType, int x, int y, int level)
+        public Character(Region region, int characterType, int x, int y, int level)
         {
             position.x = x;
             position.y = y;
+
+            this.region = region;
 
             this.stats.level = level;
 
@@ -97,11 +103,11 @@ namespace RPGame {
         }
 
         public void move(Game game,int x, int y) {
-            if (canMove(game ,position.x + x, position.y + y)) {
-                int length = game.world.characters.Count;
+            if (canMove(game, position.x + x, position.y + y)) {
+                int length = game.world.regions[position.x / 32, position.y / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
-                    Character character = game.world.characters[i];
+                    Character character = game.world.regions[position.x / 32, position.y / 32].characters[i];
 
                     if (character != this
                         && character.position.x == this.position.x + x
@@ -109,13 +115,18 @@ namespace RPGame {
                     {
                         currentCombat = new Combat(game, this, character);
                         break;
-
                     }
                 }
 
-
                 position.x += x;
                 position.y += y;
+
+                Region newRegion = game.world.regions[position.x / 32, position.y / 32];
+                if (newRegion != region) {
+                    region.characters.Remove(this);
+                    newRegion.characters.Add(this);
+                    region = newRegion;
+                }
 
                 position.xoffset -= x;
                 position.yoffset -= y;

@@ -5,7 +5,6 @@ using System.IO;
 
 namespace RPGame {
     public class World {
-        public List<Character> characters = new List<Character>();
 
         public Region[,] regions = new Region[16,16];
 
@@ -26,8 +25,8 @@ namespace RPGame {
           //for (int i = 0; i < 1000; i++) {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
-            game.localPlayer = new Player(32 * 15 + regions[15, 15].townx, 32 * 15 + regions[15, 15].towny);// characters[rand.Next(characters.Count - 1)];
-            characters.Add(game.localPlayer.character);
+            game.localPlayer = new Player(regions[15,15]);// characters[rand.Next(characters.Count - 1)];
+            regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
         public int this[long x, long y] {
@@ -98,21 +97,21 @@ namespace RPGame {
 
             //// path
             RoadMaker roadmaker = new RoadMaker(this, weights);
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
-            int count = 0;
-            for (int x = 0; x < regions.GetLength(0); x++) {
-                for (int y = 0; y < regions.GetLength(1); y++) {
-                    if (x < regions.GetLength(0)-1) {
-                        count++;
-                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
-                    }
-                    if (y < regions.GetLength(1)-1) {
-                        count++;
-                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
-                    }
-                }
-            }
-            Console.WriteLine("THIS IS THE NUMBER YOU ARE LOOKING FOR:" + count);
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
+            //int count = 0;
+            //for (int x = 0; x < regions.GetLength(0); x++) {
+            //    for (int y = 0; y < regions.GetLength(1); y++) {
+            //        if (x < regions.GetLength(0)-1) {
+            //            count++;
+            //            roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
+            //        }
+            //        if (y < regions.GetLength(1)-1) {
+            //            count++;
+            //            roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
+            //        }
+            //    }
+            //}
+            //Console.WriteLine("THIS IS THE NUMBER YOU ARE LOOKING FOR:" + count);
             //roadmaker.generatePath(new RoadMaker.coords(0 * 32 + regions[0, 0].townx, 0 * 32 + regions[0, 0].towny), 1*32 + regions[1, 1].townx, 1 * 32 + regions[1, 1].towny));
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
             //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
@@ -204,7 +203,7 @@ namespace RPGame {
                     return;
                 }
 
-                characters.Add(new Character(rand.Next(1, 2), x, y, lvl));
+                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next(1, 2), x, y, lvl));
 
                 modifyWeight(weights, x, y, 8);
 
@@ -334,10 +333,7 @@ namespace RPGame {
 
 
         public void update(double deltaTime) {
-
-            foreach (var character in characters) {
-                character.update(game, deltaTime); // TODO: update each region instead, which should then update characters
-            }
+            regions[game.localPlayer.character.position.x / 32, game.localPlayer.character.position.y / 32].update(game, deltaTime);
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {
@@ -363,11 +359,6 @@ namespace RPGame {
                 for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].draw(game, gfx, cameraPosition);
                 }
-            }
-
-            //TODO: draw in regions
-            foreach (var character in characters) {
-                character.draw(game, gfx, cameraPosition);
             }
         }
 
