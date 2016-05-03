@@ -110,7 +110,7 @@ namespace RPGame {
 
                 if (curCost < shortestPathCost[tile.x, tile.y]) {
 
-                    int curDist = (int)(calculateDistance(tile, end)/64);
+                    int curDist = (int)(calculateDistance(tile, end)/32);
 
                     shortestPathCost[tile.x, tile.y] = curCost;
                     NeighborEntry newNeighbor = new NeighborEntry(curCost, tile, curDist);
@@ -176,7 +176,12 @@ namespace RPGame {
             };
 
             coords tile = end;
-            world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
+
+            if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
+                world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
+            }
+            weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
+
 
             while (tile != start) {
                 coords cheapestTile = tile;
@@ -211,7 +216,9 @@ namespace RPGame {
 
                 tile = cheapestTile;
                 Console.WriteLine(tile.x + "---" + tile.y);
-                world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
+                if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
+                    world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
+                }
                 weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
 
             }

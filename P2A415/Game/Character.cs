@@ -17,15 +17,16 @@ namespace RPGame {
     }
 
     public struct Position {
-        public long x;// = 0;
-        public long y;// = 0;
+        public int x;// = 0;
+        public int y;// = 0;
 
         public double xoffset;// = 0.0;
         public double yoffset;// = 0.0;
 
         public double offsetScale;
 
-        public Position (long x, long y) {
+
+        public Position (int x, int y) {
             this.x = x;
             this.y = y;
 
@@ -39,6 +40,9 @@ namespace RPGame {
     public class Character {
         public static double moveDelay = 0.25;
 
+
+        public Region region;
+
         public Bitmap texture;
 
         public Position position;
@@ -48,10 +52,12 @@ namespace RPGame {
 
         public Combat currentCombat;
 
-        public Character(int characterType, long x, long y, int level)
+        public Character(Region region, int characterType, int x, int y, int level)
         {
             position.x = x;
             position.y = y;
+
+            this.region = region;
 
             this.stats.level = level;
 
@@ -65,7 +71,7 @@ namespace RPGame {
             
         }
 
-        public void update(double deltaTime) {
+        public void update(Game game, double deltaTime) {
             if (position.offsetScale > -Character.moveDelay) { // Slight delay before being able to move again
                 // Animate movement
                 position.offsetScale -= 4.0f * (deltaTime);
@@ -76,6 +82,13 @@ namespace RPGame {
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
+
+
+                Region region = game.world.regions[position.x / 32, position.y / 32];
+                if (region.townx == position.x % 32 && region.towny == position.y % 32) {
+                    stats.curHP = stats.maxHP;
+                }
+                
             }
         }
 
@@ -85,16 +98,16 @@ namespace RPGame {
             x = ((position.x - cameraPosition.x) + (position.xoffset * position.offsetScale - cameraPosition.xoffset * cameraPosition.offsetScale)) * 64*2 + game.ClientSize.Width  / 2  - 64;
             y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
 
-            gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,64,64), GraphicsUnit.Pixel);
+            gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,63,63), GraphicsUnit.Pixel);
 
         }
 
-        public void move(Game game,long x, long y) {
-            if (canMove(game ,position.x + x, position.y + y)) {
-                int length = game.world.characters.Count;
+        public void move(Game game,int x, int y) {
+            if (canMove(game, position.x + x, position.y + y)) {
+                int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
-                    Character character = game.world.characters[i];
+                    Character character = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters[i];
 
                     if (character != this
                         && character.position.x == this.position.x + x
@@ -102,13 +115,18 @@ namespace RPGame {
                     {
                         currentCombat = new Combat(game, this, character);
                         break;
-
                     }
                 }
 
-
                 position.x += x;
                 position.y += y;
+
+                Region newRegion = game.world.regions[position.x / 32, position.y / 32];
+                if (newRegion != region) {
+                    region.characters.Remove(this);
+                    newRegion.characters.Add(this);
+                    region = newRegion;
+                }
 
                 position.xoffset -= x;
                 position.yoffset -= y;
@@ -134,7 +152,7 @@ namespace RPGame {
 
             stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level);
             stats.curHP = stats.maxHP;
-            stats.attack = charType.attack * Math.Pow(1.05, stats.level); ;
+            stats.attack = charType.attack * Math.Pow(1.10, stats.level); ;
             stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
         }
 

@@ -5,7 +5,6 @@ using System.IO;
 
 namespace RPGame {
     public class World {
-        public List<Character> characters = new List<Character>();
 
         public Region[,] regions = new Region[16,16];
 
@@ -16,6 +15,8 @@ namespace RPGame {
         public World(Game game) {
             this.game = game;
 
+            rand = new Random(42);
+
             generateWorld();
 
             //characters.Add(new Character(2, 1, 3));
@@ -24,9 +25,8 @@ namespace RPGame {
           //for (int i = 0; i < 1000; i++) {
           //      characters.Add(new Character(2, i*10%64, i*10/64));
           //  }
-            Random rand = new Random(); // TODO: remove
-            game.localPlayer = new Player(1, 1);// characters[rand.Next(characters.Count - 1)];
-            characters.Add(game.localPlayer.character);
+            game.localPlayer = new Player(regions[7,1]);// characters[rand.Next(characters.Count - 1)];
+            regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
         public int this[long x, long y] {
@@ -55,7 +55,7 @@ namespace RPGame {
                 }
             }
 
-            rand = new Random(2);
+            //rand = new Random(2);
             //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
@@ -68,19 +68,20 @@ namespace RPGame {
                 }
             }
 
+
             generateMountains();
 
             generateTrees();
 
             // towns
+            generateTowns();
             
-
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 64);
             //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
-            //ttweight.Add(GeneratedTile.Town, 1);
+            ttweight.Add(GeneratedTile.Town, 1);
 
 
             // Weights
@@ -94,15 +95,30 @@ namespace RPGame {
             generateMonsters(weights);
 
 
-            // path
+            //// path
             RoadMaker roadmaker = new RoadMaker(this, weights);
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(64, 128));
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
 
-            //TODO: hvorfor giver de 2 her exception???
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(0, 32));
-            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(32, 0));
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    int graph = (Math.Abs(x - 8) * Math.Abs(y - 8));
+                    if (x < regions.GetLength(0) - 1 && graph >= rand.Next(-15, 63)) {
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
+                    }
+                    if (y < regions.GetLength(1) - 1 && graph >= rand.Next(-15, 63)) {
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
+                    }
+                }
+            }
+            //roadmaker.generatePath(new RoadMaker.coords(0 * 32 + regions[0, 0].townx, 0 * 32 + regions[0, 0].towny), 1*32 + regions[1, 1].townx, 1 * 32 + regions[1, 1].towny));
+
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(64, 128));
+
+            ////TODO: hvorfor giver de 2 her exception???
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(0, 32));
+            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(32, 0));
 
             //            for (int i = 0; i < 32; i++) {
             //                roadmaker.generatePath(new RoadMaker.coords(rand.Next()%512, rand.Next()%512), new RoadMaker.coords(rand.Next()%512, rand.Next()%512));
@@ -138,24 +154,19 @@ namespace RPGame {
                     default:
                         break;
                     }
-
                     this[x, y] += 21 * biomes[x/32, y/32];
                     this[x, y] %= 21 * 4;
-
                 }
             }
-
                 }
 
         private bool shouldPathConnect(int x, int y) {
 
             try {
                 return this[x, y]%21 > 3 && this[x, y]%21 <= 18 || this[x, y]%21 == 20;
-            } catch (IndexOutOfRangeException ex) {
+            } catch (IndexOutOfRangeException) {
                 return false;
             }
-
-
         }
 
         private void generateMonsters(int[,] weights) {
@@ -167,7 +178,6 @@ namespace RPGame {
                         makeMonsters(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32, weights);
                         //}
                     }
-
                 }
             }
         }
@@ -180,11 +190,15 @@ namespace RPGame {
             }
         }
 
+        public int calculateLevel(int x, int y) {
+            return (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
+        }
+
         private void makeMonsters(int x, int y, int[,] weights) {
 
-            int lvl = (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
+            int lvl = calculateLevel(x, y);
 
-            for (int i = 0; i < rand.Next(1,8); i++) {
+            for (int i = 0; i < rand.Next(1,6); i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
                     return;
                 }
@@ -192,7 +206,7 @@ namespace RPGame {
                     return;
                 }
 
-                characters.Add(new Character(rand.Next(1, 2), x, y, lvl));
+                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next(1, 2), x, y, lvl));
 
                 modifyWeight(weights, x, y, 8);
 
@@ -206,10 +220,9 @@ namespace RPGame {
                 modifyWeight(weights, x+1, y-1, 1);
                 modifyWeight(weights, x-1, y-1, 1);
 
-                x += rand.Next(-3, 3);
-                y += rand.Next(-3, 3);
+                x += rand.Next(-2, 2);
+                y += rand.Next(-2, 2);
             }
-
         }
 
         private void generateMountains() {
@@ -221,7 +234,6 @@ namespace RPGame {
                         makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
                         //}
                     }
-
                 }
             }
         }
@@ -256,7 +268,6 @@ namespace RPGame {
                             break;
                         }
                     }
-
                 }
             } catch (IndexOutOfRangeException) {
                 //Console.WriteLine("Mountains hit bounds");
@@ -309,32 +320,53 @@ namespace RPGame {
                             break;
                         }
                     }
-
                 }
             } catch (IndexOutOfRangeException) {
                 //Console.WriteLine("Trees hit bounds");
                 // Do nothing
             }
         }
-
+        private void generateTowns() {
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    regions[x, y].makeTown(rand);
+                }
+            }
+        }
 
         public void update(double deltaTime) {
-
-            foreach (var character in characters) {
-                character.update(deltaTime); // TODO: update each region instead, which should then update characters
-            }
+            regions[game.localPlayer.character.position.x / 32, game.localPlayer.character.position.y / 32].update(game, deltaTime);
         }
 
         public void draw(Graphics gfx, Position cameraPosition) {
             int xlen = regions.GetLength(0), ylen = regions.GetLength(1);
 
-            for (int x = 0; x < xlen; x++) { // TODO: udregn interval
-                for (int y = 0; y < ylen; y++) {
+            // X range
+            int cameraStartX = (cameraPosition.x - game.ClientSize.Width / 2 / (64 * 2) - 2)/32;//- 2;
+            cameraStartX = Math.Max(cameraStartX, 0);
+
+            int cameraEndX = (cameraPosition.x + game.ClientSize.Width / 2 / (64 * 2) + 2) / 32;//+ 2;
+            cameraEndX = Math.Min(cameraEndX, xlen-1);
+
+            // Y range
+            int cameraStartY = (cameraPosition.y - game.ClientSize.Height / 2 / (64 * 2) - 2)/32;//- 2;
+            cameraStartY = Math.Max(cameraStartY, 0);
+
+
+            int cameraEndY = (cameraPosition.y + game.ClientSize.Height / 2 / (64 * 2) + 2) / 32;//+ 2;
+            cameraEndY = Math.Min(cameraEndY, ylen-1);
+
+
+            for (int x = cameraStartX; x <= cameraEndX; x++) {
+                for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].draw(game, gfx, cameraPosition);
                 }
             }
-            foreach (var character in characters) {
-                character.draw(game, gfx, cameraPosition);
+
+            for (int x = cameraStartX; x <= cameraEndX; x++) { 
+                for (int y = cameraStartY; y <= cameraEndY; y++) {
+                    regions[x, y].drawCharacters(game, gfx, cameraPosition);
+                }
             }
         }
 
@@ -349,5 +381,3 @@ namespace RPGame {
         }*/
     }
 }
-
-

@@ -17,6 +17,9 @@ namespace RPGame {
 
         private Game game;
 
+        SolidBrush barForeground = new SolidBrush(Color.White);
+        SolidBrush barBackground = new SolidBrush(Color.Black);
+
 		public bool hasEnded = false;
 
         public string answerString = "";
@@ -97,12 +100,12 @@ namespace RPGame {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: skal være victim.stats.level når monstre begynder at scale // TODO: fjern *100
+                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: fjern *100
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
-                
 
-                game.world.characters.Remove(victim);
+
+            game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Remove(victim);
 
 				hasEnded = true;
                 // Do victory/lose stuff
@@ -110,7 +113,7 @@ namespace RPGame {
                 if (victim==firstCharacter) {
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
-                    game.world.characters.Add(victim);
+                    game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);
                     
                 }
             }
@@ -148,13 +151,39 @@ namespace RPGame {
             double monster_level = secondCharacter.stats.level;
 
 
-            string timeleft = enemyAttackTime.ToString("0.#0");
-            Bitmap barimg = new Bitmap("Content/blankbar.png");
-            Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
+            string timeleft = enemyAttackTime.ToString("0.00");
+//            Bitmap barimg = new Bitmap("Content/blankbar.png");
+//            Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
 
-            gfx.DrawImage(barimg2, new RectangleF(width / 2 - ((width / 2) - 70) / 2, height / 22f, (width / 2) - 70, 50), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
-            gfx.DrawImage(barimg, new RectangleF(width / 2 - ((width / 2) - 70) / 2 + 2, height / 20f, (float)(enemyAttackTime / enemyTimePerAttack * (width / 2 - 100)), 44), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
-            gfx.DrawString($@"{timeleft}", bigfont, Brushes.OrangeRed, width / 2f - gfx.MeasureString(timeleft,bigfont).Width / 2, height / 20f);
+            const int padding = 4;
+            const int barWidth = 768;
+            const int barHeight = 48;
+
+            Rectangle barBackgroundRect = new Rectangle(
+                width  / 2  - barWidth / 2      - padding,
+                height / 64,
+                barWidth  + 2 * padding,
+                barHeight + 2 * padding
+            );
+
+            Rectangle barForegroundRect = new Rectangle(
+                barBackgroundRect.X + padding,
+                barBackgroundRect.Y + padding,
+                (int)((barBackgroundRect.Width - 2 * padding) * (enemyAttackTime/enemyTimePerAttack)),
+                barBackgroundRect.Height - 2 * padding
+            );
+
+            gfx.FillRectangle(barBackground, barBackgroundRect);
+            gfx.FillRectangle(barForeground, barForegroundRect);
+
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
+            gfx.DrawString($"{timeleft}", bigfont, Brushes.OrangeRed, barBackgroundRect, stringFormat);
+
+
+            //gfx.MeasureString($"{timeleft}",);
+            //gfx.DrawString($@"{timeleft}", bigfont, Brushes.OrangeRed, width / 2f - gfx.MeasureString(timeleft,bigfont).Width / 2, height / 20f);
 
 
             gfx.DrawString($@"{player_name}

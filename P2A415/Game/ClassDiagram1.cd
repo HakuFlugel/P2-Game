@@ -1,2 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RPGame.Addition">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Addition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Character">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAgAACAAAIgIAgAAAAAAgAAAAAAIAIUAAA=</HashCode>
+      <FileName>Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.CharacterType">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEABCAAABAAIEAAgI=</HashCode>
+      <FileName>CharacterType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Combat">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAIgAIAAAAAAAAIgAAAAAAAAAAgAQAAEABAkAQA=</HashCode>
+      <FileName>Combat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Game">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQEhAAAAAACAAAAABAAggAAABgAAgAAAgEBAAUAAA=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.ImageLoader">
+    <Position X="0.75" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="RPGame.ImageLoader.ImageResource">
+        <TypeIdentifier>
+          <NewMemberFileName>ImageLoader.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAgACAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImageLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Player">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAEAAA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Question">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEIAAAAAAACAAAAAAAAAAABFAAAAIAgAAAgAAAAA=</HashCode>
+      <FileName>Question.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Region">
+    <Position X="11.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAIAAAAAAgAAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>Region.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Subtraction">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Subtraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.TileType">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAACCAAAAAAAAAAAAAAIABAAAAhAAoAAgAA=</HashCode>
+      <FileName>TileType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.UserInterface">
+    <Position X="9.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAgAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UserInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.World">
+    <Position X="9.75" Y="2.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="RPGame.World.GeneratedTile" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>World.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAACAICAAAAAAABAAAAAAABAACEAAE=</HashCode>
+      <FileName>World.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="RPGame.Stats">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAACAAABAAAAAAgI=</HashCode>
+      <FileName>Character.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RPGame.Position">
+    <Position X="4.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEABhgAAAAAAA=</HashCode>
+      <FileName>Character.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="RPGame.PlayerInput">
+    <Position X="8" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAA=</HashCode>
+      <FileName>PlayerInput.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
