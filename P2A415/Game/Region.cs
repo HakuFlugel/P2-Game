@@ -66,7 +66,7 @@ namespace RPGame {
 
                     gfx.DrawImage( TileType.Image,
                         new RectangleF(x, -y, 64.0f * 2, 64.0f * 2),
-                        new Rectangle(1+tt.imageIndex % 21 * 64, 1+ tt.imageIndex / 21 * 64, 62, 62), 
+                        new RectangleF(0.75f+tt.imageIndex % 21 * 64, 0.75f+ tt.imageIndex / 21 * 64, 63f, 63f), 
                         GraphicsUnit.Pixel);
 
                 }

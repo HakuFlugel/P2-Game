@@ -177,9 +177,13 @@ namespace RPGame {
             }
         }
 
+        public int calculateLevel(int x, int y) {
+            return (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
+        }
+
         private void makeMonsters(int x, int y, int[,] weights) {
 
-            int lvl = (int)((x + y) / 32.0 + Math.Sqrt(x * y) / 4);
+            int lvl = calculateLevel(x, y);
 
             for (int i = 0; i < rand.Next(1,8); i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
