@@ -36,7 +36,7 @@ namespace RPGame {
             //CharacterType.loadCharacterTypes();
 
             menu = new Menu(this);                                                             //menu ting
-            invi = new Inventory(this);                                                         //inventory ting
+            invi = new Inventory();                                                         //inventory ting
             Items item = new Items();
             
 
@@ -185,7 +185,7 @@ namespace RPGame {
                 userInterface.draw(gfx);
 
                 if (invi.isOpen) {
-                    invi.draw(gfx);
+                    invi.draw(gfx,this);
                 }
                 
                 if (menu.isOpen) {

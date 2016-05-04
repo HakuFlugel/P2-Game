@@ -291,7 +291,7 @@ namespace RPGame {
                     returnIntFitsPic(rand.Next(21, 23));
                     break;
                 case "Ring":
-                    returnIntFitsPic(rand.Next(24,26c));
+                    returnIntFitsPic(rand.Next(24,26));
                     break;
                 case "Leggings":
                     returnIntFitsPic(rand.Next(/*TODO MAKE LEGGINGS!*/));

@@ -45,7 +45,7 @@ namespace RPGame {
         public Position position;
         public Stats stats = new Stats();
         public Combat currentCombat;
-        public Inventory invetory;
+        public Inventory invetory = new Inventory();
 
         public int characterType;
 

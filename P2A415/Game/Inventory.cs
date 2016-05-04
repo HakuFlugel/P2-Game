@@ -31,9 +31,7 @@ namespace RPGame {
             }
                 
         }
-
-        private Game game;
-  
+        
         static List<RectangleF> itemsInInventry = new List<RectangleF>();
         private itemindex[][] totalCarried = new itemindex[8][];
         private itemindex[][] totalEquipped = new itemindex[4][];
@@ -55,7 +53,7 @@ namespace RPGame {
 
         ToolTip bob = new ToolTip();
 
-        public Inventory(Game game) {
+        public Inventory() {
             int lengthCarried = totalCarried.Length;
             int lengthEquipped = totalEquipped.Length;
 
@@ -64,9 +62,7 @@ namespace RPGame {
             for (int i = 0; i < lengthEquipped; i++)
                 totalEquipped[i] = new itemindex[3];
 
-
-
-            this.game = game;
+            
             menuImage = ImageLoader.Load("Content/TransBlackground.png");
             EqippedImage = ImageLoader.Load("Content/Character.png");
             
@@ -325,9 +321,9 @@ namespace RPGame {
             return false;
         }
 
-        public void draw(Graphics gfx) {
+        public void draw(Graphics gfx, Game game) {
 
-            DrawCarried(gfx);
+            DrawCarried(gfx, game);
 
 
 
@@ -423,7 +419,7 @@ namespace RPGame {
         }
 
 
-        public void DrawCarried(Graphics gfx) {
+        public void DrawCarried(Graphics gfx, Game game) {
 
             int width = (int)(game.Width / 1.2), height = (int)(game.Height / 1.2);
             int placex = game.Width / 2 - width / 2;
@@ -488,11 +484,31 @@ namespace RPGame {
             gfx.FillRectangle(new SolidBrush(Color.Black), new RectangleF(xdex, ydex, outterboxWid, outterboxHei));
             gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
         }
+        
         public void drawSelected(Graphics gfx, float xdex, float ydex, float outterboxWid, float outterboxHei) {
             gfx.FillRectangle(new SolidBrush(Color.Orange), new RectangleF(xdex-2, ydex-2, outterboxWid + 6, outterboxHei + 6));
             gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
         }
         
-        
+        public void calStats (out double[] array) {
+            double attack = 0, defence = 0, speed = 0, penetration = 0, hp = 0;
+
+            foreach (var item in Equipped) {
+                if(item != null) {
+                    attack += item.itemDMG;
+                    defence += item.itemDEF;
+                    speed += item.itemSPEED;
+                    penetration += item.itemSPEED;
+                    hp += item.itemHP;
+                }
+            }
+            array = new double[5];
+            array[0] = hp;
+            array[1] = defence;
+            array[2] = attack;
+            array[3] = penetration;
+            array[4] = speed;
+
+        }
     }
 }
