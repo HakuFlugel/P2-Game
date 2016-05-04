@@ -37,10 +37,12 @@ namespace RPGame {
 
             menu = new Menu(this);                                                             //menu ting
             invi = new Inventory(this);                                                         //inventory ting
+            Items item = new Items();
+            
 
-            invi.GetItem(new Items() {
-                itemImageFile = "",
-                itemName = "Sword of Slays",
+
+            invi.GetItem(item.MakeItem(new Items() {
+                itemName = "Sword",
                 itemHP = 1,
                 itemLVL = 1,
                 itemDMG = 1,
@@ -48,18 +50,9 @@ namespace RPGame {
                 equipSlot = new Items.itemType {
                     Hands = 1
                 }
-            });
-            invi.GetItem(new Items() {
-                itemImageFile = "",
-                itemName = "Bobob",
-                itemHP = 55,
-                itemLVL = 34,
-                itemDMG = 22,
-                itemDEF = 1,
-                equipSlot = new Items.itemType {
-                    Belt = 1
-                }
-            });
+            }, 2) );
+          
+
 
             FormClosing += delegate {
                 shouldRun = false;

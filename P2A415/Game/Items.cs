@@ -9,8 +9,9 @@ namespace RPGame {
     public class Items {
 
         public static Dictionary<int, Items> itemList = new Dictionary<int, Items>();
+        public int[] x_y = new int[2];
 
-        public string itemImageFile;
+        public Bitmap itemImageFile;
         public static int itemID;
         public string itemName;
         public double itemHP;
@@ -37,7 +38,6 @@ namespace RPGame {
         static Items() {
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 flavortext = "",
                 itemName = "Axe",
                 itemHP = 0,
@@ -51,7 +51,6 @@ namespace RPGame {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Claw",
                 flavortext = "",
                 itemHP = 0,
@@ -65,7 +64,6 @@ namespace RPGame {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Two Handed Sword",
                 flavortext = "",
                 itemHP = 0,
@@ -79,7 +77,6 @@ namespace RPGame {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Club",
                 flavortext = "",
                 itemHP = 0,
@@ -94,7 +91,6 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Sword",
                 flavortext = "",
                 itemHP = 0,
@@ -108,7 +104,6 @@ namespace RPGame {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Dagger",
                 flavortext = "",
                 itemHP = 0,
@@ -123,7 +118,6 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Shield",
                 flavortext = "",
                 itemHP = 0,
@@ -138,7 +132,6 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Helmet",
                 flavortext = "",
                 itemHP = 15,
@@ -153,7 +146,6 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Chest Plate",
                 flavortext = "",
                 itemHP = 20,
@@ -168,7 +160,6 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
                 itemName = "Gloves",
                 flavortext = "",
                 itemHP = 0,
@@ -183,7 +174,7 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
+                 
                 itemName = "Boots",
                 flavortext = "",
                 itemHP = 0,
@@ -198,7 +189,7 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
+                 
                 itemName = "Amulet",
                 flavortext = "",
                 itemHP = 25,
@@ -213,7 +204,7 @@ namespace RPGame {
             });
 
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
+                 
                 itemName = "Ring",
                 flavortext = "",
                 itemHP = 15,
@@ -227,7 +218,7 @@ namespace RPGame {
                 }
             });
             itemList.Add(itemID++, new Items() {
-                itemImageFile = "",
+                 
                 itemName = "Potion",
                 flavortext = "",
                 itemHP = 35,
@@ -252,7 +243,7 @@ namespace RPGame {
         
         private string[] flavorText = { "This ITEM is a long lost item. Now found, by you!", "Who is rdy for some seal clubbing?",
                                         "I like trains. And this ITEM. But I like trains more.", "ITEM is ready for your use, or missuse.",
-                                        "This ITEM was once an adventure like you, but it took an arrow to the knee (Arrow, whats and arrow? -> they no excist in diz world)",
+                                        "This ITEM was once an adventure like you, but it took an arrow to the knee",
                                         "Oh My GOD! A dubble ITEM all the way, or something", "Flavor flavor flavor flavor",
                                         "I once had the chance, but moms spagettie got in the way", "Skov is Skov, but Skov is not skov",
                                         "I once had this ITEM like you, but then I took an arrow to the knee", "This ITEM once showed great love towards other items, yet this love, was foolish."};
@@ -260,18 +251,73 @@ namespace RPGame {
         public Items MakeItem(Items item, int level) {
             Random rand = new Random();
             Items temp_item;
+            Bitmap source = ImageLoader.Load("Content/Items.png");
+            string[] splitted = item.itemName.Split(' ');
+            switch (splitted[0]) {
+                case "Dagger":
+                    returnIntFitsPic(0);
+                    break;
+                case "Sword":
+                    returnIntFitsPic(1);
+                    break;
+                case "Two":
+                    returnIntFitsPic(2);
+                    break;
+                case "Club":
+                    returnIntFitsPic(3);
+                    break;
+                case "Claw":
+                    returnIntFitsPic(4);
+                    break;
+                case "Axe":
+                    returnIntFitsPic(5);
+                    break;
+                case "Shield":
+                    returnIntFitsPic(rand.Next(6, 8));
+                    break;
+                case "Helmet":
+                    returnIntFitsPic(rand.Next(9, 11));
+                    break;
+                case "Chest":
+                    returnIntFitsPic(rand.Next(12,14));
+                    break;
+                case "Gloves":
+                    returnIntFitsPic(rand.Next(15, 17));
+                    break;
+                case "Boots":
+                    returnIntFitsPic(rand.Next(18,20));
+                    break;
+                case "Amulet":
+                    returnIntFitsPic(rand.Next(21, 23));
+                    break;
+                case "Ring":
+                    returnIntFitsPic(rand.Next(24,26c));
+                    break;
+                case "Leggings":
+                    returnIntFitsPic(rand.Next(/*TODO MAKE LEGGINGS!*/));
+                    break;
+                default:
+                    break;
+            }
+
+            item.itemImageFile = source.Clone(new Rectangle(x_y[0],x_y[1],32,32),source.PixelFormat);
+                
             temp_item = item;
-            temp_item.itemName = (level < 20)? Prefix[rand.Next(0,Prefix.Count()/4)] :
-                                 (level < 50)? Prefix[rand.Next(0, Prefix.Count() / 2)] : Prefix[rand.Next(0, Prefix.Count())] +
-                                 item.itemName + Suffix[rand.Next(0, Suffix.Count())];
+
+            string prefix = (level < 20) ? Prefix[rand.Next(0, Prefix.Count() / 4)] :
+                                 (level < 50) ? (Prefix[rand.Next(0, Prefix.Count() / 2)]) : (Prefix[rand.Next(0, Prefix.Count())]);
+            string suffix = Suffix[rand.Next(0, Suffix.Count())];
+
+            temp_item.itemName = prefix + item.itemName + suffix;
 
             temp_item.itemDMG = temp_item.itemDMG * Math.Pow(1.07, level);
 
             temp_item.itemHP = temp_item.itemHP * Math.Pow(1.07, level);
 
             temp_item.itemHP = temp_item.itemDEF * Math.Pow(1.07, level);
+            temp_item.itemLVL = level;
 
-            string temp_flavertext = flavortext.Replace("ITEM", temp_item.itemName);
+            string temp_flavertext = flavorText[rand.Next(0,flavorText.Count())].Replace("ITEM", temp_item.itemName);
 
             temp_item.flavortext = temp_flavertext;
 
@@ -281,6 +327,7 @@ namespace RPGame {
             return temp_item;
         }
 
+        
         public Items MakePotion(Items item, int playerHP) {
             Items temp_item;
 
@@ -291,6 +338,15 @@ namespace RPGame {
             temp_item.itemHP = (playerHP / 100) * 20;
 
             return temp_item;
+        }
+
+        private int[] returnIntFitsPic(int number_on_picture) {
+            x_y[0] = (number_on_picture % 3) * 32;
+
+            int number_div = (number_on_picture / 3) * 32;
+
+            x_y[1] = number_div;
+            return x_y;
         }
         
         public string hpToString(int index) {
