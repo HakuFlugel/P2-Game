@@ -7,9 +7,6 @@ namespace RPGame {
 
         public bool moveRight;
         public bool moveLeft;
-
-        /*public PlayerInput() {
-        }*/
     }
 }
 

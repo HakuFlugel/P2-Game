@@ -4,30 +4,26 @@ using System.Drawing;
 namespace RPGame {
 
     public struct Stats {
-        public double curHP;// = 100.0;
+        public double curHP;
         public double maxHP;
         public double attack;// = 1.0;
         public double defence;// = 1.0;
         public double armorPen;
         public double attackSpeed;
 
-        public int level;// = 0;
-        public ulong exp;// = 0.0;
-
-
-        // TODO: load ctor?
+        public int level;
+        public ulong exp;
     }
 
     public struct Position {
-        public long x;// = 0;
-        public long y;// = 0;
+        public int x;
+        public int y;
 
-        public double xoffset;// = 0.0;
-        public double yoffset;// = 0.0;
-
+        public double xoffset;
+        public double yoffset;
         public double offsetScale;
 
-        public Position (long x, long y) {
+        public Position (int x, int y) {
             this.x = x;
             this.y = y;
 
@@ -41,17 +37,22 @@ namespace RPGame {
     public class Character {
         public static double moveDelay = 0.25;
 
+        public Region region;
         public Bitmap texture;
         public Position position;
         public Stats stats = new Stats();
-        public Combat currentCombat;
         public Inventory invetory = new Inventory();
 
         public int characterType;
 
-        public Character(int characterType, long x, long y, int level) {
+        public Combat currentCombat;
+
+        public Character(Region region, int characterType, int x, int y, int level)
+        {
             position.x = x;
             position.y = y;
+
+            this.region = region;
 
             this.stats.level = level;
 
@@ -60,7 +61,6 @@ namespace RPGame {
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             texture = ImageLoader.Load(charType.imageFile);
-            //game.ClientSize.Content.Load<Texture2D>("character.png");
             calculateStats();
         }
 
@@ -77,9 +77,9 @@ namespace RPGame {
                 position.yoffset = 0.0f;
 
                 Region region = game.world.regions[position.x / 32, position.y / 32];
-                if (region.townx == position.x && region.towny == position.y) {
+                if (region.townx == position.x % 32 && region.towny == position.y % 32) {
                     stats.curHP = stats.maxHP;
-                } 
+                }
             }
         }
 
@@ -92,12 +92,12 @@ namespace RPGame {
 
         }
 
-        public void move(Game game,long x, long y) {
-            if (canMove(game ,position.x + x, position.y + y)) {
-                int length = game.world.characters.Count;
+        public void move(Game game,int x, int y) {
+            if (canMove(game, position.x + x, position.y + y)) {
+                int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
-                    Character character = game.world.characters[i];
+                    Character character = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters[i];
 
                     if (character != this
                         && character.position.x == this.position.x + x
@@ -105,18 +105,25 @@ namespace RPGame {
                     {
                         currentCombat = new Combat(game, this, character);
                         break;
-
                     }
                 }
 
                 position.x += x;
                 position.y += y;
 
+                Region newRegion = game.world.regions[position.x / 32, position.y / 32];
+                if (newRegion != region) {
+                    region.characters.Remove(this);
+                    newRegion.characters.Add(this);
+                    region = newRegion;
+                }
+
                 position.xoffset -= x;
                 position.yoffset -= y;
 
                 position.offsetScale = 1.0f;
-            } // else // TODO: feedback?
+            }
+
         }
 
         public bool canMove(Game game, long x, long y) {
@@ -162,16 +169,14 @@ namespace RPGame {
 
         public void addExperience(ulong exp) {
             stats.exp += exp;
-            while (stats.exp >= expRequired()) { // In theory you shouldn't be able to gain enough experience for muliple levels
+            while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
                 stats.level++;
 
                 calculateStats();
             }
-            //stats.level = x^(1/2.5)/2.5
         }
     }
-        
 }
 

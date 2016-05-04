@@ -1,19 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-
-/* 
- * TODO: lige nu bruger den bare dijkstra, dvs. den prøver alle de korteste veje fra start, indtil den når i mål. 
- * Dette kan betyde at den prøver alle 32*32*(16*16 i øjeblikket) tiles, hvis den skal igennem hele banen.
- * Problemet med at vægte afstanden sammen med er at den så bare foretrækker at gå mod siden først, og derefter op ad.
- * 
- * Alternativt: Afstanden kunne divideres med vægten af et bjerg, hvilket betyder at den ikke prøver tiles,
- * der er helt håbløst lang væk, men stadig spreder sig en del.
- * Kunne også dividere med mindre...
- * 
- * Note: Se på vægtforhold mellem bjerge og åbne tiles...
- */
-
 
 namespace RPGame {
     public class RoadMaker {
@@ -38,7 +24,7 @@ namespace RPGame {
                 return !(a == b);
             }
             public override bool Equals(object obj) {
-                return base.Equals(obj); // TODO: skal det være det samme som ==
+                return base.Equals(obj);
             }
             public override int GetHashCode() {
                 return base.GetHashCode();
@@ -53,36 +39,23 @@ namespace RPGame {
 
         private bool foundEnd = false;
 
-        public coords end { get; set; } // TODO: verify length = 2
+        public coords end { get; set; }
         public coords start { get; set; }
-
-        //public static Dictionary<int[], Road> PathDictionary = new Dictionary<int[], Road>();
 
         public RoadMaker(World world, int[,] weights) {
             this.world = world;
-            this.weights = weights;//(int[,])weights.Clone();
+            this.weights = weights;
         }
-
-
-
+        
         private static double calculateDistance(coords a, coords b) {
             int dx, dy;
 
             dx = a.x - b.x; // x diff
             dy = a.x - b.x; // y diff
-            double distance = Math.Sqrt(dx * dx + dy * dy); // original
-            //double distance = (dx * dx) * (dy * dy); // original
-
-            //double distance = dx*dy;
+            double distance = Math.Sqrt(dx * dx + dy * dy);
 
             return distance+1;
         }
-
-//        private class ReverseComparer<T> : IComparer<T> where T : IComparable<T> {
-//            public int Compare(T obj1, T obj2) {
-//                return -((obj1).CompareTo(obj2));
-//            }
-//        }
 
         public struct NeighborEntry : IComparable {
             public int pathCost;
@@ -105,12 +78,11 @@ namespace RPGame {
 
         public void addNeighbor(int prevCost, coords tile) {
             try {
-                Console.WriteLine(tile.x + "," + tile.y + ": " + prevCost);
-                int curCost = prevCost + weights[tile.x, tile.y]; // TODO: skal der ændres på hvordan vi vægter fx afstand?
+                int curCost = prevCost + weights[tile.x, tile.y];
 
                 if (curCost < shortestPathCost[tile.x, tile.y]) {
 
-                    int curDist = (int)(calculateDistance(tile, end)/64);
+                    int curDist = (int)(calculateDistance(tile, end)/32);
 
                     shortestPathCost[tile.x, tile.y] = curCost;
                     NeighborEntry newNeighbor = new NeighborEntry(curCost, tile, curDist);
@@ -131,7 +103,7 @@ namespace RPGame {
 
         public void generatePath(coords start, coords end) {
 
-            // TODO: er koordinater inden for verden
+            // TODO: er koordinater inden for verden?
 
             this.start = start;
             this.end = end;
@@ -149,11 +121,9 @@ namespace RPGame {
             neighbors = new List<NeighborEntry>();
             neighbors.Add(new NeighborEntry(0, start, (int)calculateDistance(start, end)));
             shortestPathCost[start.x, start.y] = 0;
-//            int iiii = 1;
 
             foundEnd = false;
             while (!foundEnd) {
-//                Console.WriteLine(iiii++ + "             " + iiii);
                 NeighborEntry firstNeightbor = neighbors[0];
                 coords first = firstNeightbor.tile;
                 int firstCost = shortestPathCost[first.x, first.y];
@@ -180,26 +150,16 @@ namespace RPGame {
             if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
                 world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
             }
-            weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
-
+            weights[tile.x, tile.y] = 1;
 
             while (tile != start) {
                 coords cheapestTile = tile;
                 int cheapestCost = int.MaxValue;
-//
-//                try { 
-//                    cheapestTile = tile + direction[0];
-//                    cheapestCost = shortestPathCost[cheapestTile.x, cheapestTile.y];
-//                } catch (IndexOutOfRangeException) {
-//                    // Do nothing
-//                }
 
                 for (int i = 0; i < direction.Length; i++) {
                     try { // TODO: lav range-check istedet
                         coords newTile = tile + direction[i];
                         int directionCost = shortestPathCost[newTile.x, newTile.y];
-                        Console.Write(newTile.x + "," + newTile.y + ": ");
-                        Console.WriteLine(directionCost + "<" + cheapestCost + (directionCost<cheapestCost));
                         if (directionCost < cheapestCost) {
                             cheapestCost = directionCost;
                             cheapestTile = newTile;
@@ -215,7 +175,6 @@ namespace RPGame {
                 }
 
                 tile = cheapestTile;
-                Console.WriteLine(tile.x + "---" + tile.y);
                 if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
                     world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
                 }
@@ -224,9 +183,6 @@ namespace RPGame {
             }
             
             Console.WriteLine("Done making path");
-
-            // TODO: reverse search for cheapest path, greedy
-
 
         }
     }

@@ -1,46 +1,46 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace RPGame {
     public class UserInterface {
 
         private Game game;
 
+        private SolidBrush background;
+
+
         ///private int screenWidth, screenHeight;
 
         public UserInterface(Game game) {
-            //screenWidth = 1920;//game.ClientSize.Width;
-            //screenHeight = 1080;//game.ClientSize.Height;
             this.game = game;
+
+            background = new SolidBrush(Color.FromArgb(128, Color.Black));
         }
 
         public void draw(Graphics gfx) {
 
             Character localCharacter = game.localPlayer.character;
-            Bitmap transparentbox = new Bitmap("Content/transparentbar.png");
-            gfx.DrawImage(transparentbox, new RectangleF(2, 2, 300, 100), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
 
             Font font = new Font("Arial", 16, FontStyle.Regular);
-            gfx.DrawString($@"Unnamed Player | {(long)localCharacter.stats.curHP} HP
+
+
+            String text = $@"Unnamed Player | {(long)localCharacter.stats.curHP} HP
 Level: {localCharacter.stats.level}
-Experience: {localCharacter.stats.exp}/{localCharacter.expRequired()}" , font, Brushes.WhiteSmoke, 10, 10);
+Experience: {localCharacter.stats.exp}/{localCharacter.expRequired()}
+Zone level: {game.world.calculateLevel(localCharacter.position.x, localCharacter.position.y)}";
 
-            Combat currentCombat = game.localPlayer.character.currentCombat;
-//            if (currentCombat != null) {
-//                Font bigfont = new Font("Arial", 32, FontStyle.Regular);
-//
-//                gfx.DrawString($@"{currentCombat.firstCharacter.stats.hp}
-//{currentCombat.secondCharacter.stats.hp}
-//{currentCombat.answerString}
-//{currentCombat.enemyAttackTime}
-//{currentCombat.currentQuestion.text}
-//{currentCombat.currentQuestion.expression}", bigfont, brush, game.ClientSize.Width/2-50, 50);
-//
-//
-//                drawQuestionMenu(gfx);
-//            }
 
+            const int padding = 4;
+            SizeF size = gfx.MeasureString(text, font);
+
+            RectangleF uiRect = new RectangleF(4, 4, size.Width+2*padding, size.Height+2*padding);
+            RectangleF textRect = new RectangleF(uiRect.X+padding, uiRect.Y+padding, size.Width, size.Height);
+            gfx.FillRectangle(background, uiRect);
+
+            gfx.DrawString(text , font, Brushes.WhiteSmoke, textRect);
+            
         }
 
         public void drawQuestionMenu(Graphics gfx) {

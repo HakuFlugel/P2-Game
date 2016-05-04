@@ -23,7 +23,7 @@ namespace RPGame {
         public  int selected = 0;
         public bool isOpen { get; private set; } = false;
 
-        private Bitmap menuImage;
+        private SolidBrush menuBackground;
         private Bitmap buttonImage;
         Font font;
 
@@ -31,7 +31,7 @@ namespace RPGame {
         public Menu(Game game) {
             this.game = game;
 
-            menuImage = ImageLoader.Load("Content/TransBlackground.png");
+            menuBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
             buttonImage = ImageLoader.Load("Content/Buttons.png");
 
             font = new Font("Arial", 32
@@ -41,7 +41,6 @@ namespace RPGame {
                 //button.text = "Resume Game";
                 this.isOpen = false;
             }));
-            //buttons.Add(new Button("Inventory", (button) => { return; })); // TODO: open inventory @Asger
             buttons.Add(new Button("New Game", (button) => {
                 this.isOpen = false;
             }));
@@ -106,8 +105,7 @@ namespace RPGame {
                 );
 
 
-
-            gfx.DrawImage(menuImage, menuRect, new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
+            gfx.FillRectangle(menuBackground, menuRect);
 
             for (int i = 0; i < buttons.Count; i++) {
 
@@ -119,15 +117,12 @@ namespace RPGame {
                     );
 
                 gfx.DrawImage(buttonImage, buttonRect, new Rectangle(384*1/*TODO: is in game*/, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
-                ////SizeF textSize = gfx.MeasureString()
 
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center;
                 stringFormat.LineAlignment = StringAlignment.Center;
                 gfx.DrawString(buttons[i].text, font, Brushes.DeepPink, buttonRect, stringFormat);
             }
-
-            // selected == i ? 64 : 0
         }
     }
 }

@@ -33,7 +33,7 @@ namespace RPGame {
 
             graphics = CreateGraphics();
 
-            //CharacterType.loadCharacterTypes();
+            menu = new Menu(this);
 
             menu = new Menu(this);                                                             //menu ting
             invi = new Inventory();                                                         //inventory ting
@@ -41,16 +41,6 @@ namespace RPGame {
             
 
 
-            invi.GetItem(item.MakeItem(new Items() {
-                itemName = "Sword",
-                itemHP = 1,
-                itemLVL = 1,
-                itemDMG = 1,
-                itemDEF = 0,
-                equipSlot = new Items.itemType {
-                    Hands = 1
-                }
-            }, 2) );
           
 
 
@@ -85,8 +75,6 @@ namespace RPGame {
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             
-            //bool inCombat = localPlayer.character.currentCombat != null;
-
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if(invi.isOpen && isDown) {
@@ -143,11 +131,9 @@ namespace RPGame {
             
             lastTime = thisTime;
             thisTime = stopWatch.ElapsedTicks;
-            //thisTime = Environment.TickCount;
 
             double deltaTime = (double)(thisTime - lastTime) / Stopwatch.Frequency;
 
-            //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
             if ((menu.isOpen || invi.isOpen) && localPlayer.character.currentCombat == null) {                                                                      //menu ting
                 return;
@@ -157,7 +143,6 @@ namespace RPGame {
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
-            // Clear input here?
         }
         
         private void render() {
@@ -174,7 +159,7 @@ namespace RPGame {
                 gfx.Clear(Color.Black);
 
                 if (localPlayer.character.currentCombat == null) {
-                world.draw(gfx, localPlayer.character.position); // TODO: maybe move localplayer into world?
+                world.draw(gfx, localPlayer.character.position);
                 }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);

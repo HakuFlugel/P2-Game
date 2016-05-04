@@ -16,20 +16,18 @@ namespace RPGame {
 
         public PlayerInput input = new PlayerInput();
 
-        public Player(long x = 0, long y = 0) {
-            character = new Character(0, x, y, 0);
+        public Player(Region region) {
+            character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);
         }
 
         public void update(Game game,double deltaTime)
         {
             if (character.currentCombat != null) { // Is the player in combat?
 
-                //character.currentCombat.doAttack();
                 character.currentCombat.update(deltaTime);
                 if (character.currentCombat.hasEnded) {
                     character.currentCombat = null;
                 }
-                //character.currentCombat = null;
 
             }else { // Not in combat
 
