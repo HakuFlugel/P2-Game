@@ -19,13 +19,7 @@ namespace RPGame {
 
             generateWorld();
 
-            //characters.Add(new Character(2, 1, 3));
-            //characters.Add(new Character(2, 3, 3));
-
-          //for (int i = 0; i < 1000; i++) {
-          //      characters.Add(new Character(2, i*10%64, i*10/64));
-          //  }
-            game.localPlayer = new Player(regions[7,1]);// characters[rand.Next(characters.Count - 1)];
+            game.localPlayer = new Player(regions[0,0]);// characters[rand.Next(characters.Count - 1)];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
@@ -41,9 +35,9 @@ namespace RPGame {
         public enum GeneratedTile {
             Ground=0, // 3
             Trees=1, // 0,1,2
-            Mountain=19, //???
+            Mountain=19,
             Path=18, // 3-18
-            Town=20 // ????
+            Town=20
         }
 
         private void generateWorld() { // TODO: seed?
@@ -54,9 +48,6 @@ namespace RPGame {
                     regions[x, y] = new Region(x, y);
                 }
             }
-
-            //rand = new Random(2);
-            //regions;
 
             int[,] biomes = new int[regions.GetLength(0), regions.GetLength(1)];
             int[,] weights = new int[regions.GetLength(0) * 32, regions.GetLength(1) * 32];
@@ -110,21 +101,6 @@ namespace RPGame {
                     }
                 }
             }
-            //roadmaker.generatePath(new RoadMaker.coords(0 * 32 + regions[0, 0].townx, 0 * 32 + regions[0, 0].towny), 1*32 + regions[1, 1].townx, 1 * 32 + regions[1, 1].towny));
-
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(511, 511));
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(128, 64));
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(64, 128));
-
-            ////TODO: hvorfor giver de 2 her exception???
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(0, 32));
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(32, 0));
-
-            //            for (int i = 0; i < 32; i++) {
-            //                roadmaker.generatePath(new RoadMaker.coords(rand.Next()%512, rand.Next()%512), new RoadMaker.coords(rand.Next()%512, rand.Next()%512));
-            //            }
-
-            //todo: choose which towns to link
 
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
@@ -206,7 +182,7 @@ namespace RPGame {
                     return;
                 }
 
-                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next(1, 2), x, y, lvl));
+                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next()%2+1, x, y, lvl));
 
                 modifyWeight(weights, x, y, 8);
 

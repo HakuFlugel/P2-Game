@@ -24,12 +24,10 @@ namespace RPGame {
         {
             if (character.currentCombat != null) { // Is the player in combat?
 
-                //character.currentCombat.doAttack();
                 character.currentCombat.update(deltaTime);
                 if (character.currentCombat.hasEnded) {
                     character.currentCombat = null;
                 }
-                //character.currentCombat = null;
 
             }else { // Not in combat
 

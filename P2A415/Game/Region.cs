@@ -34,8 +34,8 @@ namespace RPGame {
         }
 
         public void draw(Game game, Graphics gfx, Position cameraPosition) {
-            int cameraPositionRegionX = cameraPosition.x - this.x * tiles.GetLength(0);// * 64 * 2;
-            int cameraPositionRegionY = cameraPosition.y - this.y * tiles.GetLength(1);// * 64 * 2;
+            int cameraPositionRegionX = cameraPosition.x - this.x * tiles.GetLength(0);
+            int cameraPositionRegionY = cameraPosition.y - this.y * tiles.GetLength(1); 
 
             // X range
             int cameraStartRegionX = (cameraPositionRegionX - game.ClientSize.Width / 2 / (64 * 2)) - 2;
@@ -63,9 +63,6 @@ namespace RPGame {
                     y = (int)((yindex - cameraPositionRegionY - cameraPosition.yoffset * cameraPosition.offsetScale) * 64 * 2 - game.ClientSize.Height / 2 + 64);
                     
                     TileType tt = TileType.tileTypes[tileID];
-
-//                    x /= 2;
-//                    y /= 2;
 
                     gfx.DrawImage( TileType.Image,
                         new RectangleF(x, -y, 64.0f * 2, 64.0f * 2),

@@ -10,7 +10,7 @@ namespace RPGame {
 
         public static List<Tuple<Type, int>> questionTypes = new List<Tuple<Type, int>>();
         static Question() {
-            questionTypes.Add (new Tuple<Type, int> (typeof(Addition), 0));     // the number is a level requrement for the qustions type
+            questionTypes.Add (new Tuple<Type, int> (typeof(Addition), 0));     // the number is a level requirement for the qustions type
             questionTypes.Add (new Tuple<Type, int> (typeof(Subtraction), 5));
             questionTypes.Add(new Tuple<Type, int>(typeof(Division), 15));
             questionTypes.Add(new Tuple<Type, int>(typeof(Multiplication), 10));
@@ -25,7 +25,6 @@ namespace RPGame {
         }
 
         public int level = 0;
-        //public int scale
 
         public int[] operands;
 

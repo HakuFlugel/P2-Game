@@ -14,8 +14,6 @@ namespace RPGame {
         ///private int screenWidth, screenHeight;
 
         public UserInterface(Game game) {
-            //screenWidth = 1920;//game.ClientSize.Width;
-            //screenHeight = 1080;//game.ClientSize.Height;
             this.game = game;
 
             background = new SolidBrush(Color.FromArgb(128, Color.Black));
@@ -24,8 +22,6 @@ namespace RPGame {
         public void draw(Graphics gfx) {
 
             Character localCharacter = game.localPlayer.character;
-            //Bitmap transparentbox = new Bitmap("Content/transparentbar.png");
-            //gfx.DrawImage(transparentbox, new RectangleF(2, 2, 300, 100), new Rectangle(0, 0, 1, 1), GraphicsUnit.Pixel);
 
             Font font = new Font("Arial", 16, FontStyle.Regular);
 
@@ -44,12 +40,7 @@ Zone level: {game.world.calculateLevel(localCharacter.position.x, localCharacter
             gfx.FillRectangle(background, uiRect);
 
             gfx.DrawString(text , font, Brushes.WhiteSmoke, textRect);
-
-//            Combat currentCombat = game.localPlayer.character.currentCombat;
-//            if (currentCombat != null) {
-//                Font bigfont = new Font("Arial", 32, FontStyle.Regular);
-
-
+            
         }
 
         public void drawQuestionMenu(Graphics gfx) {

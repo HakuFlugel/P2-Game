@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-
-// this is a change because git wont fix stuff
 using System.Windows.Forms;
 
 namespace RPGame {
@@ -33,9 +31,6 @@ namespace RPGame {
             this.firstCharacter = firstCharacter;
             this.secondCharacter = secondCharacter;
 
-/*          whereThePlayerCameFrom.x = firstCharacter.position.x;
-            whereThePlayerCameFrom.y = firstCharacter.position.y;*/
-
             whereThePlayerCameFrom = firstCharacter.position;
 
             enemyTimePerAttack = CharacterType.characterTypes[secondCharacter.characterType].attackSpeed;
@@ -50,7 +45,6 @@ namespace RPGame {
 			} else if (e.KeyChar == (char)Keys.Back && answerString.Length >= 1) {
                 answerString = answerString.Substring(0, answerString.Length - 1);
 			} else if (e.KeyChar == (char)Keys.Enter && answerString.Length >= 1) {
-                //currentQuestion.
 
                 bool isCorrect = false;
                 try {
@@ -80,12 +74,8 @@ namespace RPGame {
             enemyAttackTime -= deltaTime;
             if (enemyAttackTime <= 0) {
 				doAttack(secondCharacter, firstCharacter);
-                //firstCharacter.position.x = whereThePlayerCameFrom.x+3;
-                //firstCharacter.position.y = whereThePlayerCameFrom.y+3;
                 enemyAttackTime = enemyTimePerAttack;
             }
-
-            //firstCharacter.position = whereThePlayerCameFrom; // TODO: evt. flytte til hvis man taber
         }
 
         public void doAttack() {
@@ -100,7 +90,7 @@ namespace RPGame {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)*100); // TODO: fjern *100
+                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)); //Scale xp
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 
@@ -144,10 +134,7 @@ namespace RPGame {
             double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
             double monster_level = secondCharacter.stats.level;
 
-
             string timeleft = enemyAttackTime.ToString("0.00");
-//            Bitmap barimg = new Bitmap("Content/blankbar.png");
-//            Bitmap barimg2 = new Bitmap("Content/blankbar2.png");
 
             const int padding = 4;
             const int barWidth = 768;
@@ -174,11 +161,7 @@ namespace RPGame {
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
             gfx.DrawString($"{timeleft}", bigfont, Brushes.OrangeRed, barBackgroundRect, stringFormat);
-
-
-            //gfx.MeasureString($"{timeleft}",);
-            //gfx.DrawString($@"{timeleft}", bigfont, Brushes.OrangeRed, width / 2f - gfx.MeasureString(timeleft,bigfont).Width / 2, height / 20f);
-
+            
             // draw player and monster text
             string left = $@"Name: {player_name}" + "\n" + $@"Health: {player_health} " + "\n" + $@"Level: {player_level}";
             string right = $@"Name: { monster_name}" + "\n" + $@"Health: {monster_health}" + "\n" + $@"Level: {monster_level}";

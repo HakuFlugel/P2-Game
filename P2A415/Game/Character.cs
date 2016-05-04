@@ -4,27 +4,22 @@ using System.Drawing;
 namespace RPGame {
 
     public struct Stats {
-        public double curHP;// = 100.0;
+        public double curHP;
         public double maxHP;
-        public double attack;// = 1.0;
-        public double defence;// = 1.0;
+        public double attack;
+        public double defence;
 
-        public int level;// = 0;
-        public ulong exp;// = 0.0;
-
-
-        // TODO: load ctor?
+        public int level;
+        public ulong exp;
     }
 
     public struct Position {
-        public int x;// = 0;
-        public int y;// = 0;
+        public int x;
+        public int y;
 
-        public double xoffset;// = 0.0;
-        public double yoffset;// = 0.0;
-
+        public double xoffset;
+        public double yoffset;
         public double offsetScale;
-
 
         public Position (int x, int y) {
             this.x = x;
@@ -40,11 +35,8 @@ namespace RPGame {
     public class Character {
         public static double moveDelay = 0.25;
 
-
         public Region region;
-
         public Bitmap texture;
-
         public Position position;
         public Stats stats = new Stats();
 
@@ -66,7 +58,6 @@ namespace RPGame {
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             texture = ImageLoader.Load(charType.imageFile);
-            //game.ClientSize.Content.Load<Texture2D>("character.png");
             calculateStats();
             
         }
@@ -132,7 +123,7 @@ namespace RPGame {
                 position.yoffset -= y;
 
                 position.offsetScale = 1.0f;
-            } // else // TODO: feedback?
+            }
 
         }
 
@@ -166,16 +157,14 @@ namespace RPGame {
 
         public void addExperience(ulong exp) {
             stats.exp += exp;
-            while (stats.exp >= expRequired()) { // In theory you shouldn't be able to gain enough experience for muliple levels
+            while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
                 stats.level++;
 
                 calculateStats();
             }
-            //stats.level = x^(1/2.5)/2.5
         }
-    }
-        
+    }    
 }
 
