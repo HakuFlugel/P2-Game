@@ -80,7 +80,7 @@ namespace RPGame {
 
         public void doAttack() {
             doAttack(firstCharacter, secondCharacter);
-            firstCharacter.stats.curHP += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence / 10) / 20;
+            firstCharacter.stats.curHP += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence - firstCharacter.stats.armorPen) / 20;
             enemyAttackTime += 0.3333333333333333333333333;
         }
 

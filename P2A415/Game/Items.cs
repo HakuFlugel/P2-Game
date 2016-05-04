@@ -315,6 +315,9 @@ namespace RPGame {
             temp_item.itemHP = temp_item.itemHP * Math.Pow(1.07, level);
 
             temp_item.itemHP = temp_item.itemDEF * Math.Pow(1.07, level);
+
+            temp_item.itemPENE = temp_item.itemPENE * Math.Pow(1.03, level);
+
             temp_item.itemLVL = level;
 
             string temp_flavertext = flavorText[rand.Next(0,flavorText.Count())].Replace("ITEM", temp_item.itemName);

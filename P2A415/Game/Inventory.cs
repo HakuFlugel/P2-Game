@@ -43,7 +43,7 @@ namespace RPGame {
 
         public bool isOpen { get; private set; } = false;
 
-        private Bitmap menuImage;
+        private SolidBrush Background = new SolidBrush(Color.FromArgb(128,Color.Black));
         private Bitmap EqippedImage;
        
 
@@ -63,7 +63,6 @@ namespace RPGame {
                 totalEquipped[i] = new itemindex[3];
 
             
-            menuImage = ImageLoader.Load("Content/TransBlackground.png");
             EqippedImage = ImageLoader.Load("Content/Character.png");
             
 
@@ -420,7 +419,6 @@ namespace RPGame {
             }
         }
 
-
         public void DrawCarried(Graphics gfx, Game game) {
 
             int width = (int)(game.Width / 1.2), height = (int)(game.Height / 1.2);
@@ -428,7 +426,7 @@ namespace RPGame {
             int placey = game.Height / 2 - height / 2;
 
             Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
-            gfx.DrawImage(menuImage, new Rectangle(0,0,game.Width,game.Height), new Rectangle(0,0,1,1), GraphicsUnit.Pixel);
+            gfx.FillRectangle(Background, new Rectangle(0,0,game.Width,game.Height));
             gfx.FillRectangle(new SolidBrush(Color.DarkGray), new Rectangle(placex, placey, width, height));
             
             float xdex = placex + 72, ydex = placey + 70, outterboxWid = 60, outterboxHei = 60;
