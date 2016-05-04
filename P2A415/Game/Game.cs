@@ -75,7 +75,7 @@ namespace RPGame {
                 menu.toggle();                                                                 //menu ting
 
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
-                invi.toggle();
+                invi.toggle(this);
                 
 
             } else if (localPlayer.character.currentCombat != null) {
@@ -149,7 +149,7 @@ namespace RPGame {
 
             //Text = $"{((double)Stopwatch.Frequency / (thisTime - lastTime))} {Stopwatch.IsHighResolution} {Stopwatch.Frequency}";
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-            if (menu.isOpen) {                                                                      //menu ting
+            if ((menu.isOpen || invi.isOpen) && localPlayer.character.currentCombat == null) {                                                                      //menu ting
                 return;
             }
             localPlayer.update(this, deltaTime);

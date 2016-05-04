@@ -269,7 +269,9 @@ namespace RPGame {
             return -10;
         } 
 
-        public void toggle() {
+        public void toggle(Game game) {
+            if (!isOpen)
+                game.localPlayer.character.calculateStats();
             isOpen = !isOpen;
             selectedX = 0;
             selectedY = 0;  
