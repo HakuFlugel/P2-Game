@@ -17,7 +17,20 @@ namespace RPGame {
 
         public bool isOpen { get; private set; } = false;
 
-        private SolidBrush background = new SolidBrush(Color.FromArgb(128,Color.Black));
+        private Brush background = new SolidBrush(Color.FromArgb(128,Color.Black));
+        private Brush invBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
+        private Brush itemBackground = new SolidBrush(Color.FromArgb(192, Color.WhiteSmoke));
+        private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
+        private Brush itemHighlightedBackground = new SolidBrush(Color.FromArgb(192, Color.Violet));
+            
+
+        Font titleFont = new Font("Bradley Hand ITC", 40, FontStyle.Italic); 
+
+        Font nameFont = new Font("Arial", 15, FontStyle.Bold);
+        Font lvlFont = new Font("Arial", 10, FontStyle.Regular);
+        Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
+        Font flavortextFont = new Font("Arial", 12, FontStyle.Italic);
+
         //private Bitmap EqippedImage;
 
         private Item[][,] inventory = new Item[2][,];
@@ -36,7 +49,7 @@ namespace RPGame {
 
         int activeContainer = 0;
 
-        private class HighlightedItem {
+        public class HighlightedItem {
             public HighlightedItem(int container, int row, int column) {
                 this.container = container;
                 this.row = row;
@@ -51,6 +64,14 @@ namespace RPGame {
         public Inventory() {
             inventory[0] = new Item[8, 8];
             inventory[1] = new Item[4, 4];
+
+            inventory[0][0, 0] = new Item(Item.itemTypes[0], 42);
+            inventory[0][0, 1] = new Item(Item.itemTypes[6], 42);
+            inventory[0][0, 2] = new Item(Item.itemTypes[9], 42);
+            inventory[0][0, 3] = new Item(Item.itemTypes[12], 42);
+
+
+
         }
 
         public void keyInput(KeyEventArgs e) {
@@ -118,12 +139,12 @@ namespace RPGame {
             case Keys.A:
             case Keys.Left:
 
-                if (++selectedColumn < 0) {
+                if (--selectedColumn < 0) {
 
                     if (activeContainer == 1) {
                         activeContainer = 0;
-                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[!activeContainer].GetLength(0);
-                        selectedColumn = inventory[activeContainer].GetLength(1);
+                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[activeContainer == 0 ? 1 : 0].GetLength(0);
+                        selectedColumn = inventory[activeContainer].GetUpperBound(1);
                     } else
                         selectedColumn = 0;
                 }
@@ -134,14 +155,14 @@ namespace RPGame {
 
             case Keys.D:
             case Keys.Right:
-                if (--selectedColumn > inventory[activeContainer].GetLength(1)) {
+                if (++selectedColumn > inventory[activeContainer].GetUpperBound(1)) {
 
                     if (activeContainer == 0) {
                         activeContainer = 1;
-                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[!activeContainer].GetLength(0);
+                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[activeContainer == 0 ? 1 : 0].GetLength(0);
                         selectedColumn = 0;
                     } else
-                        selectedColumn = inventory[activeContainer].GetLength(1);
+                        selectedColumn = inventory[activeContainer].GetUpperBound(1);
                 }
 //                    if (++selectedX > 10)
 //                        selectedX = 10;
@@ -153,12 +174,15 @@ namespace RPGame {
             case Keys.Enter:
                 // TODO: escape to deselect
                 if (highlightedItem == null) {
+                    // TODO: tjek om der er et item der...
                     highlightedItem = new HighlightedItem(activeContainer, selectedRow, selectedColumn);
                 } else {
+                    // TODO: er det her tjek nødvendigt? man kunne bare lade den bytte et item med sig selv
                     if (highlightedItem.container == activeContainer && highlightedItem.row == selectedRow && highlightedItem.column == selectedColumn) {
                         highlightedItem = null;
                     } else {
                         moveItem(highlightedItem, new HighlightedItem(activeContainer, selectedRow, selectedColumn));
+                        highlightedItem = null;
                     }
                 }
 
@@ -177,10 +201,14 @@ namespace RPGame {
             Item sourceItem = inventory[source.container][source.row,source.column];
             Item targetItem = inventory[target.container][target.row, target.column];
 
+            if (sourceItem == null) { // TODO: se nedenstående todo, tilføj:   && targetitem == null
+                Console.WriteLine("Tried to move inexistent item. Make sure there actually is an item before allowing the player to select or move items from a slot.");
+                return;
+            }
 
             if (source.container != target.container) {
-
-                EquipSlot deltaEquipSlots = sourceItem.equipSlot - (targetItem != null) ? targetItem.equipSlot : 0;
+                // TODO: evt. tilføje conditional til sourceitem.equipslot for at undgå at man får null exception af move. dvs. man gerne må flytte fra en tom plads til en med et item
+                EquipSlot deltaEquipSlots = sourceItem.equipSlot - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
                 if (target.container == 0) { // Move from equipped to carried
                     deltaEquipSlots = -deltaEquipSlots;
                 }
@@ -204,203 +232,184 @@ namespace RPGame {
             if (!isOpen)
                 game.localPlayer.character.calculateStats();
             isOpen = !isOpen;
+            activeContainer = 0;
             selectedColumn = 0;
             selectedRow = 0;  
         }
 
         public void draw(Graphics gfx, Game game) {
-            const 
+            int screenWidth = game.ClientSize.Width, screenHeight = game.ClientSize.Height;
+
+            const int inventoryPadding = 16;
+
+            const int itemSize = 64;
+            const int itemPadding = 8;
+
+            SizeF carriedSize = new SizeF(
+                (itemSize + itemPadding) * inventory[0].GetLength(1) + itemPadding,
+                (itemSize + itemPadding) * inventory[0].GetLength(0) + itemPadding);
+            
+            SizeF equippedSize = new SizeF(
+                (itemSize + itemPadding) * inventory[1].GetLength(1) + itemPadding,
+                (itemSize + itemPadding) * inventory[1].GetLength(0) + itemPadding);
+
+            const string titleText = "Equipped";
+            SizeF titleSize = gfx.MeasureString(titleText, titleFont);
+
+            SizeF inventorySize = new SizeF(
+                carriedSize.Width + Math.Max(equippedSize.Width, titleSize.Width) + 3 * inventoryPadding,
+                Math.Max(carriedSize.Height, equippedSize.Height + titleSize.Height + inventoryPadding) + 2 * inventoryPadding );
+
+            RectangleF inventoryRect = new RectangleF(
+               (screenWidth - inventorySize.Width) / 2,
+               (screenHeight - inventorySize.Height) / 2,
+               inventorySize.Width, inventorySize.Height);
+
+            RectangleF carriedRect = new RectangleF(
+                inventoryRect.X + inventoryPadding,
+                inventoryRect.Y + inventoryPadding,
+                carriedSize.Width, carriedSize.Height);
+
+            RectangleF titleRect = new RectangleF(
+                carriedRect.X + carriedRect.Width + inventoryPadding,
+                inventoryRect.Y + inventoryPadding,
+                titleSize.Width, titleSize.Height);
+
+            RectangleF equippedRect = new RectangleF(
+                carriedRect.X + carriedRect.Width + inventoryPadding,
+                titleRect.Y + titleRect.Height + inventoryPadding,
+                equippedSize.Width, equippedSize.Height);
+
+            gfx.FillRectangle(background, inventoryRect);
+
+            gfx.FillRectangle(invBackground, carriedRect);
+            gfx.FillRectangle(invBackground, equippedRect);
+
+            gfx.DrawString(titleText, titleFont, Brushes.WhiteSmoke, titleRect);
+
+            for (int y = 0; y < inventory[0].GetLength(0); y++) {
+                for (int x = 0; x < inventory[0].GetLength(1); x++) {
+
+                    RectangleF itemRect = new RectangleF(
+                        carriedRect.X + itemPadding + x * (itemSize + itemPadding),
+                        carriedRect.Y + itemPadding + y * (itemSize + itemPadding),
+                        itemSize, itemSize);
+
+                    if (highlightedItem != null && highlightedItem.container == 0 && highlightedItem.column == x && highlightedItem.row == y) {
+                        gfx.FillRectangle(itemHighlightedBackground, itemRect);
+                    } else if (activeContainer == 0 && selectedRow == y && selectedColumn == x) {
+                        gfx.FillRectangle(itemSelectedBackground, itemRect);
+                    } else {
+                        gfx.FillRectangle(itemBackground, itemRect);
+                    }
+
+                    gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
+                    // draw image
+                }
+            }
+
+            for (int y = 0; y < inventory[1].GetLength(0); y++) {
+                for (int x = 0; x < inventory[1].GetLength(1); x++) {
+
+                    RectangleF itemRect = new RectangleF(
+                        equippedRect.X + itemPadding + x * (itemSize + itemPadding),
+                        equippedRect.Y + itemPadding + y * (itemSize + itemPadding),
+                        itemSize, itemSize);
+
+                    if (highlightedItem != null && highlightedItem.container == 1 && highlightedItem.column == x && highlightedItem.row == y) {
+                        gfx.FillRectangle(itemHighlightedBackground, itemRect);
+                    } else if (activeContainer == 1 && selectedRow == y && selectedColumn == x) {
+                        gfx.FillRectangle(itemSelectedBackground, itemRect);
+                    } else {
+                        gfx.FillRectangle(itemBackground, itemRect);
+                    }
+
+                    gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
+                    // draw image
+                }
+            }
+
+            Item selectedItem = inventory[activeContainer][selectedRow, selectedColumn];
+
+            if (selectedItem != null) {
+                
+
+                string name = selectedItem.itemName;
+                string lvl = "Level: " + selectedItem.itemLVL.ToString();
+
+                //TODO: formatting
+                string stats = "";
+                if (selectedItem.itemHP != 0) stats += $"Health: {selectedItem.itemHP.ToString()}\n";
+                if (selectedItem.itemDEF != 0) stats += $"Armor: {selectedItem.itemDEF.ToString()}\n";
+                if (selectedItem.itemDMG != 0) stats += $"Damage: {selectedItem.itemDMG.ToString()}\n";
+                if (selectedItem.itemPENE != 0) stats += $"Armor Penetration: {selectedItem.itemPENE.ToString()}\n";
+                if (selectedItem.itemSPEED != 0) stats += $"Slow: {selectedItem.itemSPEED.ToString()}\n";
+
+                string flavortext = selectedItem.flavortext;
+
+                //TODO: with 190, 200 som variabel. og +10...5...
+                SizeF sizeName = gfx.MeasureString(name, nameFont, 320);
+                SizeF sizeLevel = gfx.MeasureString(lvl, lvlFont, 320);
+                SizeF sizeStats = gfx.MeasureString(stats, statsFont, 320);
+                SizeF sizeFlavor = gfx.MeasureString(flavortext, flavortextFont, 320);
+
+
+                RectangleF selectedRect;
+
+                if (activeContainer == 0) {
+                    selectedRect = new RectangleF(
+                        carriedRect.X + itemPadding + selectedColumn * (itemSize + itemPadding),
+                        carriedRect.Y + itemPadding + selectedRow * (itemSize + itemPadding),
+                        itemSize, itemSize);
+                } else {
+                    selectedRect = new RectangleF(
+                        equippedRect.X + itemPadding + selectedColumn * (itemSize + itemPadding),
+                        equippedRect.Y + itemPadding + selectedRow * (itemSize + itemPadding),
+                        itemSize, itemSize);
+                }
+
+                RectangleF tooltipRect = new RectangleF(
+                    selectedRect.X + selectedRect.Width, selectedRect.Y + selectedRect.Height,
+                    330, sizeName.Height + sizeLevel.Height + sizeStats.Height + sizeFlavor.Height + 10
+                );
+
+                gfx.FillRectangle(background, tooltipRect);
+
+                RectangleF nameRect = new RectangleF(tooltipRect.X + 5, tooltipRect.Y+5, sizeName.Width, sizeName.Height);
+                RectangleF levelRect = new RectangleF(tooltipRect.X + 5, nameRect.Y + nameRect.Height, sizeLevel.Width, sizeLevel.Height);
+                RectangleF statsRect = new RectangleF(tooltipRect.X + 5, levelRect.Y + levelRect.Height, sizeStats.Width, sizeStats.Height);
+                RectangleF flavorRect = new RectangleF(tooltipRect.X + 5, statsRect.Y + statsRect.Height, sizeFlavor.Width, sizeFlavor.Height);
+
+                gfx.DrawString(name, nameFont, Brushes.WhiteSmoke, nameRect);
+                gfx.DrawString(lvl, lvlFont, Brushes.WhiteSmoke, levelRect);
+                gfx.DrawString(stats, statsFont, Brushes.WhiteSmoke, statsRect);
+                gfx.DrawString(flavortext, flavortextFont, Brushes.WhiteSmoke, flavorRect);
+
+            }
+
         }
-//            
-//        }
-//
-//        public void draw(Graphics gfx, Game game) {
-//
-//            DrawCarried(gfx, game);
-//
-//
-//
-//            Font namefont = new Font("Arial", 15, FontStyle.Bold), 
-//                 lvlfont = new Font("Arial", 10, FontStyle.Regular), 
-//                 statsfont = new Font("Arial", 12, FontStyle.Regular), 
-//                 flavortextFont = new Font("Arial", 12, FontStyle.Italic);
-//            
-//            float textPositionX = 0, textPositionY = 0;
-//
-//            Carried_sorted = carried.OrderBy(ch => ch.itemName).ToList();
-//
-//            int carriedCount = carried.Count;
-//            
-//            int xdex = 0;
-//            int y=0, x=0;
-//            for (int ypp = 0; ypp < 8; ypp++) 
-//                for (int xpp = 0; xpp < 8; xpp++)
-//                    totalCarried[ypp][xpp].setItem(null);
-//
-//            for (int ypp = 0; ypp < 4; ypp++)
-//                for (int xpp = 0; xpp < 3; xpp++)
-//                    totalEquipped[ypp][xpp].setItem(null);
-//
-//            foreach (var item in Carried_sorted) {
-//                totalCarried[y][x].setItem(item);
-//                x++;
-//                if (x == 8) { x = 0; y++; }
-//            }
-//
-//            for(int ypp = 0; ypp < 8; ypp++) 
-//                for(int xpp = 0; xpp < 8; xpp++) 
-//                    if(totalCarried[ypp][xpp].item != null)
-//                        gfx.DrawImage(totalCarried[ypp][xpp].item.itemImageFile, new RectangleF(totalCarried[ypp][xpp].X, totalCarried[ypp][xpp].Y, 60, 60));
-//             
-//            x = 0; y = 0;
-//            foreach (var item in equipped) {
-//                totalEquipped[y][x].setItem(item);
-//                x++;
-//                if(x == 3) { x = 0; y++; }
-//            }
-//            for(int ypp = 0; ypp < 4; ypp++)
-//                for(int xpp = 0; xpp < 3; xpp++)
-//                    if(totalEquipped[ypp][xpp].item != null)
-//                        gfx.DrawImage(totalEquipped[ypp][xpp].item.itemImageFile, new RectangleF(totalEquipped[ypp][xpp].X, totalEquipped[ypp][xpp].Y, 60, 60));
-//
-//
-//            if ((selectedColumn < 7 && totalCarried[selectedRow][selectedColumn].item != null) || (selectedColumn >= 8 && totalEquipped[selectedRow][selectedColumn - 8].item != null)) {
-//                Items item = selectedColumn < 7 ? totalCarried[selectedRow][selectedColumn].item : totalEquipped[selectedRow][selectedColumn - 8].item;
-//                int index = xdex - 1;
-//                float X = selectedColumn < 7 ? totalCarried[selectedRow][selectedColumn].X : totalEquipped[selectedRow][selectedColumn - 8].X,
-//                      Y = selectedColumn < 7 ? totalCarried[selectedRow][selectedColumn].Y : totalEquipped[selectedRow][selectedColumn - 8].Y;
-//                string flavortext = "";
-//                if (item.flavortext != null) {
-//                    flavortext = item.flavortext;
-//                }
-//
-//                string name = item.itemName,
-//                    lvl = "Level: " + item.itemLVL.ToString(),
-//                    stats = "Health: " + item.itemHP.ToString() + Environment.NewLine +
-//                    "Damage: " + item.itemDMG.ToString() + Environment.NewLine +
-//                    "Defence: " + item.itemDEF.ToString() + Environment.NewLine + 
-//                    "Speed: " + item.itemSPEED.ToString() + Environment.NewLine + 
-//                    "Penetration: " + item.itemPENE.ToString() + Environment.NewLine;
-//                
-//
-//                textPositionX = X + 65;
-//                textPositionY = Y + 65;
-//                SizeF sizeofFlavor = gfx.MeasureString(flavortext, flavortextFont, 190);
-//
-//                int heightOfItAll = (int)(gfx.MeasureString(name, namefont,190).Height +
-//                                    gfx.MeasureString(lvl, lvlfont,190).Height +
-//                                    gfx.MeasureString(stats, statsfont,190).Height + 10);
-//                
-//
-//                gfx.FillRectangle(new SolidBrush(Color.DarkSalmon), new RectangleF(textPositionX-5,textPositionY-5, 200, heightOfItAll + sizeofFlavor.Height));
-//
-//                gfx.DrawString(name, namefont, Brushes.WhiteSmoke,
-//                    new RectangleF(new PointF(textPositionX, textPositionY),
-//                    new SizeF( gfx.MeasureString(name, namefont,190))));
-//
-//                gfx.DrawString(lvl, lvlfont, Brushes.WhiteSmoke,
-//                    textPositionX + 5, textPositionY += (int)gfx.MeasureString(name, namefont, 190).Height);
-//
-//                gfx.DrawString(stats, statsfont, Brushes.WhiteSmoke,
-//                    textPositionX + 5, textPositionY += (int)gfx.MeasureString(lvl, lvlfont, 190).Height);
-//
-//                gfx.DrawString(flavortext, flavortextFont, Brushes.WhiteSmoke,
-//                    new RectangleF(new PointF(textPositionX + 5, textPositionY + gfx.MeasureString(stats, statsfont, 190).Height),
-//                    new SizeF(sizeofFlavor)));
-//
-//            }
-//        }
-//
-//        public void DrawCarried(Graphics gfx, Game game) {
-//
-//            int width = (int)(game.Width / 1.2), height = (int)(game.Height / 1.2);
-//            int placex = game.Width / 2 - width / 2;
-//            int placey = game.Height / 2 - height / 2;
-//
-//            Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
-//            gfx.FillRectangle(background, new Rectangle(0,0,game.Width,game.Height));
-//            gfx.FillRectangle(new SolidBrush(Color.DarkGray), new Rectangle(placex, placey, width, height));
-//            
-//            float xdex = placex + 72, ydex = placey + 70, outterboxWid = 60, outterboxHei = 60;
-//
-//            gfx.DrawImage(EqippedImage, new Rectangle(placex +width-850, placey-20, width-200, height), new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
-//            
-//
-//            gfx.DrawString("Inventory", font, Brushes.Black,new Point(placex + 2,placey + 5));
-//
-//            ydex = placey + height * 0.5f - 200;
-//
-//            for (int indey = 0; indey < 4; indey++) {
-//                xdex = placex + width * 0.69f;
-//                
-//
-//                for(int index = 0; index < 3; index++) {
-//                    totalEquipped[indey][index].X = xdex + 2;
-//                    totalEquipped[indey][index].Y = ydex + 2;
-//
-//                    if(indey == selectedRow && index == selectedColumn-8) {
-//                        drawSelected(gfx, xdex, ydex, outterboxWid, outterboxHei);
-//                    } else {
-//                        drawNotSelected(gfx, xdex, ydex, outterboxWid, outterboxHei);
-//                    }
-//                    xdex += 70;
-//                   
-//                }
-//
-//                ydex += 70;
-//            }
-//
-//            xdex = placex + 72; ydex = placey + 70; outterboxWid = 60; outterboxHei = 60;
-//
-//            for (int indey = 0; indey < 8; indey++) {
-//                xdex = placex + 72;
-//                for (int index = 0; index < 8; index++) {
-//
-//                    totalCarried[indey][index].X = xdex + 2;
-//                    totalCarried[indey][index].Y = ydex + 2;
-//
-//                    if (indey == selectedRow && index == selectedColumn) {
-//                        drawSelected(gfx, xdex, ydex, outterboxWid, outterboxHei);
-//                    } else {
-//                        drawNotSelected(gfx, xdex, ydex, outterboxWid, outterboxHei);
-//                    }
-//                    xdex += 70;
-//                    
-//                }
-//                ydex += 70;
-//                
-//            }
-//        }
-//
-//        public void drawNotSelected(Graphics gfx, float xdex, float ydex, float outterboxWid, float outterboxHei) {
-//            gfx.FillRectangle(new SolidBrush(Color.Black), new RectangleF(xdex, ydex, outterboxWid, outterboxHei));
-//            gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
-//        }
-//        
-//        public void drawSelected(Graphics gfx, float xdex, float ydex, float outterboxWid, float outterboxHei) {
-//            gfx.FillRectangle(new SolidBrush(Color.Orange), new RectangleF(xdex-2, ydex-2, outterboxWid + 6, outterboxHei + 6));
-//            gfx.FillRectangle(new SolidBrush(Color.GhostWhite), new RectangleF(xdex + 2, ydex + 2, outterboxWid - 4, outterboxWid - 4));
-//        }
-//        
-//        public void calStats (out double[] array) {
-//            double attack = 0, defence = 0, speed = 0, penetration = 0, hp = 0;
-//
-//            foreach (var item in equipped) {
-//                if(item != null) {
-//                    attack += item.itemDMG;
-//                    defence += item.itemDEF;
-//                    speed += item.itemSPEED;
-//                    penetration += item.itemSPEED;
-//                    hp += item.itemHP;
-//                }
-//            }
-//            array = new double[5];
-//            array[0] = hp;
-//            array[1] = defence;
-//            array[2] = attack;
-//            array[3] = penetration;
-//            array[4] = speed;
-//
-//        }
+
+        public double[] calculateStats() {
+            double attack = 0, defence = 0, speed = 0, penetration = 0, hp = 0;
+            Console.WriteLine("INVSTATSCALC");
+
+            foreach (Item item in inventory[1]) {
+                Console.WriteLine("item...");
+                if(item != null) {
+                    Console.WriteLine(item.itemName);
+
+                    attack += item.itemDMG;
+                    defence += item.itemDEF;
+                    speed += item.itemSPEED;
+                    penetration += item.itemSPEED;
+                    hp += item.itemHP;
+                }
+            }
+
+
+            return new double[5]{hp, defence, attack, penetration, speed};
+
+        }
+
     }
 }

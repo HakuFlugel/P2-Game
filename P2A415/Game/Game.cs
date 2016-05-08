@@ -35,14 +35,8 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            menu = new Menu(this);                                                             //menu ting
-            invi = new Inventory();                                                         //inventory ting
-            Item item = new Item();
-            
-
-
-          
-
+            menu = new Menu(this);
+            invi = new Inventory();
 
             FormClosing += delegate {
                 shouldRun = false;
@@ -62,7 +56,7 @@ namespace RPGame {
 
 
             if (e.KeyChar == (char)Keys.Escape) {
-                menu.toggle();                                                                 //menu ting
+                menu.toggle();
 
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
                 invi.toggle(this);

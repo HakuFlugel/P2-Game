@@ -41,7 +41,7 @@ namespace RPGame {
         public Bitmap texture;
         public Position position;
         public Stats stats = new Stats();
-        public Inventory invetory = new Inventory();
+        public Inventory inventory = new Inventory();
 
         public int characterType;
 
@@ -93,6 +93,8 @@ namespace RPGame {
         }
 
         public void move(Game game,int x, int y) {
+            calculateStats();
+
             if (canMove(game, position.x + x, position.y + y)) {
                 int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
@@ -138,15 +140,14 @@ namespace RPGame {
         public void calculateStats() {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
-            double[] invetentoryStats;
-            invetory.calStats(out invetentoryStats);    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
+            double[] equipmentStats = inventory.calculateStats();    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
 
-            if (charType.name == "Player") {
-                stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + invetentoryStats[0];
-                stats.defence = charType.defence * Math.Pow(1.03, stats.level)   + invetentoryStats[1];
-                stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + invetentoryStats[2];
-                stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + invetentoryStats[3];
-                stats.attackSpeed = charType.attackSpeed +                       + invetentoryStats[4];
+            if (characterType == 0/*charType.name == "Player"*/) {
+                stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + equipmentStats[0];
+                stats.defence = charType.defence * Math.Pow(1.03, stats.level)   + equipmentStats[1];
+                stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + equipmentStats[2];
+                stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + equipmentStats[3];
+                stats.attackSpeed = charType.attackSpeed +                       + equipmentStats[4];
             } else { // mobs
                 stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level);
                 stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
