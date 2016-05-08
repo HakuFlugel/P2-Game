@@ -25,7 +25,7 @@ namespace RPGame {
 
         }
 
-        public Items generating(Items item) {
+        public Item generating(Item item) {
 
             return item;
         }

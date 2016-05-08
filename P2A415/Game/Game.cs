@@ -37,7 +37,7 @@ namespace RPGame {
 
             menu = new Menu(this);                                                             //menu ting
             invi = new Inventory();                                                         //inventory ting
-            Items item = new Items();
+            Item item = new Item();
             
 
 

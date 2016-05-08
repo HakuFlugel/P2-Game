@@ -33,7 +33,7 @@ namespace RPGame {
                 name = "Ghoul",
                 maxHP = 100,
                 attack = 35,
-                attackSpeed = 5,
+                attackSpeed = 7,
                 armorPen =5.2,
                 defence = 5,
                 exp = 10
@@ -44,7 +44,7 @@ namespace RPGame {
                 name = "Zombie",
                 maxHP = 130,
                 attack = 24,
-                attackSpeed = 7,
+                attackSpeed = 9,
                 armorPen = 5.2,
                 defence = 9,
                 exp = 13

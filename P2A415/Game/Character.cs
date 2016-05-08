@@ -143,7 +143,7 @@ namespace RPGame {
 
             if (charType.name == "Player") {
                 stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + invetentoryStats[0];
-                stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + invetentoryStats[1];
+                stats.defence = charType.defence * Math.Pow(1.03, stats.level)   + invetentoryStats[1];
                 stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + invetentoryStats[2];
                 stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + invetentoryStats[3];
                 stats.attackSpeed = charType.attackSpeed +                       + invetentoryStats[4];
@@ -151,7 +151,7 @@ namespace RPGame {
                 stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level);
                 stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
                 stats.attack = charType.attack * Math.Pow(1.07, stats.level);
-                stats.armorPen = charType.armorPen * Math.Pow(1.07, stats.level);
+                stats.armorPen = charType.armorPen * Math.Pow(1.05, stats.level);
                 stats.attackSpeed = charType.attackSpeed + (3 / (stats.level / 5 + 1));
             }
 
