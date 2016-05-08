@@ -165,159 +165,52 @@ namespace RPGame {
                 Console.WriteLine("Enter is pressed");
 //                Console.WriteLine(tryEquip()); 
                 break;
-
+                //TODO: jump to other key
             default:
                 break;
             }
             //Console.WriteLine("selectedx : " + selectedX + "   selectedy : " + selectedY);
         }
 
-        public void moveItem(HighlightedItem item, HighlightedItem target) {
+        public void moveItem(HighlightedItem source, HighlightedItem target) {
 
-            EquipSlot replacingSlot = new EquipSlot();
-            Item replacingItem;
-
-            if (item.container != target.container) {
+            Item sourceItem = inventory[source.container][source.row,source.column];
+            Item targetItem = inventory[target.container][target.row, target.column];
 
 
+            if (source.container != target.container) {
 
-                if (inventory[target.container][target.row, target.column] != null) {
-                    replacingSlot = inventory[target.container][target.row, target.column].equipSlot;
+                EquipSlot deltaEquipSlots = sourceItem.equipSlot - (targetItem != null) ? targetItem.equipSlot : 0;
+                if (target.container == 0) { // Move from equipped to carried
+                    deltaEquipSlots = -deltaEquipSlots;
+                }
+                    
+                EquipSlot resultingEquipSlots = equipSlots - deltaEquipSlots;
+
+                if (resultingEquipSlots.Amulet < 0 || resultingEquipSlots.Belt < 0 || resultingEquipSlots.Boots < 0 ||
+                    resultingEquipSlots.Chest < 0 || resultingEquipSlots.Gloves < 0 || resultingEquipSlots.Hand < 0 ||
+                    resultingEquipSlots.Helmet < 0 || resultingEquipSlots.Pants < 0 || resultingEquipSlots.Ring < 0) {
+                    return;
                 }
 
+                equipSlots = resultingEquipSlots;
             }
 
-
-
-            // if to equip then check if enough slots
-            // in case of replace "subtract" old, "add" new
+            inventory[source.container][source.row,source.column] = targetItem;
+            inventory[target.container][target.row, target.column] = sourceItem;
         }
  
-//        public int tryEquip() {
-//
-//
-//            if (selectedColumn > 7)
-//                //if (GeneralQuestion("unequip")) {
-//                    if (totalEquipped[selectedRow][selectedColumn - 8].item != null) {
-//                        if (!GetItem(totalEquipped[selectedRow][selectedColumn - 8].item)) {
-//                                GeneralMessage("Inventory full");
-//                                return -20;
-//                            }
-//                            
-//
-//                        equipped.Remove(totalEquipped[selectedRow][selectedColumn - 8].item);
-//                    }
-//                    
-//
-//                return 0;
-//                        
-//                //}
-//
-//
-//
-//            Items[] y_x = new Items[2];
-//            int itterate = 0,count = 0;
-//            if (totalCarried[selectedRow][selectedColumn].item != null) {
-//                foreach (var item in equipped) {
-//
-//                if (item != null && totalCarried[selectedRow][selectedColumn].item != null && totalCarried[selectedRow][selectedColumn].item.equipSlot.Equals(item.equipSlot)) {
-//                    y_x[count] = item;                    
-//                    count++;  
-//                }
-//
-//                itterate++;
-//            }
-//            
-//                if (count == 2 && (totalCarried[selectedRow][selectedColumn].item.equipSlot.Hands == 1 || totalCarried[selectedRow][selectedColumn].item.equipSlot.RingSlot == 1)) {
-//
-//                    Items wurstItem = y_x[0];
-//
-//                    foreach (var items in y_x) 
-//                        if (wurstItem.itemLVL > items.itemLVL) 
-//                            wurstItem = items;
-//                        
-//                    
-//                    equipped.Add(totalCarried[selectedRow][selectedColumn].item);
-//                    carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//
-//                    carried.Add(wurstItem);
-//                    equipped.Remove(wurstItem);
-//
-//                    return 1;
-//
-//                } else if (totalCarried[selectedRow][selectedColumn].item.equipSlot.Hands == 2) {
-//                    
-//                    foreach (var items in equipped) 
-//                        if (items.equipSlot.Hands != 0) 
-//                            carried.Add(items);
-//        
-//                    
-//                    equipped.Add(totalCarried[selectedRow][selectedColumn].item);
-//                    carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//                    equipped.RemoveAll(item => item.equipSlot.Hands != 0);
-//
-//                } else if (count == 2 && totalCarried[selectedRow][selectedColumn].item.equipSlot.Hands == 2) {
-//
-//                    foreach (var items in y_x) {
-//                        carried.Add(items);
-//                        equipped.Remove(items);
-//                    }
-//
-//                    equipped.Add(totalCarried[selectedRow][selectedColumn].item);
-//                    carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//
-//                    return 2;
-//
-//                } else if (count == 1 && !(totalCarried[selectedRow][selectedColumn].item.equipSlot.Hands == 1 || totalCarried[selectedRow][selectedColumn].item.equipSlot.RingSlot == 1)) {
-//
-//                    equipped.Add(totalCarried[selectedRow][selectedColumn].item);
-//                    carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//
-//                    carried.Add(y_x[0]);
-//                    equipped.Remove(y_x[0]);
-//
-//                    return 3;
-//                }
-//
-//                int countingHands = 0;
-//                foreach(var item in equipped) 
-//                    countingHands += item.equipSlot.Hands;
-//                
-//                if(countingHands + totalCarried[selectedRow][selectedColumn].item.equipSlot.Hands > 2) {
-//                    carried.Add(equipped.Find(x => x.equipSlot.Hands != 0));
-//                    equipped.RemoveAll(x => x.equipSlot.Hands != 0);
-//                }
-//                
-//                equipped.Add(totalCarried[selectedRow][selectedColumn].item);
-//                carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//
-//                return 4;
-//                
-//            }
-//            return -10;
-//        } 
-//
-//        public void toggle(Game game) {
-//            if (!isOpen)
-//                game.localPlayer.character.calculateStats();
-//            isOpen = !isOpen;
-//            selectedColumn = 0;
-//            selectedRow = 0;  
-//        }
-//
-//        public void DeleteItem() {
-//            if (selectedColumn > 7) {
-//                if (totalEquipped[selectedRow][selectedColumn - 8].item != null)
-//                    //if(GeneralQuestion("Delete Equipped?"))
-//                        equipped.Remove(totalEquipped[selectedRow][selectedColumn - 8].item);
-//            } else {
-//                if (totalCarried[selectedRow][selectedColumn].item != null)
-//                    //if(GeneralQuestion("Delete Carried?"))
-//                    carried.Remove(totalCarried[selectedRow][selectedColumn].item);
-//            }
-//                
-//
-//             
+        public void toggle(Game game) {
+            if (!isOpen)
+                game.localPlayer.character.calculateStats();
+            isOpen = !isOpen;
+            selectedColumn = 0;
+            selectedRow = 0;  
+        }
+
+        public void draw(Graphics gfx, Game game) {
+            const 
+        }
 //            
 //        }
 //
