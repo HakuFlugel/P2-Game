@@ -43,10 +43,12 @@ namespace RPGame {
 
             List<Item> items = Item.itemTypes;
             Item[] genertedItem = new Item[3];
-            Random rand = new Random();
-            
+            Random rand = new Random(Guid.NewGuid().GetHashCode());
 
-            for(int index = 0; index < 3; index++) {
+
+
+            for (int index = 0; index < 3; index++) {
+                
                 int whatItem = rand.Next(0, 9);                                                     // Whict type of item.
                 switch (rand.Next(0, 11)) {                                                         // What lvl of item, and if there even is going to be an item
 
