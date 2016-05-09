@@ -24,7 +24,7 @@ namespace RPGame {
             return new EquipSlot {
                 Hand = e1.Hand + e2.Hand,
                 Gloves = e1.Gloves + e2.Gloves,
-                Helmet = e1.Hand + e2.Helmet,
+                Helmet = e1.Helmet + e2.Helmet,
                 Chest = e1.Chest + e2.Chest,
                 Belt = e1.Belt + e2.Belt,
                 Pants = e1.Pants + e2.Pants,
@@ -39,7 +39,7 @@ namespace RPGame {
             return new EquipSlot {
                 Hand = e1.Hand - e2.Hand,
                 Gloves = e1.Gloves - e2.Gloves,
-                Helmet = e1.Hand - e2.Helmet,
+                Helmet = e1.Helmet - e2.Helmet,
                 Chest = e1.Chest - e2.Chest,
                 Belt = e1.Belt - e2.Belt,
                 Pants = e1.Pants - e2.Pants,
@@ -54,7 +54,7 @@ namespace RPGame {
             return new EquipSlot {
                 Hand = -e1.Hand,
                 Gloves = -e1.Gloves,
-                Helmet = -e1.Hand,
+                Helmet = -e1.Helmet,
                 Chest = -e1.Chest,
                 Belt = -e1.Belt,
                 Pants = -e1.Pants,
@@ -90,7 +90,7 @@ namespace RPGame {
 
             itemTypes.Add(new Item() {
                 imageIndex = 5,
-                itemName = "Axe",
+                itemName = "Two-Handed Axe",
                 itemHP = 0,
                 itemLVL = 1,
                 itemDMG = 15,
@@ -116,7 +116,7 @@ namespace RPGame {
             });
             itemTypes.Add(new Item() {
                 imageIndex = 2,
-                itemName = "Two Handed Sword",
+                itemName = "Two-Handed Sword",
                 itemHP = 0,
                 itemLVL = 1,
                 itemDMG = 13,
@@ -220,7 +220,8 @@ namespace RPGame {
                 itemSPEED = 0.15,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Gloves = 1
+                    Gloves = 1,
+                    Hand = -1
                 }
             });
 
@@ -308,10 +309,10 @@ namespace RPGame {
 
             this.itemName = prefix + itemType.itemName + suffix;
 
-            this.itemDMG = itemType.itemDMG * Math.Pow(1.07, level);
-            this.itemHP = itemType.itemHP * Math.Pow(1.07, level);
-            this.itemDEF = itemType.itemDEF * Math.Pow(1.05, level);
-            this.itemPENE = itemType.itemPENE * Math.Pow(1.05, level);
+            this.itemDMG = itemType.itemDMG * Math.Pow(1.10, level);
+            this.itemHP = itemType.itemHP * Math.Pow(1.10, level);
+            this.itemDEF = itemType.itemDEF * Math.Pow(1.07, level);
+            this.itemPENE = itemType.itemPENE * Math.Pow(1.07, level);
             this.itemSPEED = itemType.itemSPEED;
 
             this.itemLVL = level;

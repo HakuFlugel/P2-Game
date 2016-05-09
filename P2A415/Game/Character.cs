@@ -140,23 +140,28 @@ namespace RPGame {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
 
-            if (inventory != null/*characterType == 0/*charType.name == "Player"*/) {
-                double[] equipmentStats = inventory.calculateStats();    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
+            double oldMaxHP = stats.maxHP;
 
-                stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + equipmentStats[0];
-                stats.defence = charType.defence * Math.Pow(1.03, stats.level)   + equipmentStats[1];
-                stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + equipmentStats[2];
-                stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + equipmentStats[3];
-                stats.attackSpeed = charType.attackSpeed +                       + equipmentStats[4];
+            if (characterType == 0/*charType.name == "Player"*/) {
+                double[] equipmentStats = new double[5];
+                if (inventory != null) {
+                    equipmentStats = inventory.calculateStats();
+                }
+
+                stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level)       + equipmentStats[0];
+                stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + equipmentStats[1];
+                stats.attack = charType.attack * Math.Pow(1.07, stats.level)     + equipmentStats[2];
+                stats.armorPen = charType.armorPen * Math.Pow(1.05, stats.level) + equipmentStats[3];
+                stats.attackSpeed = charType.attackSpeed                         + equipmentStats[4];
             } else { // mobs
-                stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level);
-                stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
-                stats.attack = charType.attack * Math.Pow(1.07, stats.level);
-                stats.armorPen = charType.armorPen * Math.Pow(1.05, stats.level);
+                stats.maxHP = charType.maxHP * Math.Pow(1.10, stats.level);
+                stats.defence = charType.defence * Math.Pow(1.07, stats.level); ;
+                stats.attack = charType.attack * Math.Pow(1.10, stats.level);
+                stats.armorPen = charType.armorPen * Math.Pow(1.07, stats.level);
                 stats.attackSpeed = charType.attackSpeed + (3 / (stats.level / 5 + 1));
             }
 
-            stats.curHP = stats.maxHP;
+            stats.curHP *= (stats.maxHP/oldMaxHP);
           
         }
 
@@ -165,7 +170,7 @@ namespace RPGame {
         }
 
         public static ulong expRequired(int level) {
-            return (ulong)(Math.Pow(level, 1.8) * 10 + 10);
+            return (ulong)(Math.Pow(level, 1.16) * 10 + 10);
         }
 
         public int addExperience(ulong exp) {

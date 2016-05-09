@@ -22,7 +22,7 @@ namespace RPGame {
         private Brush itemBackground = new SolidBrush(Color.FromArgb(192, Color.WhiteSmoke));
         private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
         private Brush itemHighlightedBackground = new SolidBrush(Color.FromArgb(192, Color.Violet));
-
+            
         public int carriedCount = 0;
 
         Font titleFont = new Font("Bradley Hand ITC", 40, FontStyle.Italic); 
@@ -92,44 +92,16 @@ namespace RPGame {
 
             case Keys.Delete:
             case Keys.Back:
-                //DeleteItem(); // TODO: evt. sælge
+
+                Item item = inventory[activeContainer][selectedRow, selectedColumn];
+
+                if (item != null) {
+                    player.character.addExperience((ulong)(Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
+                    inventory[activeContainer][selectedRow, selectedColumn] = null;
+                }
+
                 break;
 
-//                case Keys.Space:
-//                    Items item = new Items();
-//                    
-//
-//                    GetItem(item.MakeItem(new Items() {
-//                        itemName = "Two Handed Sword",
-//                        itemHP = 1,
-//                        itemLVL = 1,
-//                        itemDMG = 1,
-//                        itemDEF = 0,
-//                        equipSlot = new Items.itemType {
-//                            Hands = 2
-//                        }
-//                    }, test_int++));
-//                    GetItem(item.MakeItem(new Items() {
-//                        itemName = "Chest Plate",
-//                        itemHP = 1,
-//                        itemLVL = 1,
-//                        itemDMG = 1,
-//                        itemDEF = 0,
-//                        equipSlot = new Items.itemType {
-//                            Chest = 1
-//                        }
-//                    }, test_int++));
-//                    GetItem(item.MakeItem(new Items() {
-//                        itemName = "Boots",
-//                        itemHP = 1,
-//                        itemLVL = 1,
-//                        itemDMG = 1,
-//                        itemDEF = 0,
-//                        equipSlot = new Items.itemType {
-//                            Boots = 1
-//                        }
-//                    }, test_int++));
-//                    break;
 
             case Keys.W:
             case Keys.Up:
@@ -182,12 +154,11 @@ namespace RPGame {
 //                    if (selectedX > 7)
 //                        selectedY = (selectedY > 3 ? 3 : selectedY);
                 break;
-
-            
+            case Keys.Escape:
+                highlightedItem = null;
+                break;
             case Keys.Enter:
-                // TODO: escape to deselect
                 if (highlightedItem == null) {
-                    // TODO: tjek om der er et item der...
                     highlightedItem = new HighlightedItem(activeContainer, selectedRow, selectedColumn);
                 } else {
                     // TODO: er det her tjek nødvendigt? man kunne bare lade den bytte et item med sig selv
@@ -198,15 +169,11 @@ namespace RPGame {
                         highlightedItem = null;
                     }
                 }
-
-                Console.WriteLine("Enter is pressed");
-//                Console.WriteLine(tryEquip()); 
                 break;
                 //TODO: jump to other key
             default:
                 break;
             }
-            //Console.WriteLine("selectedx : " + selectedX + "   selectedy : " + selectedY);
         }
 
         public void moveItem(HighlightedItem source, HighlightedItem target) {
@@ -230,6 +197,7 @@ namespace RPGame {
                 if (resultingEquipSlots.Amulet < 0 || resultingEquipSlots.Belt < 0 || resultingEquipSlots.Boots < 0 ||
                     resultingEquipSlots.Chest < 0 || resultingEquipSlots.Gloves < 0 || resultingEquipSlots.Hand < 0 ||
                     resultingEquipSlots.Helmet < 0 || resultingEquipSlots.Pants < 0 || resultingEquipSlots.Ring < 0) {
+                    Console.WriteLine("Not enough equip slots");
                     return;
                 }
 
@@ -238,17 +206,18 @@ namespace RPGame {
 
             inventory[source.container][source.row,source.column] = targetItem;
             inventory[target.container][target.row, target.column] = sourceItem;
-            
+
             player.character.calculateStats();
         }
  
         public void toggle(Game game) {
-            if (!isOpen)
-                game.localPlayer.character.calculateStats();
+//            if (!isOpen)
+//                game.localPlayer.character.calculateStats();
             isOpen = !isOpen;
             activeContainer = 0;
             selectedColumn = 0;
             selectedRow = 0;  
+            highlightedItem = null;
         }
 
         public bool gainItem(Item item) {
