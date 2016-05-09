@@ -35,12 +35,12 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            menu = new Menu(this);                                                             //menu ting
-            invi = new Inventory();                                                         //inventory ting
+            menu = new Menu(this);                                                                  //menu ting
+            invi = new Inventory();                                                                 //inventory ting
             Items item = new Items();
             
 
-
+            
           
 
 
@@ -181,11 +181,20 @@ namespace RPGame {
             }
 
         }
+        
 
         public static void Main() {
+
+            
+
             using (Game game = new Game()) {
+                game.FormClosing += Game_FormClosing;
                 game.run();
             }
+        }
+
+        private static void Game_FormClosing(object sender, FormClosingEventArgs e) {
+            MessageBox.Show("FUK U DO IT CORRECT WAY!");
         }
     }
 }

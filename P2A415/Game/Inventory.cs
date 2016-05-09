@@ -93,9 +93,12 @@ namespace RPGame {
 
                     GetItem(item.MakeItem(new Items() {
                         itemName = "Two Handed Sword",
-                        itemHP = 1,
+                        flavortext = "",
+                        itemHP = 20,
                         itemLVL = 1,
-                        itemDMG = 1,
+                        itemDMG = 13,
+                        itemPENE = 1.4,
+                        itemSPEED = 0.29,
                         itemDEF = 0,
                         equipSlot = new Items.itemType {
                             Hands = 2
@@ -269,7 +272,7 @@ namespace RPGame {
         } 
 
         public void toggle(Game game) {
-            if (!isOpen)
+            if (isOpen)
                 game.localPlayer.character.calculateStats();
             isOpen = !isOpen;
             selectedX = 0;
@@ -304,22 +307,17 @@ namespace RPGame {
 
         public bool GetItem(Items item) {
 
-            Carried.Add(item);
-            if (Carried.Count > 63)
+            
+            Console.WriteLine("Carried count: " + Carried.Count);
+            if (Carried.Count  >= 64) {
+                Console.WriteLine("Too little space");
                 return false;
+            }
+            Carried.Add(item);
 
 
-            for(int index = 0; index < 8; index++) 
-
-                for(int indey = 0; indey < 8; indey++) 
-
-                    if (totalCarried[index][indey].item == null) {
-
-                        totalCarried[index][indey].setItem(item);
-
-                        return true;
-                    }
-            return false;
+            
+            return true;
         }
 
         public void draw(Graphics gfx, Game game) {
@@ -372,23 +370,23 @@ namespace RPGame {
                         gfx.DrawImage(totalEquipped[ypp][xpp].item.itemImageFile, new RectangleF(totalEquipped[ypp][xpp].X, totalEquipped[ypp][xpp].Y, 60, 60));
 
 
-            if ((selectedX < 7 && totalCarried[selectedY][selectedX].item != null) || (selectedX >= 8 && totalEquipped[selectedY][selectedX - 8].item != null)) {
-                Items item = selectedX < 7 ? totalCarried[selectedY][selectedX].item : totalEquipped[selectedY][selectedX - 8].item;
+            if ((selectedX < 8 && totalCarried[selectedY][selectedX].item != null) || (selectedX >= 8 && totalEquipped[selectedY][selectedX - 8].item != null)) {
+                Items item = selectedX < 8 ? totalCarried[selectedY][selectedX].item : totalEquipped[selectedY][selectedX - 8].item;
                 int index = xdex - 1;
-                float X = selectedX < 7 ? totalCarried[selectedY][selectedX].X : totalEquipped[selectedY][selectedX - 8].X,
-                      Y = selectedX < 7 ? totalCarried[selectedY][selectedX].Y : totalEquipped[selectedY][selectedX - 8].Y;
+                float X = selectedX < 8 ? totalCarried[selectedY][selectedX].X : totalEquipped[selectedY][selectedX - 8].X,
+                      Y = selectedX < 8 ? totalCarried[selectedY][selectedX].Y : totalEquipped[selectedY][selectedX - 8].Y;
                 string flavortext = "";
                 if (item.flavortext != null) {
                     flavortext = item.flavortext;
                 }
-
+                Console.WriteLine(item.itemHP);
                 string name = item.itemName,
-                    lvl = "Level: " + item.itemLVL.ToString(),
-                    stats = "Health: " + item.itemHP.ToString() + Environment.NewLine +
-                    "Damage: " + item.itemDMG.ToString() + Environment.NewLine +
-                    "Defence: " + item.itemDEF.ToString() + Environment.NewLine + 
-                    "Speed: " + item.itemSPEED.ToString() + Environment.NewLine + 
-                    "Penetration: " + item.itemPENE.ToString() + Environment.NewLine;
+                    lvl = "Level: " + Math.Round(item.itemLVL,2).ToString(),
+                    stats = "Health: " + Math.Round(item.itemHP,2).ToString() + Environment.NewLine +
+                    "Damage: " + Math.Round(item.itemDMG,2).ToString() + Environment.NewLine +
+                    "Defence: " + Math.Round(item.itemDEF,2).ToString() + Environment.NewLine + 
+                    "Speed: " + Math.Round(item.itemSPEED,2).ToString() + Environment.NewLine + 
+                    "Penetration: " + Math.Round(item.itemPENE,2).ToString() + Environment.NewLine;
                 
 
                 textPositionX = X + 65;
