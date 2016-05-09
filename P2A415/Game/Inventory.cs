@@ -209,7 +209,7 @@ namespace RPGame {
 
             if (source.container != target.container) {
                 // TODO: evt. tilføje conditional til sourceitem.equipslot for at undgå at man får null exception af move. dvs. man gerne må flytte fra en tom plads til en med et item
-                EquipSlot deltaEquipSlots = (sourceItem != null ? targetItem.equipSlot : new EquipSlot()) - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
+                EquipSlot deltaEquipSlots = (sourceItem != null ? sourceItem.equipSlot : new EquipSlot()) - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
                 if (target.container == 0) { // Move from equipped to carried
                     deltaEquipSlots = -deltaEquipSlots;
                 }

@@ -38,6 +38,7 @@
     <Compile Include="Character.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="Looting.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Multiplication.cs" />
     <Compile Include="Player.cs" />
