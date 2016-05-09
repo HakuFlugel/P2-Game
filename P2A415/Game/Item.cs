@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Net.Mime;
 
 namespace RPGame {
     
@@ -67,7 +68,8 @@ namespace RPGame {
     public class Item {
 
         public static List<Item> itemTypes = new List<Item>();
-        public int[] x_y = new int[2];
+
+        public static Bitmap itemImage;
 
         public int imageIndex; // Set to first index of image, in itemTypes list
         public int itemLVL; // Set to total number of images, in itemTypes list
@@ -83,6 +85,8 @@ namespace RPGame {
         public EquipSlot equipSlot;
 
         static Item() {
+
+            itemImage = ImageLoader.Load("Content/Items.png");
 
             itemTypes.Add(new Item() {
                 imageIndex = 5,
@@ -213,7 +217,7 @@ namespace RPGame {
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
-                itemSPEED = 0.05,
+                itemSPEED = 0.15,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
                     Gloves = 1
@@ -308,6 +312,7 @@ namespace RPGame {
             this.itemHP = itemType.itemHP * Math.Pow(1.07, level);
             this.itemDEF = itemType.itemDEF * Math.Pow(1.05, level);
             this.itemPENE = itemType.itemPENE * Math.Pow(1.05, level);
+            this.itemSPEED = itemType.itemSPEED;
 
             this.itemLVL = level;
 
@@ -327,15 +332,6 @@ namespace RPGame {
 //            return temp_item;
 //        }
 
-//        //TODO: wtf?
-//        private int[] returnIntFitsPic(int number_on_picture) {
-//            x_y[0] = (number_on_picture % 3) * 32;
-//
-//            int number_div = (number_on_picture / 3) * 32;
-//
-//            x_y[1] = number_div;
-//            return x_y;
-//        }
         
 //        public string hpToString(int index) {
 //            return "Health: " + itemTypes[index].itemHP.ToString();

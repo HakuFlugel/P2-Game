@@ -10,7 +10,7 @@ namespace RPGame {
 
     public class Inventory {
 
-        int test_int = 2;
+        private Player player;
 
         private int selectedRow = 0;
         private int selectedColumn = 0;
@@ -61,7 +61,9 @@ namespace RPGame {
 
         private HighlightedItem highlightedItem;
 
-        public Inventory() {
+        public Inventory(Player player) {
+            this.player = player;
+
             inventory[0] = new Item[8, 8];
             inventory[1] = new Item[4, 4];
 
@@ -201,14 +203,13 @@ namespace RPGame {
             Item sourceItem = inventory[source.container][source.row,source.column];
             Item targetItem = inventory[target.container][target.row, target.column];
 
-            if (sourceItem == null) { // TODO: se nedenstående todo, tilføj:   && targetitem == null
-                Console.WriteLine("Tried to move inexistent item. Make sure there actually is an item before allowing the player to select or move items from a slot.");
+            if (sourceItem == null && targetItem == null) {
                 return;
             }
 
             if (source.container != target.container) {
                 // TODO: evt. tilføje conditional til sourceitem.equipslot for at undgå at man får null exception af move. dvs. man gerne må flytte fra en tom plads til en med et item
-                EquipSlot deltaEquipSlots = sourceItem.equipSlot - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
+                EquipSlot deltaEquipSlots = (sourceItem != null ? targetItem.equipSlot : new EquipSlot()) - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
                 if (target.container == 0) { // Move from equipped to carried
                     deltaEquipSlots = -deltaEquipSlots;
                 }
@@ -226,6 +227,8 @@ namespace RPGame {
 
             inventory[source.container][source.row,source.column] = targetItem;
             inventory[target.container][target.row, target.column] = sourceItem;
+
+            player.character.calculateStats();
         }
  
         public void toggle(Game game) {
@@ -304,7 +307,14 @@ namespace RPGame {
                     }
 
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
-                    // draw image
+
+                    Item item = inventory[0][y, x];
+
+                    if (item != null) {
+                        RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
+                        gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);
+                    }
+                
                 }
             }
 
@@ -325,7 +335,14 @@ namespace RPGame {
                     }
 
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
-                    // draw image
+
+                    Item item = inventory[1][y, x];
+
+                    if (item != null) {
+                        RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
+                        gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);
+                    }
+
                 }
             }
 
@@ -391,13 +408,9 @@ namespace RPGame {
 
         public double[] calculateStats() {
             double attack = 0, defence = 0, speed = 0, penetration = 0, hp = 0;
-            Console.WriteLine("INVSTATSCALC");
 
             foreach (Item item in inventory[1]) {
-                Console.WriteLine("item...");
                 if(item != null) {
-                    Console.WriteLine(item.itemName);
-
                     attack += item.itemDMG;
                     defence += item.itemDEF;
                     speed += item.itemSPEED;

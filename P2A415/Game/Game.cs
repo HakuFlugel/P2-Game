@@ -8,7 +8,6 @@ using System.Security.Cryptography;
 namespace RPGame {
     public class Game : Form {
         private Menu menu;
-        private Inventory invi;
 
         public World world;
         public Player localPlayer;
@@ -36,7 +35,7 @@ namespace RPGame {
             menu = new Menu(this);
 
             menu = new Menu(this);
-            invi = new Inventory();
+            //invi = new Inventory();
 
             FormClosing += delegate {
                 shouldRun = false;
@@ -59,7 +58,7 @@ namespace RPGame {
                 menu.toggle();
 
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
-                invi.toggle(this);
+                localPlayer.inventory.toggle(this);
                 
 
             } else if (localPlayer.character.currentCombat != null) {
@@ -71,8 +70,8 @@ namespace RPGame {
             
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
-            } else if(invi.isOpen && isDown) {
-                invi.keyInput(e);
+            } else if(localPlayer.inventory.isOpen && isDown) {
+                localPlayer.inventory.keyInput(e);
             } else
             
                 
@@ -129,7 +128,7 @@ namespace RPGame {
             double deltaTime = (double)(thisTime - lastTime) / Stopwatch.Frequency;
 
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-            if ((menu.isOpen || invi.isOpen) && localPlayer.character.currentCombat == null) {                                                                      //menu ting
+            if ((menu.isOpen || localPlayer.inventory.isOpen) && localPlayer.character.currentCombat == null) {
                 return;
             }
             localPlayer.update(this, deltaTime);
@@ -163,8 +162,8 @@ namespace RPGame {
 
                 userInterface.draw(gfx);
 
-                if (invi.isOpen) {
-                    invi.draw(gfx,this);
+                if (localPlayer.inventory.isOpen) {
+                    localPlayer.inventory.draw(gfx,this);
                 }
                 
                 if (menu.isOpen) {
