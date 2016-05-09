@@ -143,7 +143,7 @@ namespace RPGame {
             if (characterType == 0/*charType.name == "Player"*/) {
                 double[] equipmentStats = new double[5];
                 if (inventory != null) {
-                    inventory.calculateStats();
+                    equipmentStats = inventory.calculateStats();
                 }
 
                 stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level)       + equipmentStats[0];
