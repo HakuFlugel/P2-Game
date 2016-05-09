@@ -15,6 +15,8 @@ namespace RPGame {
         public bool shouldRun = true;
         private Graphics graphics;
 
+        public Looting loot;
+
 
         private Stopwatch stopWatch = new Stopwatch();
 
@@ -36,6 +38,8 @@ namespace RPGame {
 
             menu = new Menu(this);
             //invi = new Inventory();
+
+            loot = new Looting();
 
             FormClosing += delegate {
                 shouldRun = false;
@@ -72,7 +76,9 @@ namespace RPGame {
                 menu.keyInput(e);
             } else if(localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(e);
-            } else
+            } else if(loot.isOpen && isDown) {
+                loot.keyInput(e);
+            } else 
             
                 
 
@@ -157,9 +163,9 @@ namespace RPGame {
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
+                if(loot.isOpen)
+                    loot.draw(gfx,this);
                 
-                
-
                 userInterface.draw(gfx);
 
                 if (localPlayer.inventory.isOpen) {

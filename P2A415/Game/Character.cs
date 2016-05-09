@@ -168,8 +168,9 @@ namespace RPGame {
             return (ulong)(Math.Pow(level, 1.8) * 10 + 10);
         }
 
-        public void addExperience(ulong exp) {
+        public int addExperience(ulong exp) {
             stats.exp += exp;
+            int temp_lvl = stats.level;
             while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
@@ -177,6 +178,7 @@ namespace RPGame {
 
                 calculateStats();
             }
+            return stats.level - temp_lvl;
         }
     }
 }
