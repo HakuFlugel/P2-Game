@@ -140,8 +140,11 @@ namespace RPGame {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
 
-            if (inventory != null/*characterType == 0/*charType.name == "Player"*/) {
-                double[] equipmentStats = inventory.calculateStats();    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
+            if (characterType == 0/*charType.name == "Player"*/) {
+                double[] equipmentStats = new double[5];
+                if (inventory != null) {
+                    inventory.calculateStats();
+                }
 
                 stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level)       + equipmentStats[0];
                 stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + equipmentStats[1];
