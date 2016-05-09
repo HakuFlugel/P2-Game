@@ -8,8 +8,8 @@ using System.Windows.Forms;
 
 namespace RPGame {
     public class Looting {
-        public ulong exp;
-        public int lvl;
+        public ulong exp = 0;
+        public int lvl = 0;
         public int monsterLvl;
         public bool isOpen = false;
         private bool hasDone = false;
@@ -89,13 +89,15 @@ namespace RPGame {
 
             float the_addition = OutterBoxSize.Width + lootWidth / 6.5f;
 
-            if(!hasDone)
+            if(!hasDone) {
                 gained_items = generateLoot(monsterLvl);
 
 
-            //if(gained_items != null)
-            //    foreach (var item in gained_items) 
-            //        game.localPlayer.character.inventory.additem(item);
+                if (gained_items != null)
+                    foreach (var item in gained_items)
+                        Console.WriteLine(game.localPlayer.character.inventory.addItem(item));
+
+            }
 
 
             gfx.FillRectangle(background, new RectangleF(new PointF(0,0),new SizeF(game.Width,game.Height)));

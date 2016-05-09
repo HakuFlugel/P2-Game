@@ -87,20 +87,20 @@ namespace RPGame {
 
 
             //// path
-            //RoadMaker roadmaker = new RoadMaker(this, weights);
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
+            RoadMaker roadmaker = new RoadMaker(this, weights);
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
 
-            //for (int x = 0; x < regions.GetLength(0); x++) {
-            //    for (int y = 0; y < regions.GetLength(1); y++) {
-            //        int graph = (Math.Abs(x - 8) * Math.Abs(y - 8));
-            //        if (x < regions.GetLength(0) - 1 && graph >= rand.Next(-15, 63)) {
-            //            roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
-            //        }
-            //        if (y < regions.GetLength(1) - 1 && graph >= rand.Next(-15, 63)) {
-            //            roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
-            //        }
-            //    }
-            //}
+            for (int x = 0; x < regions.GetLength(0); x++) {
+                for (int y = 0; y < regions.GetLength(1); y++) {
+                    int graph = (Math.Abs(x - 8) * Math.Abs(y - 8));
+                    if (x < regions.GetLength(0) - 1 && graph >= rand.Next(-15, 63)) {
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
+                    }
+                    if (y < regions.GetLength(1) - 1 && graph >= rand.Next(-15, 63)) {
+                        roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x) * 32 + regions[x, y + 1].townx, (y + 1) * 32 + regions[x, y + 1].towny));
+                    }
+                }
+            }
 
             // Final tiles
             for (int x = 0; x < regions.GetLength(0)*32; x++) {
