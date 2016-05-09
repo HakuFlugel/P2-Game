@@ -72,6 +72,16 @@ namespace RPGame {
             inventory[0][0, 2] = new Item(Item.itemTypes[9], 42);
             inventory[0][0, 3] = new Item(Item.itemTypes[12], 42);
 
+            inventory[0][1, 0] = new Item(Item.itemTypes[0], 42);
+            inventory[0][1, 1] = new Item(Item.itemTypes[6], 42);
+            inventory[0][1, 2] = new Item(Item.itemTypes[9], 42);
+            inventory[0][1, 3] = new Item(Item.itemTypes[12], 42);
+
+            inventory[0][2, 0] = new Item(Item.itemTypes[0], 42);
+            inventory[0][2, 1] = new Item(Item.itemTypes[6], 42);
+            inventory[0][2, 2] = new Item(Item.itemTypes[9], 42);
+            inventory[0][2, 3] = new Item(Item.itemTypes[12], 42);
+
 
 
         }
@@ -208,7 +218,6 @@ namespace RPGame {
             }
 
             if (source.container != target.container) {
-                // TODO: evt. tilføje conditional til sourceitem.equipslot for at undgå at man får null exception af move. dvs. man gerne må flytte fra en tom plads til en med et item
                 EquipSlot deltaEquipSlots = (sourceItem != null ? sourceItem.equipSlot : new EquipSlot()) - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
                 if (target.container == 0) { // Move from equipped to carried
                     deltaEquipSlots = -deltaEquipSlots;
