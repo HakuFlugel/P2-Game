@@ -90,7 +90,7 @@ namespace RPGame {
 
             itemTypes.Add(new Item() {
                 imageIndex = 5,
-                itemName = "Axe",
+                itemName = "Two-Handed Axe",
                 itemHP = 0,
                 itemLVL = 1,
                 itemDMG = 15,
@@ -116,7 +116,7 @@ namespace RPGame {
             });
             itemTypes.Add(new Item() {
                 imageIndex = 2,
-                itemName = "Two Handed Sword",
+                itemName = "Two-Handed Sword",
                 itemHP = 0,
                 itemLVL = 1,
                 itemDMG = 13,
