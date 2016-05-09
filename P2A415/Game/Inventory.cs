@@ -228,6 +228,7 @@ namespace RPGame {
                 if (resultingEquipSlots.Amulet < 0 || resultingEquipSlots.Belt < 0 || resultingEquipSlots.Boots < 0 ||
                     resultingEquipSlots.Chest < 0 || resultingEquipSlots.Gloves < 0 || resultingEquipSlots.Hand < 0 ||
                     resultingEquipSlots.Helmet < 0 || resultingEquipSlots.Pants < 0 || resultingEquipSlots.Ring < 0) {
+                    Console.WriteLine("Not enough equip slots");
                     return;
                 }
 
@@ -241,8 +242,8 @@ namespace RPGame {
         }
  
         public void toggle(Game game) {
-            if (!isOpen)
-                game.localPlayer.character.calculateStats();
+//            if (!isOpen)
+//                game.localPlayer.character.calculateStats();
             isOpen = !isOpen;
             activeContainer = 0;
             selectedColumn = 0;
@@ -318,7 +319,6 @@ namespace RPGame {
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
 
                     Item item = inventory[0][y, x];
-
                     if (item != null) {
                         RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
                         gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);

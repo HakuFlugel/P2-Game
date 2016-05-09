@@ -81,16 +81,16 @@ namespace RPGame {
         public void doAttack() {
             doAttack(firstCharacter, secondCharacter);
             firstCharacter.stats.curHP += firstCharacter.stats.attack / (1 + secondCharacter.stats.defence - firstCharacter.stats.armorPen) / 20;
-            enemyAttackTime += 0.3333333333333333333333333;
+            enemyAttackTime = Math.Min(enemyAttackTime + firstCharacter.stats.attackSpeed, enemyTimePerAttack);
         }
 
         private void doAttack(Character attacker, Character victim) {
 
-            victim.stats.curHP -= (attacker.stats.attack + attacker.stats.level*20) / (1 + victim.stats.defence / 10);
+            victim.stats.curHP -= (attacker.stats.attack) / (1 + (victim.stats.defence - attacker.stats.armorPen) / 10);
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.4)*1.1+5)); //Scale xp
+                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.12)*1.1+5)); //Scale xp
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 
