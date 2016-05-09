@@ -316,6 +316,8 @@ namespace RPGame {
 
             this.itemLVL = level;
 
+            this.equipSlot = itemType.equipSlot;
+
             this.flavortext = flavorText[rand.Next(0,flavorText.Count())].Replace("ITEMNAME", itemType.itemName);
         }
 
