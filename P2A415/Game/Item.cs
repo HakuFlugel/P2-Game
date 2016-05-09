@@ -299,7 +299,7 @@ namespace RPGame {
         }
 
         public Item(Item itemType, int level) {
-            Random rand = new Random(Guid.NewGuid().GetHashCode()); // TODO
+            Random rand = new Random(Guid.NewGuid().GetHashCode());
 
             this.imageIndex = itemType.imageIndex + rand.Next(0, itemType.itemLVL-1);
 
