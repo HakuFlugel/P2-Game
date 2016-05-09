@@ -140,6 +140,8 @@ namespace RPGame {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
 
+            double oldMaxHP = stats.maxHP;
+
             if (characterType == 0/*charType.name == "Player"*/) {
                 double[] equipmentStats = new double[5];
                 if (inventory != null) {
@@ -159,7 +161,7 @@ namespace RPGame {
                 stats.attackSpeed = charType.attackSpeed + (3 / (stats.level / 5 + 1));
             }
 
-            stats.curHP = stats.maxHP;
+            stats.curHP *= (stats.maxHP/oldMaxHP);
           
         }
 
