@@ -220,7 +220,8 @@ namespace RPGame {
                 itemSPEED = 0.15,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Gloves = 1
+                    Gloves = 1//,
+                    //Hand = -1
                 }
             });
 
