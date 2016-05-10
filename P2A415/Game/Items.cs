@@ -238,7 +238,6 @@ namespace RPGame {
 
         private string[] Prefix = { "Wooden ", "Rusty ", "Blunt ", "Marked ", "Fugly ", "Ugly ", "Singing And Dancing ", "Longshot ", "Lickable ", "Beautifull ", "Outstanding ", "Understandable ", "Glory ", "Golden ", "Fine ", "Godly ", "Bloody ", "Sureal " };
         
-
         private string[] Suffix = { " Of Destiny", " Made By God", " Of Slayer", " Slaien", ", Bob", ", Edgar", ", Hem", " Made Outta Gold", " Of What?", " Of Wood", " Of Leather", " Of Gold", ", Joakim" };
         
         private string[] flavorText = { "This ITEM is a long lost item. Now found, by you!", "Who is rdy for some seal clubbing?",
@@ -294,13 +293,16 @@ namespace RPGame {
                     returnIntFitsPic(rand.Next(24,26));
                     break;
                 case "Leggings":
-                    returnIntFitsPic(rand.Next(/*TODO MAKE LEGGINGS!*/));
+                    returnIntFitsPic(rand.Next(/*TODO 
+                        LEGGINGS!*/));
                     break;
                 default:
                     break;
             }
 
-            item.itemImageFile = source.Clone(new Rectangle(x_y[0],x_y[1],32,32),source.PixelFormat);
+            int imagePixelSize = 32;
+
+            item.itemImageFile = source.Clone(new Rectangle(x_y[0],x_y[1],imagePixelSize,imagePixelSize),source.PixelFormat);
                 
             temp_item = item;
 
@@ -367,7 +369,5 @@ namespace RPGame {
         public string typeToString(int index) {
             return itemList[index].equipSlot.ToString();
         }
-
-
     }
 }
