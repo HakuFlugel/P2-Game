@@ -73,7 +73,7 @@ namespace RPGame {
         }
 
         public void keyInput(KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
                 hide();
         }
 

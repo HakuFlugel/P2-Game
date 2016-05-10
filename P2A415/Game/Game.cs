@@ -64,10 +64,6 @@ namespace RPGame {
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
                 localPlayer.inventory.toggle(this);
 
-
-            } else if (e.KeyChar == '0') {
-                //loot.show(0,0,10);
-
             } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
