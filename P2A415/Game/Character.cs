@@ -77,8 +77,9 @@ namespace RPGame {
                 position.yoffset = 0.0f;
 
                 Region region = game.world.regions[position.x / 32, position.y / 32];
-                if (region.townx == position.x % 32 && region.towny == position.y % 32) {
+                if (region.townx == position.x % 32 && region.towny == position.y % 32) { //TODO: Move somewhere else, where it does not heal you constantly?
                     stats.curHP = stats.maxHP;
+                    Statistics.TownVisit++;
                 }
             }
         }
@@ -94,6 +95,7 @@ namespace RPGame {
 
         public void move(Game game,int x, int y) {
             if (canMove(game, position.x + x, position.y + y)) {
+                Statistics.Distance++;
                 int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
@@ -122,6 +124,7 @@ namespace RPGame {
                 position.yoffset -= y;
 
                 position.offsetScale = 1.0f;
+                
             }
 
         }

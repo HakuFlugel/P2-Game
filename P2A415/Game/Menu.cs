@@ -22,6 +22,7 @@ namespace RPGame {
         private List<Button> buttons = new List<Button>();
         public  int selected = 0;
         public bool isOpen { get; private set; } = false;
+        public bool StatisticsIsOpen = false;
 
         private SolidBrush menuBackground;
         private Bitmap buttonImage;
@@ -37,12 +38,16 @@ namespace RPGame {
             font = new Font("Arial", 32
                 , FontStyle.Bold);
 
+            
             buttons.Add(new Button("Resume Game", (button) => {
                 //button.text = "Resume Game";
                 this.isOpen = false;
             }));
+            buttons.Add(new Button("Statistiscs", (button) => {
+                statisticsToggle();
+            }));
             buttons.Add(new Button("New Game", (button) => {
-                this.isOpen = false;
+                Application.Restart();
             }));
 
             buttons.Add(new Button("Quit", (button) => {
@@ -53,6 +58,13 @@ namespace RPGame {
         public void toggle() {
             isOpen = !isOpen;
             selected = 0;
+            StatisticsIsOpen = false;
+        }
+
+        public void statisticsToggle() {
+            
+            StatisticsIsOpen = !StatisticsIsOpen;
+
         }
 
 
@@ -91,6 +103,9 @@ namespace RPGame {
 
 
         public void draw(Graphics gfx) {
+            if (StatisticsIsOpen) {
+                drawStatistics(gfx);
+            }
 
             const int padding = 16;
             const int buttonWidth = 384;
@@ -123,6 +138,31 @@ namespace RPGame {
                 stringFormat.LineAlignment = StringAlignment.Center;
                 gfx.DrawString(buttons[i].text, font, Brushes.DeepPink, buttonRect, stringFormat);
             }
+        }
+
+        public void drawStatistics(Graphics gfx) {
+            String text = $@"Statistics 
+Encounters: {Statistics.Encounters} 
+Kills: {Statistics.Kills}
+Deaths: {Statistics.Deaths}
+
+Questions: {Statistics.Questions} 
+Correct: {Statistics.Correct}
+Wrong: {Statistics.Wrong}
+
+Distance: {Statistics.Distance}
+Highest Level: {Statistics.HighestLevel}
+Town visits: {Statistics.TownVisit}";
+
+
+            const int padding = 4;
+            SizeF size = gfx.MeasureString(text, font);
+
+            RectangleF uiRect = new RectangleF(game.Width - size.Width - 7 * padding, 4, size.Width + 2 * padding, size.Height + 2 * padding);
+            RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
+            gfx.FillRectangle(menuBackground, uiRect);
+
+            gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
         }
     }
 }
