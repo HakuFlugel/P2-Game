@@ -20,6 +20,11 @@ namespace RPGame {
             character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);
             inventory = new Inventory(this);
             character.inventory = inventory;
+
+            // TODO: debug code below
+            character.stats.level = 42;
+            character.position.x = 140;
+            character.position.y = 150;
         }
 
         public void update(Game game,double deltaTime)
