@@ -75,12 +75,6 @@ namespace RPGame {
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
-
-                Region region = game.world.regions[position.x / 32, position.y / 32];
-                if (region.townx == position.x % 32 && region.towny == position.y % 32) { //TODO: Move somewhere else, where it does not heal you constantly?
-                    stats.curHP = stats.maxHP;
-                    Statistics.TownVisit++;
-                }
             }
         }
 
@@ -124,7 +118,12 @@ namespace RPGame {
                 position.yoffset -= y;
 
                 position.offsetScale = 1.0f;
+
                 
+                if (region.townx == position.x % 32 && region.towny == position.y % 32) { 
+                    stats.curHP = stats.maxHP;
+                    Statistics.TownVisit++;
+                }
             }
 
         }
