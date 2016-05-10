@@ -61,7 +61,7 @@ namespace RPGame {
             if (e.KeyChar == (char)Keys.Escape) {
                 menu.toggle();
 
-            } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
+            } else if (e.KeyChar == (char)Keys.E) {
                 localPlayer.inventory.toggle(this);
 
             } else if (localPlayer.character.currentCombat != null) {
