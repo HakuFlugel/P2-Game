@@ -37,6 +37,7 @@ namespace RPGame {
             enemyAttackTime = enemyTimePerAttack;
 
             currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
+            Statistics.Encounters++;
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {
@@ -57,8 +58,10 @@ namespace RPGame {
                 }
 
                 if (isCorrect) {
-					doAttack();
+                    Statistics.Correct++;
+                    doAttack();
                 } else {
+                    Statistics.Wrong++;
                     enemyAttackTime -= 2.5;
                     // TODO: effect, shake?
                 }
@@ -99,12 +102,16 @@ namespace RPGame {
 
 				hasEnded = true;
                 // Do victory/lose stuff
-
+                if (victim==secondCharacter) {
+                    Statistics.Kills++;
+                    Statistics.HighestLevel = secondCharacter.stats.level;
+                }
                 if (victim==firstCharacter) {
+                    Statistics.Distance--;
+                    Statistics.Deaths++;
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
                     game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);
-                    
                 }
             }
         }
