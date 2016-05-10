@@ -220,26 +220,16 @@ namespace RPGame {
         }
 
         public bool addItem(Item gainedItem) {
-            int count = 0;
+
             for (int y = 0; y < inventory[0].GetLength(0); y++)
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
                     Item item = inventory[0][y, x];
-                    if (item != null) {
-                        count++;
-                       }
-                    Console.WriteLine(count);
+                    if (item == null) {
+                        item = gainedItem;
+                        return true;    
+                    }
                 }
-                    
-
-
-            if (count + 1 >= 64)
-                return false;
-
-            for (int y = 0; y < inventory[0].GetLength(0); y++)                  //Draw carried
-                for (int x = 0; x < inventory[0].GetLength(1); x++)
-                    if (inventory[0][y, x] == null) { inventory[0][y, x] = gainedItem; return true; }
-
-            return true;
+            return false;
         }
 
         public void draw(Graphics gfx, Game game) {

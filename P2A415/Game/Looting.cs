@@ -80,6 +80,19 @@ namespace RPGame {
 
 
         public void draw(Graphics gfx, Game game) {
+            int screenWidth = game.ClientSize.Width, screenHeight = game.ClientSize.Height;
+
+            
+
+            const int itemSize = 128;
+            const int itemPadding = 10;
+
+            
+
+
+
+
+
             float lootWidth = game.Width * 0.50f, lootHeight = game.Height * 0.50f;
             float lootplaceX = game.Width / 2 - lootWidth / 2, lootplaceY = game.Height / 2 - lootHeight / 2;
             
@@ -120,7 +133,11 @@ namespace RPGame {
             }
 
             for (int index = 0; index < 3; index++) {
-                
+                RectangleF itemRect = new RectangleF(
+                        OutterBoxPoint.X + itemPadding + index * (itemSize + itemPadding),
+                        OutterBoxPoint.Y + itemPadding,
+                        itemSize, itemSize);
+
                 gfx.FillRectangle(itemBackground, new RectangleF(OutterBoxPoint, OutterBoxSize));
 
                 if (gained_items[index] != null) {
