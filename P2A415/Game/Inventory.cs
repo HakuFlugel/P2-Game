@@ -22,10 +22,9 @@ namespace RPGame {
         private Brush itemBackground = new SolidBrush(Color.FromArgb(192, Color.WhiteSmoke));
         private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
         private Brush itemHighlightedBackground = new SolidBrush(Color.FromArgb(192, Color.Violet));
-            
-
+        
         Font titleFont = new Font("Bradley Hand ITC", 40, FontStyle.Italic); 
-
+        
         Font nameFont = new Font("Arial", 15, FontStyle.Bold);
         Font lvlFont = new Font("Arial", 10, FontStyle.Regular);
         Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
@@ -187,8 +186,9 @@ namespace RPGame {
 
             if (source.container != target.container) {
                 EquipSlot deltaEquipSlots = (sourceItem != null ? sourceItem.equipSlot : new EquipSlot()) - (targetItem != null ? targetItem.equipSlot : new EquipSlot());
-                if (target.container == 0) { // Move from equipped to carried
+                if (target.container == 0) {                // Move from equipped to carried
                     deltaEquipSlots = -deltaEquipSlots;
+                    
                 }
                     
                 EquipSlot resultingEquipSlots = equipSlots - deltaEquipSlots;
@@ -219,7 +219,34 @@ namespace RPGame {
             highlightedItem = null;
         }
 
+        public bool addItem(Item gainedItem) {
+            int count = 0;
+            for (int y = 0; y < inventory[0].GetLength(0); y++)
+                for (int x = 0; x < inventory[0].GetLength(1); x++) {
+                    Item item = inventory[0][y, x];
+                    if (item != null) {
+                        count++;
+                       }
+                    Console.WriteLine(count);
+                }
+                    
+
+
+            if (count + 1 >= 64)
+                return false;
+
+            for (int y = 0; y < inventory[0].GetLength(0); y++)                  //Draw carried
+                for (int x = 0; x < inventory[0].GetLength(1); x++)
+                    if (inventory[0][y, x] == null) { inventory[0][y, x] = gainedItem; return true; }
+
+            return true;
+        }
+
         public void draw(Graphics gfx, Game game) {
+            
+
+
+
             int screenWidth = game.ClientSize.Width, screenHeight = game.ClientSize.Height;
 
             const int inventoryPadding = 16;
@@ -269,7 +296,7 @@ namespace RPGame {
 
             gfx.DrawString(titleText, titleFont, Brushes.WhiteSmoke, titleRect);
 
-            for (int y = 0; y < inventory[0].GetLength(0); y++) {
+            for (int y = 0; y < inventory[0].GetLength(0); y++) {               //Draw carried
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -288,15 +315,15 @@ namespace RPGame {
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
 
                     Item item = inventory[0][y, x];
+                    
                     if (item != null) {
                         RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
                         gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);
                     }
-                
                 }
             }
 
-            for (int y = 0; y < inventory[1].GetLength(0); y++) {
+            for (int y = 0; y < inventory[1].GetLength(0); y++) {               //Draw Equipped
                 for (int x = 0; x < inventory[1].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -320,7 +347,7 @@ namespace RPGame {
                         RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
                         gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);
                     }
-
+                    
                 }
             }
 

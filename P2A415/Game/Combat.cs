@@ -90,7 +90,11 @@ namespace RPGame {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                attacker.addExperience((ulong)(Math.Pow(victim.stats.level, 1.14)*1.1+5)); //Scale xp
+                ulong exp = (ulong)(Math.Pow(victim.stats.level, 1.4) * 1.1 + 5);
+                int lvl_raised = attacker.addExperience(exp); //Scale xp
+
+                if(!victim.Equals(game.localPlayer.character))
+                    game.loot.show(exp, lvl_raised, victim.stats.level);
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 
