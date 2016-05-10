@@ -21,9 +21,9 @@ namespace RPGame {
                 imageFile = "Content/character.png",
                 name = "Player",
                 maxHP = 100,
-                attack = 20,
+                attack = 40,
                 attackSpeed = 0.75,
-                armorPen = 3,
+                armorPen = 5,
                 defence = 7,
                 exp = 10
             });
@@ -35,7 +35,7 @@ namespace RPGame {
                 attack = 35,
                 attackSpeed = 7,
                 armorPen =5.2,
-                defence = 5,
+                defence = 4,
                 exp = 10
             });
 
@@ -46,7 +46,7 @@ namespace RPGame {
                 attack = 24,
                 attackSpeed = 9,
                 armorPen = 5.2,
-                defence = 9,
+                defence = 6,
                 exp = 13
             });
         }

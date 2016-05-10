@@ -156,6 +156,7 @@ namespace RPGame {
                 highlightedItem = null;
                 break;
             case Keys.Enter:
+            case Keys.Space:
                 if (highlightedItem == null) {
                     highlightedItem = new HighlightedItem(activeContainer, selectedRow, selectedColumn);
                 } else {

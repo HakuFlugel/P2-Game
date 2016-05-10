@@ -61,6 +61,8 @@ namespace RPGame {
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             texture = ImageLoader.Load(charType.imageFile);
+            stats.maxHP = 1;
+            stats.curHP = 1;
             calculateStats();
         }
 
