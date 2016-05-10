@@ -41,11 +41,11 @@ namespace RPGame {
         public Bitmap texture;
         public Position position;
         public Stats stats = new Stats();
-        public Inventory invetory = new Inventory();
 
         public int characterType;
 
         public Combat currentCombat;
+        public Inventory inventory;
 
         public Character(Region region, int characterType, int x, int y, int level)
         {
@@ -61,6 +61,8 @@ namespace RPGame {
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             texture = ImageLoader.Load(charType.imageFile);
+            stats.maxHP = 1;
+            stats.curHP = 1;
             calculateStats();
         }
 
@@ -93,6 +95,7 @@ namespace RPGame {
         }
 
         public void move(Game game,int x, int y) {
+            
             if (canMove(game, position.x + x, position.y + y)) {
                 int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
@@ -138,24 +141,29 @@ namespace RPGame {
         public void calculateStats() {
 
             CharacterType charType = CharacterType.characterTypes[characterType];
-            double[] invetentoryStats;
-            invetory.calStats(out invetentoryStats);    //tempHP, tempDefence, tempAttack, tempPen, tempSpeed
 
-            if (charType.name == "Player") {
-                stats.maxHP = charType.maxHP * Math.Pow(1.05, stats.level)       + invetentoryStats[0];
-                stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + invetentoryStats[1];
-                stats.attack = charType.attack * Math.Pow(1.05, stats.level)     + invetentoryStats[2];
-                stats.armorPen = charType.armorPen * Math.Pow(1.03, stats.level) + invetentoryStats[3];
-                stats.attackSpeed = charType.attackSpeed +                       + invetentoryStats[4];
+            double oldMaxHP = stats.maxHP;
+
+            if (characterType == 0/*charType.name == "Player"*/) {
+                double[] equipmentStats = new double[5];
+                if (inventory != null) {
+                    equipmentStats = inventory.calculateStats();
+                }
+
+                stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level)       + equipmentStats[0];
+                stats.defence = charType.defence * Math.Pow(1.05, stats.level)   + equipmentStats[1];
+                stats.attack = charType.attack * Math.Pow(1.07, stats.level)     + equipmentStats[2];
+                stats.armorPen = charType.armorPen * Math.Pow(1.05, stats.level) + equipmentStats[3];
+                stats.attackSpeed = charType.attackSpeed                         + equipmentStats[4];
             } else { // mobs
-                stats.maxHP = charType.maxHP * Math.Pow(1.07, stats.level);
-                stats.defence = charType.defence * Math.Pow(1.05, stats.level); ;
-                stats.attack = charType.attack * Math.Pow(1.07, stats.level);
+                stats.maxHP = charType.maxHP * Math.Pow(1.10, stats.level);
+                stats.defence = charType.defence * Math.Pow(1.07, stats.level); ;
+                stats.attack = charType.attack * Math.Pow(1.10, stats.level);
                 stats.armorPen = charType.armorPen * Math.Pow(1.07, stats.level);
                 stats.attackSpeed = charType.attackSpeed + (3 / (stats.level / 5 + 1));
             }
 
-            stats.curHP = stats.maxHP;
+            stats.curHP *= (stats.maxHP/oldMaxHP);
           
         }
 
@@ -164,11 +172,12 @@ namespace RPGame {
         }
 
         public static ulong expRequired(int level) {
-            return (ulong)(Math.Pow(level, 1.8) * 10 + 10);
+            return (ulong)(Math.Pow(level, 1.16) * 10 + 10);
         }
 
-        public void addExperience(ulong exp) {
+        public int addExperience(ulong exp) {
             stats.exp += exp;
+            int temp_lvl = stats.level;
             while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
@@ -176,6 +185,7 @@ namespace RPGame {
 
                 calculateStats();
             }
+            return stats.level - temp_lvl;
         }
     }
 }

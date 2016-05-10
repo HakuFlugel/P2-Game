@@ -8,13 +8,14 @@ using System.Security.Cryptography;
 namespace RPGame {
     public class Game : Form {
         private Menu menu;
-        private Inventory invi;
 
         public World world;
         public Player localPlayer;
 
         public bool shouldRun = true;
         private Graphics graphics;
+
+        public Looting loot;
 
 
         private Stopwatch stopWatch = new Stopwatch();
@@ -35,14 +36,10 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            menu = new Menu(this);                                                                  //menu ting
-            invi = new Inventory();                                                                 //inventory ting
-            Items item = new Items();
+            menu = new Menu(this);
+            //invi = new Inventory();
             
-
-            
-          
-
+            loot = new Looting();
 
             FormClosing += delegate {
                 shouldRun = false;
@@ -62,12 +59,11 @@ namespace RPGame {
 
 
             if (e.KeyChar == (char)Keys.Escape) {
-                menu.toggle();                                                                 //menu ting
+                menu.toggle();
 
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
-                invi.toggle(this);
+                localPlayer.inventory.toggle(this);
                 
-
             } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
@@ -77,8 +73,11 @@ namespace RPGame {
             
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
-            } else if(invi.isOpen && isDown) {
-                invi.keyInput(e);
+            } else if (loot.isOpen && isDown) {
+                loot.keyInput(e);
+            } else if(localPlayer.inventory.isOpen && isDown) {
+                localPlayer.inventory.keyInput(e);
+
             } else
             
                 
@@ -135,7 +134,7 @@ namespace RPGame {
             double deltaTime = (double)(thisTime - lastTime) / Stopwatch.Frequency;
 
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-            if ((menu.isOpen || invi.isOpen) && localPlayer.character.currentCombat == null) {                                                                      //menu ting
+            if ((menu.isOpen || localPlayer.inventory.isOpen || loot.isOpen) && localPlayer.character.currentCombat == null) {
                 return;
             }
             localPlayer.update(this, deltaTime);
@@ -165,14 +164,16 @@ namespace RPGame {
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
                 
-                
 
                 userInterface.draw(gfx);
 
-                if (invi.isOpen) {
-                    invi.draw(gfx,this);
+                if (localPlayer.inventory.isOpen) {
+                    localPlayer.inventory.draw(gfx,this);
                 }
-                
+
+                if (loot.isOpen)
+                    loot.draw(gfx, this);
+
                 if (menu.isOpen) {
                     menu.draw(gfx);
                 }
@@ -181,21 +182,17 @@ namespace RPGame {
             }
 
         }
-        
+
 
         public static void Main() {
 
             
 
             using (Game game = new Game()) {
-                game.FormClosing += Game_FormClosing;
                 game.run();
             }
         }
 
-        private static void Game_FormClosing(object sender, FormClosingEventArgs e) {
-            MessageBox.Show("FUK U DO IT CORRECT WAY!");
-        }
     }
 }
 
