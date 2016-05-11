@@ -32,7 +32,7 @@ namespace RPGame {
                 
         //private Bitmap EqippedImage;
         
-        private Item[][,] inventory = new Item[2][,];
+        public Item[][,] inventory { get; private set; } = new Item[2][,];
 
         private EquipSlot equipSlots = new EquipSlot() {
             Hand = 2,
@@ -82,10 +82,6 @@ namespace RPGame {
             inventory[0][0, 5] = new Item(Item.itemTypes[10], 42);
             inventory[0][0, 6] = new Item(Item.itemTypes[11], 42);
             inventory[0][0, 7] = new Item(Item.itemTypes[12], 42);
-
-            
-            
-
 
             }
 

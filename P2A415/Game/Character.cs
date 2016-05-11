@@ -70,7 +70,6 @@ namespace RPGame {
             if (position.offsetScale > -Character.moveDelay) { // Slight delay before being able to move again
                 // Animate movement
                 position.offsetScale -= 4.0f * (deltaTime);
-
             }
 
             // If the character has reached the tile, then set the offset to 0,0
@@ -91,7 +90,6 @@ namespace RPGame {
             y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
 
             gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,63,63), GraphicsUnit.Pixel);
-
         }
 
         public void move(Game game,int x, int y) {

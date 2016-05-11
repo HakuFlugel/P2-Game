@@ -25,7 +25,6 @@ namespace RPGame {
         private double enemyTimePerAttack;
         public double enemyAttackTime;
 
-
         public Combat(Game game, Character firstCharacter, Character secondCharacter) {
             this.game = game;
             this.firstCharacter = firstCharacter;
