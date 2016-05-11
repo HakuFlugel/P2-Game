@@ -8,7 +8,6 @@ using System.Drawing;
 
 namespace RPGame {
     public class Menu {
-
         private class Button {
             public string text;
             public Action<Button> onPress;
@@ -26,7 +25,6 @@ namespace RPGame {
         private SolidBrush menuBackground;
         private Bitmap buttonImage;
         Font font;
-
 
         public Menu(Game game) {
             this.game = game;

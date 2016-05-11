@@ -32,8 +32,6 @@ namespace RPGame {
                 }
                 tileTypes.Add(new TileType() { Moveable = false });
                 tileTypes.Add(new TileType() { Moveable = true }); // Town
-
-
             }
 
 

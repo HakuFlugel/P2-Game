@@ -66,7 +66,6 @@ namespace RPGame {
 
                 currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
             }
-            
         }
 
         public void update(double deltaTime) {
@@ -97,7 +96,6 @@ namespace RPGame {
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 
-
             game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Remove(victim);
 
 				hasEnded = true;
@@ -107,7 +105,6 @@ namespace RPGame {
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
                     game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);
-                    
                 }
             }
         }
@@ -174,7 +171,6 @@ namespace RPGame {
 
             gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
             gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.2f);
-
         }
 
 
@@ -196,7 +192,6 @@ namespace RPGame {
             gfx.FillRectangle(background, uiRect);
 
             gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
-
         }
     }
 }

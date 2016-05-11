@@ -12,7 +12,10 @@ namespace RPGame.Tests {
 
         [TestMethod()]
         public void QustionGen() {
-          Qusti
+            int level = 20;
+            Question question = Question.selectQuestion(level);
+
+
         }
 
     }
