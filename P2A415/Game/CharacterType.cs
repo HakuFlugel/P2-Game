@@ -27,16 +27,6 @@ namespace RPGame {
             });
 
             characterTypes.Add(new CharacterType() {
-                imageFile = "Content/ghoul.png",
-                name = "Ghoul",
-                maxHP = 56,
-                attack = 28,
-                attackSpeed = 7,
-                armorPen =4.8,
-                defence = 4,
-            });
-
-            characterTypes.Add(new CharacterType() {
                 imageFile = "Content/zombie.png",
                 name = "Zombie",
                 maxHP = 64,
@@ -44,6 +34,26 @@ namespace RPGame {
                 attackSpeed = 9,
                 armorPen = 5.2,
                 defence = 5,
+            });
+
+            characterTypes.Add(new CharacterType() {
+                imageFile = "Content/bat.png",
+                name = "Bat",
+                maxHP = 52,
+                attack = 28,
+                attackSpeed = 8,
+                armorPen = 5,
+                defence = 4,
+            });
+
+            characterTypes.Add(new CharacterType() {
+                imageFile = "Content/spider.png",
+                name = "Spider",
+                maxHP = 56,
+                attack = 30,
+                attackSpeed = 7,
+                armorPen = 6,
+                defence = 3,
             });
         }
     }    

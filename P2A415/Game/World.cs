@@ -15,7 +15,7 @@ namespace RPGame {
         public World(Game game) {
             this.game = game;
 
-            rand = new Random(42);
+            rand = new Random(42); //42 is a seed.
 
             generateWorld();
 
@@ -64,16 +64,15 @@ namespace RPGame {
 
             generateTrees();
 
-            // towns
             generateTowns();
             
+            //Number in ttweight.Add() is the weight for when generating roads.
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 32);
-            //ttweight.Add(GeneratedTile.Path, 1);
             ttweight.Add(GeneratedTile.Trees, 16);
             ttweight.Add(GeneratedTile.Town, 1);
-
+            //ttweight.Add(GeneratedTile.Path, 1);
 
             // Weights
             for (int x = 0; x < regions.GetLength(0) * 32; x++) {
@@ -92,6 +91,7 @@ namespace RPGame {
 
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
+
                     int graph = (Math.Abs(x - 8) * Math.Abs(y - 8));
                     if (x < regions.GetLength(0) - 1 && graph >= rand.Next(-15, 63)) {
                         roadmaker.generatePath(new RoadMaker.coords(32 * x + regions[x, y].townx, 32 * y + regions[x, y].towny), new RoadMaker.coords((x + 1) * 32 + regions[x + 1, y].townx, (y) * 32 + regions[x + 1, y].towny));
@@ -103,8 +103,12 @@ namespace RPGame {
             }
 
             // Final tiles
-            for (int x = 0; x < regions.GetLength(0)*32; x++) {
-                for (int y = 0; y < regions.GetLength(1)*32; y++) {
+            int regionsx = regions.GetLength(0) * 32;
+            int regionsy = regions.GetLength(1) * 32;
+
+            for (int x = 0; x < regionsx; x++) {
+                for (int y = 0; y < regionsy; y++) {
+
                     switch (this[x,y]) {
                     case (int)GeneratedTile.Ground:
                         this[x, y] = 3;
@@ -116,8 +120,8 @@ namespace RPGame {
                         this[x, y] = 19;
                         break;
                     case (int)GeneratedTile.Path:
+                        int pathOffset = 0;
 
-                            int pathOffset = 0;
                         pathOffset += shouldPathConnect(x, y + 1) ? 1 : 0;
                         pathOffset += shouldPathConnect(x + 1, y) ? 2 : 0;
                         pathOffset += shouldPathConnect(x, y - 1) ? 4 : 0;
@@ -134,10 +138,9 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-                }
+        }
 
         private bool shouldPathConnect(int x, int y) {
-
             try {
                 return this[x, y]%21 > 3 && this[x, y]%21 <= 18 || this[x, y]%21 == 20;
             } catch (IndexOutOfRangeException) {
@@ -173,8 +176,9 @@ namespace RPGame {
         private void makeMonsters(int x, int y, int[,] weights) {
 
             int lvl = calculateLevel(x, y);
+            int count = rand.Next(1, 8);
 
-            for (int i = 0; i < rand.Next(1,6); i++) {
+            for (int i = 0; i < count; i++) {
                 if (x < 0 || y < 0 || x >= 32 * 16 || y >= 32 * 16) {
                     return;
                 }
@@ -182,7 +186,7 @@ namespace RPGame {
                     return;
                 }
 
-                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next()%2+1, x, y, lvl));
+                regions[x/32,y/32].characters.Add(new Character(regions[x / 32, y / 32], rand.Next()%3+1, x, y, lvl));
 
                 modifyWeight(weights, x, y, 8);
 
@@ -215,7 +219,6 @@ namespace RPGame {
         }
 
         private void makeMountains(int x, int y, int count = 1) {
-
             try {
                 if (this[x,y] != (int)GeneratedTile.Ground) {
                     return;
@@ -256,7 +259,6 @@ namespace RPGame {
                 for (int y = 0; y < regions.GetLength(1); y++) {
 
                     for (int i = 0; i < 32; i++) {
-
                         //if (rand.Next() % 100 < 95) {
                         MakeTrees(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
                         //}

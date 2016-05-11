@@ -33,7 +33,7 @@ namespace RPGame {
 
             whereThePlayerCameFrom = firstCharacter.position;
 
-            enemyTimePerAttack = CharacterType.characterTypes[secondCharacter.characterType].attackSpeed;
+            enemyTimePerAttack = secondCharacter.stats.attackSpeed;
             enemyAttackTime = enemyTimePerAttack;
 
             currentQuestion = Question.selectQuestion(firstCharacter.stats.level);

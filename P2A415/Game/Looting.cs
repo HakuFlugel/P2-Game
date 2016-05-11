@@ -93,8 +93,8 @@ namespace RPGame {
 
 
 
-            float lootWidth = game.Width * 0.50f, lootHeight = game.Height * 0.50f;
-            float lootplaceX = game.Width / 2 - lootWidth / 2, lootplaceY = game.Height / 2 - lootHeight / 2;
+            float lootWidth = game.ClientSize.Width * 0.50f, lootHeight = game.ClientSize.Height * 0.50f;
+            float lootplaceX = game.ClientSize.Width / 2 - lootWidth / 2, lootplaceY = game.ClientSize.Height / 2 - lootHeight / 2;
             
 
             PointF OutterBoxPoint = new PointF(lootplaceX + lootWidth * 0.1f, lootplaceY + lootHeight / 2);
@@ -115,7 +115,7 @@ namespace RPGame {
             }
 
 
-            gfx.FillRectangle(background, new RectangleF(new PointF(0,0),new SizeF(game.Width,game.Height)));
+            gfx.FillRectangle(background, new RectangleF(new PointF(0,0),new SizeF(game.ClientSize.Width,game.ClientSize.Height)));
             gfx.FillRectangle(lootBackground,new RectangleF(lootplaceX, lootplaceY, lootWidth, lootHeight));
             float setX = lootplaceX + 5, setY = lootplaceY + lootHeight * 0.1f;
 

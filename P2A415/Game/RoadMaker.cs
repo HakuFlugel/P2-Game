@@ -92,7 +92,6 @@ namespace RPGame {
                     neighbors.Insert(ret < 0 ? ~ret : ret, newNeighbor);
 
                     if (tile == end) {
-                        Console.WriteLine("Hit end");
                         foundEnd = true;
                     }
                 }
@@ -134,7 +133,6 @@ namespace RPGame {
                 neighbors.Remove(firstNeightbor);
             }
 
-            Console.WriteLine("Making path from end to start");
             // Follow the path backwards, always taking the cheapest possible cost
             coords[] direction = {
                 new coords( 1,0),
@@ -164,7 +162,6 @@ namespace RPGame {
                         }
                     } catch (IndexOutOfRangeException) {
                         // Do nothing
-                        Console.WriteLine("out of range " + i);
                     }
                 }
 
@@ -180,7 +177,7 @@ namespace RPGame {
 
             }
             
-            Console.WriteLine("Done making path");
+            Console.Write(".");
 
         }
     }

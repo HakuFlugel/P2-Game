@@ -40,7 +40,6 @@ namespace RPGame {
 
             
             buttons.Add(new Button("Resume Game", (button) => {
-                //button.text = "Resume Game";
                 this.isOpen = false;
             }));
             buttons.Add(new Button("Statistiscs", (button) => {
@@ -60,11 +59,9 @@ namespace RPGame {
             selected = 0;
             StatisticsIsOpen = false;
         }
-
-        public void statisticsToggle() {
-            
+        
+        public void statisticsToggle() { 
             StatisticsIsOpen = !StatisticsIsOpen;
-
         }
 
 
@@ -110,7 +107,7 @@ namespace RPGame {
             const int padding = 16;
             const int buttonWidth = 384;
             const int buttonHeight = 128;
-
+            
 
             Rectangle menuRect = new Rectangle(
                 game.ClientSize.Width / 2 - buttonWidth / 2 - padding,
@@ -131,7 +128,7 @@ namespace RPGame {
                     buttonHeight
                     );
 
-                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(384*1, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
+                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(buttonWidth*1, buttonHeight * (selected == i ? 1 : 0), buttonWidth, buttonHeight), GraphicsUnit.Pixel );
 
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center;
@@ -157,8 +154,8 @@ Town visits: {Statistics.TownVisit}";
 
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);
-
-            RectangleF uiRect = new RectangleF(game.ClientSize.Width - size.Width - 3 * padding, padding, size.Width + 2 * padding, size.Height + 2 * padding);
+            
+            RectangleF uiRect = new RectangleF(game.ClientSize.Width - size.Width - padding, padding, size.Width, size.Height);
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
             gfx.FillRectangle(menuBackground, uiRect);
 
