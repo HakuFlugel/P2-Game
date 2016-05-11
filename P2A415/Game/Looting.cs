@@ -27,6 +27,7 @@ namespace RPGame {
 
         }
 
+        // TODO: constructor Pl0x
         public void show(ulong exp, int lvl, int monsterLvl) {
             this.exp = exp;
             this.lvl = lvl;
@@ -40,8 +41,6 @@ namespace RPGame {
         }
 
         public Item[] generateLoot(int lvl) {
-
-            List<Item> items = Item.itemTypes;
             Item[] genertedItem = new Item[3];
             Random rand = new Random(Guid.NewGuid().GetHashCode());
 
@@ -49,25 +48,14 @@ namespace RPGame {
 
             for (int index = 0; index < 3; index++) {
                 
-                int whatItem = rand.Next(0, 9);                                                     // Whict type of item.
-                switch (rand.Next(0, 11)) {                                                         // What lvl of item, and if there even is going to be an item
+                int whatItem = rand.Next(0, 12);                                                     // Whict type of item.
 
-                    case 1: case 2: case 3: case 4:                                                 // No item   
-                                                         
-                        break;
-                    case 5: case 6: case 7: case 8:                                                 //Basic Item
-
-                        genertedItem[index] = (new Item(items[whatItem], rand.Next(lvl - 10, lvl + 3)));
-                        break;
-                    case 9: case 10:                                                                //Better item, less chance.
-                        genertedItem[index] = (new Item(items[whatItem], rand.Next(lvl - 5, lvl + 6)));
-                    break;
-
-                    default:                                                                        //Best item, much less chance.
-                        genertedItem[index] = (new Item(items[whatItem], rand.Next(lvl - 1, lvl + 10)));
-                        break;
+                if (rand.Next(0,9) < 3)
+                {
+                    genertedItem[index] = (new Item(Item.itemTypes[whatItem], rand.Next(lvl - 3, lvl + 3)));
                 }
-            }
+
+                }
             hasDone = true;
             return genertedItem;
         }
@@ -78,12 +66,9 @@ namespace RPGame {
         }
 
 
-
+            // TODO: skov
         public void draw(Graphics gfx, Game game) {
             int screenWidth = game.ClientSize.Width, screenHeight = game.ClientSize.Height;
-
-            
-
             const int itemSize = 128;
             const int itemPadding = 10;
 
@@ -96,7 +81,6 @@ namespace RPGame {
             float lootWidth = game.ClientSize.Width * 0.50f, lootHeight = game.ClientSize.Height * 0.50f;
             float lootplaceX = game.ClientSize.Width / 2 - lootWidth / 2, lootplaceY = game.ClientSize.Height / 2 - lootHeight / 2;
             
-
             PointF OutterBoxPoint = new PointF(lootplaceX + lootWidth * 0.1f, lootplaceY + lootHeight / 2);
             SizeF OutterBoxSize = new SizeF(lootplaceX / 3, lootplaceX / 3);
             PointF InnerBoxPoint = new PointF(OutterBoxPoint.X + 5, OutterBoxPoint.Y + 5);
