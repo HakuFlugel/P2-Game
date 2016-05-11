@@ -19,7 +19,7 @@ namespace RPGame {
 
             generateWorld();
 
-            game.localPlayer = new Player(regions[4,4]);// characters[rand.Next(characters.Count - 1)];
+            game.localPlayer = new Player(regions[0,0]);// characters[rand.Next(characters.Count - 1)];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
