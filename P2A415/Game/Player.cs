@@ -11,13 +11,15 @@ namespace RPGame {
 
     public class Player {
         public Character character;
-
+        public Inventory inventory;
 //        public Currency currency;
 
         public PlayerInput input = new PlayerInput();
 
         public Player(Region region) {
             character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);
+            inventory = new Inventory(this);
+            character.inventory = inventory;
         }
 
         public void update(Game game,double deltaTime)

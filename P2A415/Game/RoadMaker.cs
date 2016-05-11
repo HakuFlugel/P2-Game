@@ -103,8 +103,6 @@ namespace RPGame {
 
         public void generatePath(coords start, coords end) {
 
-            // TODO: er koordinater inden for verden?
-
             this.start = start;
             this.end = end;
 
@@ -138,7 +136,7 @@ namespace RPGame {
 
             Console.WriteLine("Making path from end to start");
             // Follow the path backwards, always taking the cheapest possible cost
-            coords[] direction = { // TODO: kan vi på nogen måde gøre den her const/readonly??????
+            coords[] direction = {
                 new coords( 1,0),
                 new coords(-1,0),
                 new coords(0, 1),
@@ -157,7 +155,7 @@ namespace RPGame {
                 int cheapestCost = int.MaxValue;
 
                 for (int i = 0; i < direction.Length; i++) {
-                    try { // TODO: lav range-check istedet
+                    try {
                         coords newTile = tile + direction[i];
                         int directionCost = shortestPathCost[newTile.x, newTile.y];
                         if (directionCost < cheapestCost) {
