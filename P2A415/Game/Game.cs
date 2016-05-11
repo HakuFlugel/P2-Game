@@ -73,10 +73,10 @@ namespace RPGame {
             
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
+            } else if (loot.isOpen && isDown) {
+                loot.keyInput(e);
             } else if(localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(e);
-            } else if(loot.isOpen && isDown) {
-                loot.keyInput(e);
             } else
             
                 
@@ -161,16 +161,17 @@ namespace RPGame {
                 }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
-
-                if(loot.isOpen)
-                    loot.draw(gfx,this);
-
+                            
                 userInterface.draw(gfx);
 
                 if (localPlayer.inventory.isOpen) {
                     localPlayer.inventory.draw(gfx,this);
                 }
-                
+
+                if (loot.isOpen) {
+                    loot.draw(gfx, this);
+                }
+
                 if (menu.isOpen) {
                     menu.draw(gfx);
                 }

@@ -377,11 +377,16 @@ namespace RPGame {
                         equippedRect.Y + itemPadding + selectedRow * (itemSize + itemPadding),
                         itemSize, itemSize);
             }
-
-                RectangleF tooltipRect = new RectangleF(
-                    selectedRect.X + selectedRect.Width, selectedRect.Y + selectedRect.Height,
-                    330, sizeName.Height + sizeLevel.Height + sizeStats.Height + sizeFlavor.Height + 10
-                );
+                SizeF tooltipSize = new SizeF(
+                    330,
+                    sizeName.Height + sizeLevel.Height + sizeStats.Height + sizeFlavor.Height + 10
+                    );
+                PointF tooltipPoint = new PointF(
+                    Math.Min(selectedRect.X + selectedRect.Width, screenWidth - tooltipSize.Width),
+                    Math.Min(selectedRect.Y + selectedRect.Height, screenHeight - tooltipSize.Height)
+                    );
+                
+                RectangleF tooltipRect = new RectangleF(tooltipPoint, tooltipSize);
 
                 gfx.FillRectangle(background, tooltipRect);
                     
