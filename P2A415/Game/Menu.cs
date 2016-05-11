@@ -157,7 +157,7 @@ Town visits: {Statistics.TownVisit}";
 
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);
-            Console.WriteLine("THIS IS WHAT YOU ARE LOOK FOR: " + size.Width + "   " + game.ClientSize.Width);
+
             RectangleF uiRect = new RectangleF(game.ClientSize.Width - size.Width - 3 * padding, padding, size.Width + 2 * padding, size.Height + 2 * padding);
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
             gfx.FillRectangle(menuBackground, uiRect);
