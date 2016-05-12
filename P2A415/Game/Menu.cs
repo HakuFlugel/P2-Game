@@ -100,6 +100,10 @@ namespace RPGame {
 
 
         public void draw(Graphics gfx) {
+            if (!isOpen) {
+                return;
+            }
+
             if (StatisticsIsOpen) {
                 drawStatistics(gfx);
             }

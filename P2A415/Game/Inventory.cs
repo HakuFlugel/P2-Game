@@ -233,9 +233,10 @@ namespace RPGame {
 
         public void draw(Graphics gfx, Game game) {
                 
+            if (!isOpen) {
+                return;
+            }
 
-             
-            
             int screenWidth = game.ClientSize.Width, screenHeight = game.ClientSize.Height;
 
             const int inventoryPadding = 16;

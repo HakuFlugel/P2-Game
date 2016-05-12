@@ -113,7 +113,6 @@ namespace RPGame {
 
             stopWatch.Start();
 
-
             world = new World(this);
 
             while(shouldRun) {
@@ -157,24 +156,17 @@ namespace RPGame {
                 gfx.Clear(Color.Black);
 
                 if (localPlayer.character.currentCombat == null) {
-                world.draw(gfx, localPlayer.character.position);
+                    world.draw(gfx, localPlayer.character.position);
+                    userInterface.draw(gfx);
                 }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
-                            
-                userInterface.draw(gfx);
 
-                if (localPlayer.inventory.isOpen) {
-                    localPlayer.inventory.draw(gfx,this);
-                }
+                localPlayer.inventory.draw(gfx,this);
 
-                if (loot.isOpen) {
-                    loot.draw(gfx, this);
-                }
+                loot.draw(gfx, this);
 
-                if (menu.isOpen) {
-                    menu.draw(gfx);
-                }
+                menu.draw(gfx);
 
                 graphics.DrawImage(bmp, 0, 0);
             }
