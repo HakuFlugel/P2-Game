@@ -79,8 +79,6 @@ namespace RPGame {
                 localPlayer.inventory.keyInput(e);
 
             } else
-            
-                
 
             switch (e.KeyCode) {
             case Keys.W:
@@ -103,7 +101,6 @@ namespace RPGame {
             default:
                 break;
             }
-
             Console.WriteLine(e.KeyCode +" "+ isDown);
         }
 
@@ -113,7 +110,6 @@ namespace RPGame {
             Activate();
 
             stopWatch.Start();
-
 
             world = new World(this);
 
