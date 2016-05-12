@@ -30,7 +30,7 @@ namespace RPGame {
                 imageFile = "Content/zombie.png",
                 name = "Zombie",
                 maxHP = 64,
-                attack = 22,
+                attack = 24,
                 attackSpeed = 9,
                 armorPen = 5.2,
                 defence = 5,
@@ -50,10 +50,10 @@ namespace RPGame {
                 imageFile = "Content/spider.png",
                 name = "Spider",
                 maxHP = 56,
-                attack = 30,
+                attack = 26,
                 attackSpeed = 7,
-                armorPen = 6,
-                defence = 3,
+                armorPen = 4.6,
+                defence = 4.5,
             });
         }
     }    

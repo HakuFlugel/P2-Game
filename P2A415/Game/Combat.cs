@@ -35,8 +35,7 @@ namespace RPGame {
 
             enemyTimePerAttack = secondCharacter.stats.attackSpeed;
             enemyAttackTime = enemyTimePerAttack;
-
-            currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
+            currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
             Statistics.Encounters++;
         }
 
@@ -68,7 +67,7 @@ namespace RPGame {
 
 				answerString = "";
 
-                currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
+                currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
             }
             
         }
