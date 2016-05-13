@@ -87,7 +87,6 @@ namespace RPGame {
             y = ((position.y - cameraPosition.y) + (position.yoffset * position.offsetScale - cameraPosition.yoffset * cameraPosition.offsetScale)) * 64*2 - game.ClientSize.Height / 2  + 64;
 
             gfx.DrawImage(texture, new RectangleF((float)x, -(float)y, 64.0f*2, 64.0f*2), new Rectangle(0,0,63,63), GraphicsUnit.Pixel);
-
         }
 
         public void move(Game game,int x, int y) {
@@ -128,7 +127,6 @@ namespace RPGame {
                     Statistics.TownVisit++;
                 }
             }
-
         }
 
         public bool canMove(Game game, long x, long y) {
@@ -166,7 +164,6 @@ namespace RPGame {
             }
 
             stats.curHP *= (stats.maxHP/oldMaxHP);
-          
         }
 
         public ulong expRequired() {

@@ -28,7 +28,6 @@ namespace RPGame {
         private Bitmap buttonImage;
         Font font;
 
-
         public Menu(Game game) {
             this.game = game;
 
@@ -64,7 +63,6 @@ namespace RPGame {
             StatisticsIsOpen = !StatisticsIsOpen;
         }
 
-
         public void keyInput(KeyEventArgs e) {
             switch (e.KeyCode) {
 
@@ -97,7 +95,6 @@ namespace RPGame {
             Console.WriteLine("selected" + selected + selectedButton);
             selectedButton.onPress(selectedButton);
         }
-
 
         public void draw(Graphics gfx) {
             if (!isOpen) {
@@ -154,7 +151,6 @@ Wrong: {Statistics.Wrong}
 Distance: {Statistics.Distance}
 Highest Level: {Statistics.HighestLevel}
 Town visits: {Statistics.TownVisit}";
-
 
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);

@@ -1,18 +1,8 @@
-﻿using System;
-
+﻿
 namespace RPGame {
-//    public struct Currency {
-//        ulong triangles; // Geometri 
-//        ulong squares; // Algebra
-//        ulong pentagons; // Statistik
-//
-//        ulong hexagons; // Combined tringle+square+pentagon
-//    }
-
     public class Player {
         public Character character;
         public Inventory inventory;
-//        public Currency currency;
 
         public PlayerInput input = new PlayerInput();
 
@@ -22,8 +12,7 @@ namespace RPGame {
             character.inventory = inventory;
         }
 
-        public void update(Game game,double deltaTime)
-        {
+        public void update(Game game,double deltaTime) {
             if (character.currentCombat != null) { // Is the player in combat?
 
                 character.currentCombat.update(deltaTime);
@@ -33,8 +22,6 @@ namespace RPGame {
 
             }else { // Not in combat
 
-
-
                 if (character.position.offsetScale <= -Character.moveDelay) { // Slight delay before being able to move again
 
                     // Move the player according to their input
@@ -42,7 +29,6 @@ namespace RPGame {
                         character.move(game, 0, 1);
                     } else if (input.moveDown) {
                         character.move(game, 0, -1);
-
                     } else if (input.moveRight) {
                         character.move(game, 1, 0);
                     } else if (input.moveLeft) {
@@ -51,7 +37,5 @@ namespace RPGame {
                 }
             }
         }
-
-
     }
 }

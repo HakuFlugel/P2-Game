@@ -17,7 +17,6 @@ namespace RPGame {
         }
 
         public static Question selectQuestion(int level) {
-
             var possibleTypes = questionTypes.Where(tuple => tuple.Item2 <= level).Select(tuple => tuple.Item1);
             Type questionType = possibleTypes.ElementAt(rand.Next(possibleTypes.Count()));
 
@@ -31,13 +30,10 @@ namespace RPGame {
         public string text;
         public string expression;
 
-
-
         public Question(int level) {
             this.level = level;
         }
 
         public abstract bool validateAnswer(int answer);
-
     }
 }

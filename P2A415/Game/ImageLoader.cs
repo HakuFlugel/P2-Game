@@ -18,7 +18,6 @@ namespace RPGame {
         public static Dictionary<string, ImageResource> imageResources = new Dictionary<string, ImageResource>();
 
         public static Bitmap Load(string file) {
-
             if (!imageResources.ContainsKey(file)) {
 
                 if (!File.Exists(file)) 
@@ -26,7 +25,6 @@ namespace RPGame {
 
                 imageResources.Add(file, new ImageResource((Bitmap)Bitmap.FromFile(file)));
             }
-
             imageResources[file].number_of_times_used++;
             return imageResources[file].texture;
         }
@@ -39,6 +37,5 @@ namespace RPGame {
             if (--imageResources[file].number_of_times_used < 1)
                 imageResources.Remove(file);
         }
-
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 
 namespace RPGame {
-
-
     public class Subtraction : Question {
         public Subtraction(int level) : base(level) {
             this.text = "Subtract the following numbers";
@@ -30,6 +28,5 @@ namespace RPGame {
             return answer == correctAnswer;
         }
     }
-
 }
 

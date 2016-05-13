@@ -17,7 +17,7 @@ namespace RPGame {
 
             generateWorld();
 
-            game.localPlayer = new Player(regions[0,0]);// characters[rand.Next(characters.Count - 1)];
+            game.localPlayer = new Player(regions[0,0]);
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
         }
 
@@ -38,7 +38,7 @@ namespace RPGame {
             Town=20
         }
 
-        private void generateWorld() { // TODO: seed?
+        private void generateWorld() {
 
             // Allocate regions
             for (int x = 0; x < regions.GetLength(0); x++) {
@@ -81,7 +81,6 @@ namespace RPGame {
 
             // monsters
             generateMonsters(weights);
-
 
             //// path
             RoadMaker roadmaker = new RoadMaker(this, weights);
@@ -151,9 +150,7 @@ namespace RPGame {
                 for (int y = 0; y < regions.GetLength(1); y++) {
 
                     for (int i = 0; i < 64; i++) {
-                        //if (rand.Next()%10 < 9) {
                         makeMonsters(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32, weights);
-                        //}
                     }
                 }
             }
@@ -208,9 +205,7 @@ namespace RPGame {
                 for (int y = 0; y < regions.GetLength(1); y++) {
 
                     for (int i = 0; i < 4; i++) {
-                        //if (rand.Next()%10 < 9) {
                         makeMountains(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
-                        //}
                     }
                 }
             }
@@ -247,7 +242,6 @@ namespace RPGame {
                     }
                 }
             } catch (IndexOutOfRangeException) {
-                //Console.WriteLine("Mountains hit bounds");
                 // Do nothing
             }
         }
@@ -257,9 +251,7 @@ namespace RPGame {
                 for (int y = 0; y < regions.GetLength(1); y++) {
 
                     for (int i = 0; i < 32; i++) {
-                        //if (rand.Next() % 100 < 95) {
                         MakeTrees(x * 32 + rand.Next() % 32, y * 32 + rand.Next() % 32);
-                        //}
                     }
                 }
             }
@@ -298,7 +290,6 @@ namespace RPGame {
                     }
                 }
             } catch (IndexOutOfRangeException) {
-                //Console.WriteLine("Trees hit bounds");
                 // Do nothing
             }
         }
@@ -327,7 +318,6 @@ namespace RPGame {
             // Y range
             int cameraStartY = (cameraPosition.y - game.ClientSize.Height / 2 / (64 * 2) - 2)/32;//- 2;
             cameraStartY = Math.Max(cameraStartY, 0);
-
 
             int cameraEndY = (cameraPosition.y + game.ClientSize.Height / 2 / (64 * 2) + 2) / 32;//+ 2;
             cameraEndY = Math.Min(cameraEndY, ylen-1);
