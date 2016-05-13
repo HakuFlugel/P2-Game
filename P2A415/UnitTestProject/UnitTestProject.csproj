@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CombatTests.cs" />
     <Compile Include="DivisionTest.cs" />
+    <Compile Include="GeneratingQuestionTest.cs" />
     <Compile Include="InventoryTest.cs" />
     <Compile Include="ItemTest.cs" />
     <Compile Include="MultipliTest.cs" />

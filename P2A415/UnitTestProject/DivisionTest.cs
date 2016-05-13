@@ -12,7 +12,7 @@ namespace RPGame.Tests.Div {
 
         [TestMethod()]
         public void DivisionTest() {
-            int level = 6;
+            int level = 0;
             Division question = new Division(level);
             int subb1 = 2, subb2 = 5;
 
