@@ -67,6 +67,8 @@ namespace RPGame {
 
     public class Item {
 
+        private static Random rand = new Random();
+
         public static List<Item> itemTypes = new List<Item>();
 
         public static Bitmap itemImage;
@@ -299,7 +301,7 @@ namespace RPGame {
         }
 
         public Item(Item itemType, int level) {
-            Random rand = new Random(Guid.NewGuid().GetHashCode());
+            //Random rand = new Random(Guid.NewGuid().GetHashCode());
 
             this.imageIndex = itemType.imageIndex + rand.Next(0, itemType.itemLVL-1);
 

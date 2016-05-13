@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace RPGame {
 
@@ -65,27 +66,6 @@ namespace RPGame {
 
             inventory[0] = new Item[8, 8];
             inventory[1] = new Item[4, 4];
-
-            // TODO: debug code below
-            inventory[0][0, 0] = new Item(Item.itemTypes[0], 400);
-            inventory[0][1, 0] = new Item(Item.itemTypes[1], 400);
-            inventory[0][2, 0] = new Item(Item.itemTypes[2], 400);
-            inventory[0][3, 0] = new Item(Item.itemTypes[3], 400);
-            inventory[0][4, 0] = new Item(Item.itemTypes[4], 400);
-            inventory[0][5, 0] = new Item(Item.itemTypes[5], 400);
-
-
-            inventory[0][0, 1] = new Item(Item.itemTypes[6], 400);
-            inventory[0][0, 2] = new Item(Item.itemTypes[7], 400);
-            inventory[0][0, 3] = new Item(Item.itemTypes[8], 400);
-            inventory[0][0, 4] = new Item(Item.itemTypes[9], 400);
-            inventory[0][0, 5] = new Item(Item.itemTypes[10], 400);
-            inventory[0][0, 6] = new Item(Item.itemTypes[11], 400);
-            inventory[0][0, 7] = new Item(Item.itemTypes[12], 400);
-
-           
-
-
 
         }
 
@@ -164,7 +144,6 @@ namespace RPGame {
                 if (highlightedItem == null) {
                     highlightedItem = new HighlightedItem(activeContainer, selectedRow, selectedColumn);
                 } else {
-                    // TODO: er det her tjek nødvendigt? man kunne bare lade den bytte et item med sig selv
                     if (highlightedItem.container == activeContainer && highlightedItem.row == selectedRow && highlightedItem.column == selectedColumn) {
                         highlightedItem = null;
                     } else {
@@ -173,7 +152,13 @@ namespace RPGame {
                     }
                 }
                 break;
-                //TODO: jump to other key
+            case Keys.Tab:
+                int prevContainer = activeContainer;
+                activeContainer = activeContainer == 0 ? 1 : 0;
+
+                selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[prevContainer].GetLength(0);
+                selectedColumn = selectedColumn * inventory[activeContainer].GetLength(1) / inventory[prevContainer].GetLength(1);
+                break;
             default:
                 break;
             }
@@ -224,16 +209,26 @@ namespace RPGame {
         }
 
         public bool addItem(Item gainedItem) {
-
+            int count = 0;
             for (int y = 0; y < inventory[0].GetLength(0); y++)
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
                     Item item = inventory[0][y, x];
-                    if (item == null) {
-                        inventory[0][y, x] = gainedItem;
-                        return true;    
+                    if (item != null) {
+                        count++;
                     }
+                    Console.WriteLine(count);
                 }
+                    
+
+
+            if (count + 1 >= 64)
             return false;
+
+            for (int y = 0; y < inventory[0].GetLength(0); y++)                  //Draw carried
+                for (int x = 0; x < inventory[0].GetLength(1); x++)
+                    if (inventory[0][y, x] == null) { inventory[0][y, x] = gainedItem; return true; }
+
+            return true;
         }
 
         public void draw(Graphics gfx, Game game) {
@@ -353,13 +348,12 @@ namespace RPGame {
                 string name = selectedItem.itemName;
                 string lvl = "Level: " + selectedItem.itemLVL.ToString();
 
-                //TODO: formatting
                 string stats = "";
-                if (selectedItem.itemHP != 0) stats += $"Health: {selectedItem.itemHP.ToString()}\n";
-                if (selectedItem.itemDEF != 0) stats += $"Armor: {selectedItem.itemDEF.ToString()}\n";
-                if (selectedItem.itemDMG != 0) stats += $"Damage: {selectedItem.itemDMG.ToString()}\n";
-                if (selectedItem.itemPENE != 0) stats += $"Armor Penetration: {selectedItem.itemPENE.ToString()}\n";
-                if (selectedItem.itemSPEED != 0) stats += $"Slow: {selectedItem.itemSPEED.ToString()}\n";
+                if (selectedItem.itemHP != 0) stats += $"Health: {selectedItem.itemHP.ToString("0.00")}\n";
+                if (selectedItem.itemDEF != 0) stats += $"Armor: {selectedItem.itemDEF.ToString("0.00")}\n";
+                if (selectedItem.itemDMG != 0) stats += $"Damage: {selectedItem.itemDMG.ToString("0.00")}\n";
+                if (selectedItem.itemPENE != 0) stats += $"Armor Penetration: {selectedItem.itemPENE.ToString("0.00")}\n";
+                if (selectedItem.itemSPEED != 0) stats += $"Slow: {selectedItem.itemSPEED.ToString("0.00")}\n";
 
                 string flavortext = selectedItem.flavortext;
 
