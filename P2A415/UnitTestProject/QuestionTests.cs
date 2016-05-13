@@ -12,11 +12,21 @@ namespace RPGame.Tests {
 
         [TestMethod()]
         public void QustionGen() {
-            int level = 20;
+            int level = 2;
             Question question = Question.selectQuestion(level);
 
 
-        }
 
+            int length = question.operands.Length;
+            var awswer = 0;
+
+            for (var index = 0; index < length; index++) {
+                awswer += question.operands[index];
+            }
+
+          
+            Assert.IsTrue(question.validateAnswer(awswer));
+
+        }
     }
 }
