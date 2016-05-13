@@ -209,7 +209,7 @@ namespace RPGame {
             });
 
             itemTypes.Add(new Item() {
-                imageIndex = 27,
+                imageIndex = 21,
                 itemName = "Pants",
                 itemHP = 13,
                 itemLVL = 3,
@@ -252,7 +252,7 @@ namespace RPGame {
             });
 
             itemTypes.Add(new Item() {
-                imageIndex = 21,
+                imageIndex = 24,
                 itemName = "Amulet",
                 itemHP = 18,
                 itemLVL = 3,
@@ -266,7 +266,7 @@ namespace RPGame {
             });
 
             itemTypes.Add(new Item() {
-                imageIndex = 24,
+                imageIndex = 27,
                 itemName = "Ring",
                 itemHP = 8,
                 itemLVL = 3,
