@@ -174,7 +174,7 @@ namespace RPGame {
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 2,
+                itemDEF = 4,
                 equipSlot = new EquipSlot() {
                     Hand = 1
                 }
