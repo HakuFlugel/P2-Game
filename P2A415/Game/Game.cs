@@ -26,7 +26,6 @@ namespace RPGame {
         public UserInterface userInterface;
 
         public Game() {
-
             userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
@@ -36,9 +35,6 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            menu = new Menu(this);
-            //invi = new Inventory();
-            
             loot = new Looting();
 
             FormClosing += delegate {
@@ -53,11 +49,13 @@ namespace RPGame {
             KeyUp += (sender, e) => {
                 keyInput(sender, e, false);
             };
+
+            Resize += (sender, e) => {
+                localPlayer.character.currentCombat?.resize();
+            };
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-
-
             if (e.KeyChar == (char)Keys.Escape) {
                 menu.toggle();
 
@@ -70,17 +68,14 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
+            } else if (loot.isOpen && isDown) {
+                loot.keyInput(e);
             } else if(localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(e);
-            } else if(loot.isOpen && isDown) {
-                loot.keyInput(e);
             } else
             
-                
-
             switch (e.KeyCode) {
             case Keys.W:
             case Keys.Up:
@@ -102,17 +97,14 @@ namespace RPGame {
             default:
                 break;
             }
-
             Console.WriteLine(e.KeyCode +" "+ isDown);
         }
 
         public void run() {
-
             Show();
             Activate();
 
             stopWatch.Start();
-
 
             world = new World(this);
 
@@ -126,7 +118,6 @@ namespace RPGame {
         }
 
         private void update() {
-            
             lastTime = thisTime;
             thisTime = stopWatch.ElapsedTicks;
 
@@ -157,42 +148,26 @@ namespace RPGame {
                 gfx.Clear(Color.Black);
 
                 if (localPlayer.character.currentCombat == null) {
-                world.draw(gfx, localPlayer.character.position);
+                    world.draw(gfx, localPlayer.character.position);
+                    userInterface.draw(gfx);
                 }
 
                 (localPlayer.character.currentCombat)?.draw(gfx);
 
-                if(loot.isOpen)
-                    loot.draw(gfx,this);
+                localPlayer.inventory.draw(gfx,this);
 
-                userInterface.draw(gfx);
+                loot.draw(gfx, this);
 
-                if (localPlayer.inventory.isOpen) {
-                    localPlayer.inventory.draw(gfx,this);
-                }
-                
-                if (menu.isOpen) {
-                    menu.draw(gfx);
-                }
+                menu.draw(gfx);
 
                 graphics.DrawImage(bmp, 0, 0);
             }
-
         }
-
 
         public static void Main() {
-
-            
-
             using (Game game = new Game()) {
-                game.FormClosing += Game_FormClosing;
                 game.run();
             }
-        }
-
-        private static void Game_FormClosing(object sender, FormClosingEventArgs e) {
-            MessageBox.Show("FUK U DO IT CORRECT WAY!");
         }
     }
 }

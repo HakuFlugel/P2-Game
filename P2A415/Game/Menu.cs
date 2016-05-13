@@ -22,6 +22,7 @@ namespace RPGame {
         private List<Button> buttons = new List<Button>();
         public  int selected = 0;
         public bool isOpen { get; private set; } = false;
+        public bool StatisticsIsOpen = false;
 
         private SolidBrush menuBackground;
         private Bitmap buttonImage;
@@ -37,12 +38,15 @@ namespace RPGame {
             font = new Font("Arial", 32
                 , FontStyle.Bold);
 
+            // Menu buttons
             buttons.Add(new Button("Resume Game", (button) => {
-                //button.text = "Resume Game";
                 this.isOpen = false;
             }));
+            buttons.Add(new Button("Statistiscs", (button) => {
+                statisticsToggle();
+            }));
             buttons.Add(new Button("New Game", (button) => {
-                this.isOpen = false;
+                Application.Restart();
             }));
 
             buttons.Add(new Button("Quit", (button) => {
@@ -53,6 +57,11 @@ namespace RPGame {
         public void toggle() {
             isOpen = !isOpen;
             selected = 0;
+            StatisticsIsOpen = false;
+        }
+        
+        public void statisticsToggle() { 
+            StatisticsIsOpen = !StatisticsIsOpen;
         }
 
 
@@ -91,12 +100,19 @@ namespace RPGame {
 
 
         public void draw(Graphics gfx) {
+            if (!isOpen) {
+                return;
+            }
+
+            if (StatisticsIsOpen) {
+                drawStatistics(gfx);
+            }
 
             const int padding = 16;
             const int buttonWidth = 384;
             const int buttonHeight = 128;
-
-
+            
+            //Draw menu background
             Rectangle menuRect = new Rectangle(
                 game.ClientSize.Width / 2 - buttonWidth / 2 - padding,
                 game.ClientSize.Height / 2 - ((buttonHeight + padding) * buttons.Count + padding) / 2,
@@ -104,9 +120,9 @@ namespace RPGame {
                 ((buttonHeight + padding) * buttons.Count + padding)
                 );
 
-
             gfx.FillRectangle(menuBackground, menuRect);
 
+            // Draws buttons
             for (int i = 0; i < buttons.Count; i++) {
 
                 Rectangle buttonRect = new Rectangle(
@@ -116,13 +132,38 @@ namespace RPGame {
                     buttonHeight
                     );
 
-                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(384*1, 128 * (selected == i ? 1 : 0), 384, 128), GraphicsUnit.Pixel );
+                gfx.DrawImage(buttonImage, buttonRect, new Rectangle(buttonWidth*1, buttonHeight * (selected == i ? 1 : 0), buttonWidth, buttonHeight), GraphicsUnit.Pixel );
 
                 StringFormat stringFormat = new StringFormat();
                 stringFormat.Alignment = StringAlignment.Center;
                 stringFormat.LineAlignment = StringAlignment.Center;
                 gfx.DrawString(buttons[i].text, font, Brushes.DeepPink, buttonRect, stringFormat);
             }
+        }
+
+        public void drawStatistics(Graphics gfx) {
+            String text = $@"Statistics 
+Encounters: {Statistics.Encounters} 
+Kills: {Statistics.Kills}
+Deaths: {Statistics.Deaths}
+
+Questions: {Statistics.Questions} 
+Correct: {Statistics.Correct}
+Wrong: {Statistics.Wrong}
+
+Distance: {Statistics.Distance}
+Highest Level: {Statistics.HighestLevel}
+Town visits: {Statistics.TownVisit}";
+
+
+            const int padding = 4;
+            SizeF size = gfx.MeasureString(text, font);
+            
+            RectangleF uiRect = new RectangleF(game.ClientSize.Width - size.Width - padding, padding, size.Width, size.Height);
+            RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
+            gfx.FillRectangle(menuBackground, uiRect);
+
+            gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
         }
     }
 }

@@ -42,9 +42,5 @@ Zone level: {game.world.calculateLevel(localCharacter.position.x, localCharacter
             gfx.DrawString(text , font, Brushes.WhiteSmoke, textRect);
             
         }
-
-        public void drawQuestionMenu(Graphics gfx) {
-
-        }
     }
 }

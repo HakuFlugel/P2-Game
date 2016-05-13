@@ -27,23 +27,33 @@ namespace RPGame {
             });
 
             characterTypes.Add(new CharacterType() {
-                imageFile = "Content/ghoul.png",
-                name = "Ghoul",
-                maxHP = 56,
+                imageFile = "Content/zombie.png",
+                name = "Zombie",
+                maxHP = 64,
+                attack = 24,
+                attackSpeed = 9,
+                armorPen = 5.2,
+                defence = 5,
+            });
+
+            characterTypes.Add(new CharacterType() {
+                imageFile = "Content/bat.png",
+                name = "Bat",
+                maxHP = 52,
                 attack = 28,
-                attackSpeed = 7,
-                armorPen =4.8,
+                attackSpeed = 8,
+                armorPen = 5,
                 defence = 4,
             });
 
             characterTypes.Add(new CharacterType() {
-                imageFile = "Content/zombie.png",
-                name = "Zombie",
-                maxHP = 64,
-                attack = 22,
-                attackSpeed = 9,
-                armorPen = 5.2,
-                defence = 5,
+                imageFile = "Content/spider.png",
+                name = "Spider",
+                maxHP = 56,
+                attack = 26,
+                attackSpeed = 7,
+                armorPen = 4.6,
+                defence = 4.5,
             });
         }
     }    

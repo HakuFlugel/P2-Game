@@ -268,19 +268,6 @@ namespace RPGame {
                     Ring = 1
                 }
             });
-//            itemTypes.Add(new Item() {
-//                imageIndex = 4,
-//                itemName = "Potion",
-//                itemHP = 35,
-//                itemLVL = 2,
-//                itemDMG = 0,
-//                itemPENE = 0,
-//                itemSPEED = 0,
-//                itemDEF = 0,
-//                equipSlot = new EquipSlot() {
-//                    Hand = 1
-//                }
-//            });
 
         }
 
@@ -323,37 +310,6 @@ namespace RPGame {
 
             this.flavortext = flavorText[rand.Next(0,flavorText.Count())].Replace("ITEMNAME", itemType.itemName);
         }
-
-        
-//        public Item MakePotion(Item item, int playerHP) {
-//            Item temp_item;
-//
-//            temp_item = item;
-//
-//            temp_item.itemName = "Health " + item.itemName;
-//
-//            temp_item.itemHP = (playerHP / 100) * 20;
-//
-//            return temp_item;
-//        }
-
-        
-//        public string hpToString(int index) {
-//            return "Health: " + itemTypes[index].itemHP.ToString();
-//        }
-//        public string lvlToString(int index) {
-//            return "Level: " + itemTypes[index].itemLVL.ToString();
-//        }
-//        public string dmgToString(int index) {
-//            return "Damage: " + itemTypes[index].itemDMG.ToString();
-//        }
-//        public string defToString(int index) {
-//            return "Defence: " + itemTypes[index].itemDEF.ToString();
-//        }
-//        public string typeToString(int index) {
-//            return itemTypes[index].equipSlot.ToString();
-//        }
-
 
     }
 }

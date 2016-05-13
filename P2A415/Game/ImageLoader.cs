@@ -15,8 +15,7 @@ namespace RPGame {
             }
         }
 
-        public static Dictionary<string, ImageResource> imageResources
-            = new Dictionary<string, ImageResource>();
+        public static Dictionary<string, ImageResource> imageResources = new Dictionary<string, ImageResource>();
 
         public static Bitmap Load(string file) {
 

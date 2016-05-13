@@ -5,26 +5,31 @@ using System.Windows.Forms;
 namespace RPGame {
     public class Combat {
 
+        private Game game;
+        private Position whereThePlayerCameFrom = new Position();
         Bitmap picture = ImageLoader.Load("Content/combatscreen.png");
 
         public Character firstCharacter;
 		public Character secondCharacter;
 
-        private Position whereThePlayerCameFrom = new Position();
 		public Question currentQuestion;
-
-        private Game game;
+        public string answerString = "";
 
         SolidBrush barForeground = new SolidBrush(Color.White);
         SolidBrush barBackground = new SolidBrush(Color.Black);
+        SolidBrush questionBackground = new SolidBrush(Color.FromArgb(128,Color.Black));
 
-		public bool hasEnded = false;
+        Font mediumfont = new Font("Arial", 18, FontStyle.Regular);
+        Font bigfont = new Font("Arial", 72, FontStyle.Regular);
+        Font biggerfont = new Font("Arial", 96, FontStyle.Regular);
+        Font font = new Font("Arial", 32, FontStyle.Regular);
 
-        public string answerString = "";
+        SizeF barSize = new SizeF(768, 24);
+
+        public bool hasEnded = false;
 
         private double enemyTimePerAttack;
         public double enemyAttackTime;
-
 
         public Combat(Game game, Character firstCharacter, Character secondCharacter) {
             this.game = game;
@@ -33,10 +38,12 @@ namespace RPGame {
 
             whereThePlayerCameFrom = firstCharacter.position;
 
-            enemyTimePerAttack = CharacterType.characterTypes[secondCharacter.characterType].attackSpeed;
+            enemyTimePerAttack = secondCharacter.stats.attackSpeed;
             enemyAttackTime = enemyTimePerAttack;
+            currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
+            Statistics.Encounters++;
 
-            currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
+            resize();
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {
@@ -57,17 +64,36 @@ namespace RPGame {
                 }
 
                 if (isCorrect) {
-					doAttack();
+                    Statistics.Correct++;
+                    doAttack();
                 } else {
+                    Statistics.Wrong++;
                     enemyAttackTime -= 2.5;
                     // TODO: effect, shake?
                 }
 
 				answerString = "";
 
-                currentQuestion = Question.selectQuestion(firstCharacter.stats.level);
-            }
-            
+                currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
+            }  
+        }
+
+        internal void resize() {
+            int width = game.ClientSize.Width;
+            int height = game.ClientSize.Height;
+
+            float scaleX, scaleY, scaleFinal;
+            scaleX = width / 1920.0f;
+            scaleY = height / 1080.0f;
+            scaleFinal = Math.Min(scaleX, scaleY);
+            scaleFinal = Math.Max(scaleFinal, 0.01f);
+
+            font = new Font("Arial", 32 * scaleFinal, FontStyle.Regular);
+            mediumfont = new Font("Arial", 18 * scaleFinal, FontStyle.Regular);
+            bigfont = new Font("Arial", 72 * scaleFinal, FontStyle.Regular);
+            biggerfont = new Font("Arial", 96 * scaleFinal, FontStyle.Regular);
+
+            barSize = new SizeF(768 * scaleFinal, 24 * scaleFinal);
         }
 
         public void update(double deltaTime) {
@@ -85,30 +111,32 @@ namespace RPGame {
         }
 
         private void doAttack(Character attacker, Character victim) {
-
             victim.stats.curHP -= (attacker.stats.attack) / Math.Max(0.5, 1 + (secondCharacter.stats.defence - firstCharacter.stats.armorPen)/20.0);
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
                 ulong exp = (ulong)(Math.Pow(victim.stats.level, 1.4) * 1.1 + 5);
-                int lvl_raised = attacker.addExperience(exp); //Scale xp
+                int lvl_raised = attacker.addExperience(exp);
 
                 if(!victim.Equals(game.localPlayer.character))
                     game.loot.show(exp, lvl_raised, victim.stats.level);
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 
-
             game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Remove(victim);
 
 				hasEnded = true;
-                // Do victory/lose stuff
-
+                // Do victory/lose
+                if (victim==secondCharacter) {
+                    Statistics.Kills++;
+                    Statistics.HighestLevel = secondCharacter.stats.level;
+                }
                 if (victim==firstCharacter) {
+                    Statistics.Distance--;
+                    Statistics.Deaths++;
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
                     game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);
-                    
                 }
             }
         }
@@ -117,19 +145,26 @@ namespace RPGame {
             int width = game.ClientSize.Width;
             int height = game.ClientSize.Height;
 
+            // Draw Combat background
             gfx.DrawImage(picture, new RectangleF(0, 0, width, height),
-                new Rectangle(0, 0, 800, 600), GraphicsUnit.Pixel);
+                new Rectangle(0, 0, 799, 599), GraphicsUnit.Pixel);
 
+            // Draw character models
+            int characterImageSize = 512;
+            float sizeX, sizeY, sizeFinal;
+            sizeX = characterImageSize / 1920.0f * width;
+            sizeY = characterImageSize / 1080.0f* height;
+            sizeFinal = Math.Min(sizeX, sizeY);
+
+            //player
             gfx.DrawImage(firstCharacter.texture,
-                new RectangleF(width / 4f - 32, height / 4f - 32, 500, 500),
+                new RectangleF(width / 3 - sizeFinal / 2, height / 2f - sizeFinal * 0.8f, sizeFinal, sizeFinal),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
+            //monster
             gfx.DrawImage(secondCharacter.texture,
-                new RectangleF(width / 2 - 32, height / 4f -32, 500, 500),
+                new RectangleF(width / 3 * 2 - sizeFinal / 2, height / 2f - sizeFinal * 0.8f, sizeFinal, sizeFinal),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
-
-            Font bigfont = new Font("Arial", 32, FontStyle.Regular);
-            Font biggerfont = new Font("Arial", 44, FontStyle.Regular);
 
             string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
             double player_health = Math.Round(firstCharacter.stats.curHP, 0);
@@ -139,19 +174,17 @@ namespace RPGame {
             double monster_level = secondCharacter.stats.level;
 
             string timeleft = enemyAttackTime.ToString("0.00");
-
             const int padding = 4;
-            const int barWidth = 768;
-            const int barHeight = 48;
 
-            Rectangle barBackgroundRect = new Rectangle(
-                width  / 2  - barWidth / 2      - padding,
+            // Draw time bar
+            RectangleF barBackgroundRect = new RectangleF(
+                width  / 2  - barSize.Width / 2      - padding,
                 height / 64,
-                barWidth  + 2 * padding,
-                barHeight + 2 * padding
+                barSize.Width + 2 * padding,
+                barSize.Height + 2 * padding
             );
 
-            Rectangle barForegroundRect = new Rectangle(
+            RectangleF barForegroundRect = new RectangleF(
                 barBackgroundRect.X + padding,
                 barBackgroundRect.Y + padding,
                 (int)((barBackgroundRect.Width - 2 * padding) * (enemyAttackTime/enemyTimePerAttack)),
@@ -161,10 +194,20 @@ namespace RPGame {
             gfx.FillRectangle(barBackground, barBackgroundRect);
             gfx.FillRectangle(barForeground, barForegroundRect);
 
+            // Draw questionbar
+            RectangleF questionRect = new RectangleF(
+                width / 16,
+                height * 3 / 5,
+                width - width / 8 ,
+                height / 3);
+
+            gfx.FillRectangle(questionBackground, questionRect);
+
+            // Draw character info
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-            gfx.DrawString($"{timeleft}", bigfont, Brushes.OrangeRed, barBackgroundRect, stringFormat);
+            gfx.DrawString($"{timeleft}", mediumfont, Brushes.OrangeRed, barBackgroundRect, stringFormat);
             
             // draw player and monster text
             string left = $@"Name: {player_name}" + "\n" + $@"Health: {player_health} " + "\n" + $@"Level: {player_level}";
@@ -173,32 +216,32 @@ namespace RPGame {
             drawinfo(left, gfx, 0); // left
             drawinfo(right, gfx, 1); // right
 
-            gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.3f);
-            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, width / 3f - 50, height / 1.2f);
+            // draw question
+            SizeF sizeOfQustionText = gfx.MeasureString(currentQuestion.text,bigfont);
+            SizeF sizeOfExpression = gfx.MeasureString(currentQuestion.expression, biggerfont);
 
+            gfx.DrawString($@"{currentQuestion.text}", bigfont, Brushes.WhiteSmoke, (width /2) - sizeOfQustionText.Width/2, height / 1.55f);
+            gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, ((width / 2) - sizeOfExpression.Width / 2)- width/8, height / 1.35f);
         }
 
-
         public void drawinfo(string text, Graphics gfx, int i ) {
-
             if (i > 1 || i < 0) {
                 throw new ArgumentOutOfRangeException("Can be either left(0) or right(1)");
             }
 
-            SolidBrush background = new SolidBrush(Color.FromArgb(128, Color.Black));
             int padding = 4;
-            Font font = new Font("Arial", 32, FontStyle.Regular);
-
             SizeF size = gfx.MeasureString(text, font);
-            PointF boxCenter = new PointF(i==0 ? game.ClientSize.Width/8 : game.ClientSize.Width/8*7, game.ClientSize.Height / 3);
+            float width = game.ClientSize.Width, height = game.ClientSize.Height;
 
-            RectangleF uiRect = new RectangleF(boxCenter.X - size.Width/2-padding, boxCenter.Y - size.Height / 2 - padding, size.Width + 2 * padding, size.Height + 2 * padding);
+            RectangleF uiRect = new RectangleF(
+                i == 0 ? (width / 64) : (width / 64 * 63 - size.Width - 2 * padding),
+                height / 3,
+                size.Width + 2 * padding, 
+                size.Height + 2 * padding);
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
-            gfx.FillRectangle(background, uiRect);
+            gfx.FillRectangle(questionBackground, uiRect);
 
             gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
-
         }
     }
 }
-
