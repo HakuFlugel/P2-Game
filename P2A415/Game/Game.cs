@@ -35,8 +35,6 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            menu = new Menu(this);
-            
             loot = new Looting();
 
             FormClosing += delegate {
@@ -164,7 +162,6 @@ namespace RPGame {
 
                 graphics.DrawImage(bmp, 0, 0);
             }
-
         }
 
         public static void Main() {

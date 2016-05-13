@@ -12,11 +12,6 @@ namespace RPGame {
         public static Bitmap Image;
         public static string pictureLocation = "Content/all_bioms.png";
         public int imageIndex;
-        public bool up = false;
-        public bool right = false;
-        public bool down = false;
-        public bool left = false;
-        public bool no_road = false;
 
         static TileType() {
             Image = ImageLoader.Load(pictureLocation);

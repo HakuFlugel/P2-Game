@@ -7,9 +7,7 @@ namespace RPGame {
     public class World {
 
         public Region[,] regions = new Region[16,16];
-
         private Random rand;
-
         private Game game;
 
         public World(Game game) {

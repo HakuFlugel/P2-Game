@@ -78,8 +78,8 @@ namespace RPGame {
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
-                }
             }
+        }
 
         public void draw(Game game, Graphics gfx, Position cameraPosition) {
             double x, y;
