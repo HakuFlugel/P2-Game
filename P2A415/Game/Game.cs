@@ -35,9 +35,6 @@ namespace RPGame {
             graphics = CreateGraphics();
 
             menu = new Menu(this);
-
-            menu = new Menu(this);
-            //invi = new Inventory();
             
             loot = new Looting();
 

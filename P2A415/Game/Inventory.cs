@@ -31,8 +31,6 @@ namespace RPGame {
         Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
         Font flavortextFont = new Font("Arial", 12, FontStyle.Italic);
 
-        //private Bitmap EqippedImage;
-
         private Item[][,] inventory = new Item[2][,];
 
         private EquipSlot equipSlots = new EquipSlot() {
@@ -75,12 +73,16 @@ namespace RPGame {
                 case Keys.Delete:
                 case Keys.Back:
 
+                if (activeContainer == 1) {
+                    break;
+                }
+
                 Item item = inventory[activeContainer][selectedRow, selectedColumn];
                     
                 if (item != null) {
                     player.character.addExperience((ulong)(Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
                     inventory[activeContainer][selectedRow, selectedColumn] = null;
-                        }
+                }
 
                     break;
 
@@ -115,9 +117,7 @@ namespace RPGame {
                     } else
                         selectedColumn = 0;
                 }
-                    //selected += (activeContainer.Count/8)*8;
-//                    if (--selectedX < 0)
-//                        selectedX = 0;
+
                     break;
 
                 case Keys.D:
@@ -131,10 +131,7 @@ namespace RPGame {
                     } else
                         selectedColumn = inventory[activeContainer].GetUpperBound(1);
                 }
-//                    if (++selectedX > 10)
-//                        selectedX = 10;
-//                    if (selectedX > 7)
-//                        selectedY = (selectedY > 3 ? 3 : selectedY);
+
                 break;
             case Keys.Escape:
                 highlightedItem = null;
@@ -196,7 +193,7 @@ namespace RPGame {
             inventory[target.container][target.row, target.column] = sourceItem;
             
             player.character.calculateStats();
-                    }
+        }
 
         public void toggle(Game game) {
 //            if (!isOpen)
@@ -206,29 +203,19 @@ namespace RPGame {
             selectedColumn = 0;
             selectedRow = 0;  
             highlightedItem = null;
-                }
+        }
 
         public bool addItem(Item gainedItem) {
-            int count = 0;
-            for (int y = 0; y < inventory[0].GetLength(0); y++)
+
+            for (int y = 0; y < inventory[0].GetLength(0); y++) {
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
-                    Item item = inventory[0][y, x];
-                    if (item != null) {
-                        count++;
-                       }
-                    Console.WriteLine(count);
+                    if (inventory[0][y, x] == null) {
+                        inventory[0][y, x] = gainedItem;
+                        return true;
+                    }
                 }
-                
-
-
-            if (count + 1 >= 64)
-                return false;
-
-            for (int y = 0; y < inventory[0].GetLength(0); y++)                  //Draw carried
-                for (int x = 0; x < inventory[0].GetLength(1); x++)
-                    if (inventory[0][y, x] == null) { inventory[0][y, x] = gainedItem; return true; }
-
-            return true;
+            }
+            return false;
         }
 
         public void draw(Graphics gfx, Game game) {
