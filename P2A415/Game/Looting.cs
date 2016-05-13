@@ -22,7 +22,7 @@ namespace RPGame {
         private Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
 
 
-        public Looting(Player player, int gainedLvl, ulong gainedXp, int monsterLvl) {
+        public Looting(Game game, int gainedLvl, ulong gainedXp, int monsterLvl) {
             this.gainedXp = gainedXp;
             this.gainedLvl = gainedLvl;
             this.monsterLvl = monsterLvl;
@@ -42,10 +42,12 @@ namespace RPGame {
                     gainedItems[index] = (new Item(items[rand.Next(6, 13)], rand.Next(monsterLvl - 10, monsterLvl)));
                 } else {
 
-                    player.character.addExperience((ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
+                    game.localPlayer.character.addExperience((ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
                 }
                 if(gainedItems[index] != null)
-                    player.inventory.addItem(gainedItems[index]);
+                    if(!game.localPlayer.inventory.addItem(gainedItems[index])) {
+                        game.generalMessage = new DrawGeneralMessage("Inventory full");
+                    }
             }
            
 
@@ -73,7 +75,7 @@ namespace RPGame {
 
            
 
-            gfx.FillRectangle(background, new RectangleF(new PointF(0,0),new SizeF(game.Width,game.Height)));
+            
             
             SizeF itemSizes = new SizeF(
                 (itemSize + itemPadding) * 5 + itemPadding,
@@ -116,8 +118,8 @@ namespace RPGame {
                allLootRect.Y + 2 * itemPadding + experienceSize.Height,
                itemSizes.Width, itemSizes.Height);
 
-            
 
+            gfx.FillRectangle(background, new RectangleF(new PointF(0, 0), new SizeF(game.Width, game.Height)));
             gfx.FillRectangle(lootBackground, allLootRect);
             gfx.FillRectangle(lootBackground, itemGainedRect);
             gfx.DrawString(experience,font,Brushes.Wheat,stringRect);

@@ -17,6 +17,8 @@ namespace RPGame {
 
         public Looting loot;
 
+        public DrawGeneralMessage generalMessage;
+
 
         private Stopwatch stopWatch = new Stopwatch();
 
@@ -71,37 +73,43 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            if (menu.isOpen && isDown) {
-                menu.keyInput(e);
+
+
+            if (generalMessage != null && isDown) {
+                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) {
+                    generalMessage = null;
+                }
             } else if (loot != null && isDown) {
-                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape ) {
+                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) {
                     loot = null;
                 }
-            } else if(localPlayer.inventory.isOpen && isDown) {
+            } else if (menu.isOpen && isDown) {
+                menu.keyInput(e);
+            } else if (localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(e);
             } else
-            
-            switch (e.KeyCode) {
-            case Keys.W:
-            case Keys.Up:
-                localPlayer.input.moveUp = isDown;
-                break;
-            case Keys.S:
-            case Keys.Down:
-                localPlayer.input.moveDown = isDown;
-                break;
-            case Keys.D:
-            case Keys.Right:
-                localPlayer.input.moveRight = isDown;
-                break;
-            case Keys.A:
-            case Keys.Left:
-                localPlayer.input.moveLeft = isDown;
-                break;
 
-            default:
-                break;
-            }
+                switch (e.KeyCode) {
+                    case Keys.W:
+                    case Keys.Up:
+                        localPlayer.input.moveUp = isDown;
+                        break;
+                    case Keys.S:
+                    case Keys.Down:
+                        localPlayer.input.moveDown = isDown;
+                        break;
+                    case Keys.D:
+                    case Keys.Right:
+                        localPlayer.input.moveRight = isDown;
+                        break;
+                    case Keys.A:
+                    case Keys.Left:
+                        localPlayer.input.moveLeft = isDown;
+                        break;
+
+                    default:
+                        break;
+                }
             Console.WriteLine(e.KeyCode +" "+ isDown);
         }
 
@@ -174,6 +182,8 @@ namespace RPGame {
                 loot?.draw(gfx, this);
 
                 menu.draw(gfx);
+
+                generalMessage.draw(gfx,this);
 
                 graphics.DrawImage(bmp, 0, 0);
             }

@@ -32,6 +32,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Division.cs" />
+    <Compile Include="DrawGeneralMessage.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
     </Compile>
