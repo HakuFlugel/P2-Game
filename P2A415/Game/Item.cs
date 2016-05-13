@@ -91,8 +91,8 @@ namespace RPGame {
                 itemName = "Two-Handed Axe",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 19,
-                itemPENE = 4,
+                itemDMG = 30,
+                itemPENE = 2,
                 itemDEF = 0,
                 itemSPEED = 0.25,
                 equipSlot = new EquipSlot() {
@@ -104,8 +104,8 @@ namespace RPGame {
                 itemName = "Claw",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 6,
-                itemPENE = 4.55,
+                itemDMG = 5.75,
+                itemPENE = 3.5,
                 itemSPEED = 0.2,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
@@ -117,8 +117,8 @@ namespace RPGame {
                 itemName = "Two-Handed Sword",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 16,
-                itemPENE = 1.4,
+                itemDMG = 23,
+                itemPENE = 4,
                 itemSPEED = 0.29,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
@@ -130,8 +130,8 @@ namespace RPGame {
                 itemName = "Club",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 9,
-                itemPENE = 2,
+                itemDMG = 13,
+                itemPENE = 1.25,
                 itemSPEED = 0.325,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
@@ -144,9 +144,9 @@ namespace RPGame {
                 itemName = "Sword",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 11,
-                itemPENE = 1.75,
-                itemSPEED = 0.45,
+                itemDMG = 10,
+                itemPENE = 2,
+                itemSPEED = 0.375,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
                     Hand = 1
@@ -157,8 +157,8 @@ namespace RPGame {
                 itemName = "Dagger",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 8,
-                itemPENE = 1.5,
+                itemDMG = 7,
+                itemPENE = 2.5,
                 itemSPEED = 0.45,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
@@ -169,12 +169,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 6,
                 itemName = "Shield",
-                itemHP = 5,
+                itemHP = 10,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 5,
+                itemDEF = 4,
                 equipSlot = new EquipSlot() {
                     Hand = 1
                 }
@@ -183,12 +183,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 9,
                 itemName = "Helmet",
-                itemHP = 10,
+                itemHP = 7.5,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 0,
+                itemDEF = 0.45,
                 equipSlot = new EquipSlot() {
                     Helmet = 1
                 }
@@ -197,12 +197,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 12,
                 itemName = "Chest Plate",
-                itemHP = 15,
+                itemHP = 12,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 2,
+                itemDEF = 1.5,
                 equipSlot = new EquipSlot() {
                     Chest = 1
                 }
@@ -211,12 +211,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 21,
                 itemName = "Pants",
-                itemHP = 13,
+                itemHP = 9,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 2,
+                itemDEF = 0.75,
                 equipSlot = new EquipSlot() {
                     Chest = 1
                 }
@@ -225,12 +225,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 15,
                 itemName = "Gloves",
-                itemHP = 0,
+                itemHP = 1,
                 itemLVL = 3,
-                itemDMG = 4,
+                itemDMG = 5,
                 itemPENE = 0,
                 itemSPEED = 0.15,
-                itemDEF = 0,
+                itemDEF = 0.1,
                 equipSlot = new EquipSlot() {
                     Gloves = 1,
                     Hand = -1
@@ -240,12 +240,12 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 18,
                 itemName = "Boots",
-                itemHP = 0,
+                itemHP = 2,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
                 itemSPEED = 0,
-                itemDEF = 1,
+                itemDEF = 0.2,
                 equipSlot = new EquipSlot() {
                     Boots = 1
                 }
@@ -254,7 +254,7 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 24,
                 itemName = "Amulet",
-                itemHP = 18,
+                itemHP = 10,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
@@ -268,7 +268,7 @@ namespace RPGame {
             itemTypes.Add(new Item() {
                 imageIndex = 27,
                 itemName = "Ring",
-                itemHP = 8,
+                itemHP = 5,
                 itemLVL = 3,
                 itemDMG = 0,
                 itemPENE = 0,
