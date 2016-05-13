@@ -119,7 +119,7 @@ namespace RPGame {
                 int lvl_raised = attacker.addExperience(exp);
 
                 if(!victim.Equals(game.localPlayer.character))
-                    game.loot.show(exp, lvl_raised, victim.stats.level);
+                    game.loot = new Looting(game.localPlayer,lvl_raised,exp,secondCharacter.stats.level);
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 

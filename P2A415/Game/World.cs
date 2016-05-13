@@ -84,8 +84,8 @@ namespace RPGame {
 
 
             //// path
-            //RoadMaker roadmaker = new RoadMaker(this, weights);
-            //roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
+            RoadMaker roadmaker = new RoadMaker(this, weights);
+            roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
 
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
