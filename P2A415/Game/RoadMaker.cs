@@ -29,7 +29,6 @@ namespace RPGame {
             public override int GetHashCode() {
                 return base.GetHashCode();
             }
-
         }
 
         public World world { get; set; }

@@ -67,11 +67,9 @@ namespace RPGame {
 
     public class Item {
 
-        private static Random rand = new Random();
-
-        public static List<Item> itemTypes = new List<Item>();
-
         public static Bitmap itemImage;
+        private static Random rand = new Random();
+        public static List<Item> itemTypes = new List<Item>();
 
         public int imageIndex; // Set to first index of image, in itemTypes list
         public int itemLVL; // Set to total number of images, in itemTypes list
@@ -83,11 +81,9 @@ namespace RPGame {
         public double itemPENE;
         public string flavortext;
 
-
         public EquipSlot equipSlot;
 
         static Item() {
-
             itemImage = ImageLoader.Load("Content/Items.png");
 
             itemTypes.Add(new Item() {
@@ -288,8 +284,6 @@ namespace RPGame {
         }
 
         public Item(Item itemType, int level) {
-            //Random rand = new Random(Guid.NewGuid().GetHashCode());
-
             this.imageIndex = itemType.imageIndex + rand.Next(0, itemType.itemLVL-1);
 
             string prefix = (level < 20) ? Prefix[rand.Next(0, Prefix.Count() / 4)] :
@@ -310,6 +304,5 @@ namespace RPGame {
 
             this.flavortext = flavorText[rand.Next(0,flavorText.Count())].Replace("ITEMNAME", itemType.itemName);
         }
-
     }
 }

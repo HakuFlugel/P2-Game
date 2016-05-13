@@ -28,5 +28,4 @@ namespace RPGame {
             return answer == correctAnswer;
         }
     }
-
 }

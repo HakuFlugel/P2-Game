@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Collections.Generic;
 
-
-
 namespace RPGame {
     public class TileType {
         public static List<TileType> tileTypes = new List<TileType>();
@@ -25,17 +23,14 @@ namespace RPGame {
                 for (int i = 0; i < 16; i++) {
                     tileTypes.Add(new TileType() { Moveable = true });
                 }
+
                 tileTypes.Add(new TileType() { Moveable = false });
                 tileTypes.Add(new TileType() { Moveable = true }); // Town
-
-
             }
-
 
             int tile_length = tileTypes.Count;
 
             for (int index = 0; index < tile_length; index ++) {
-
                 tileTypes[index].imageIndex = index;
             }
         }

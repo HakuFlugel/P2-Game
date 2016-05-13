@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-
 namespace RPGame {
     public class Region {
         public List<Character> characters = new List<Character>();
@@ -48,11 +47,10 @@ namespace RPGame {
             int cameraStartRegionY = (cameraPositionRegionY - game.ClientSize.Height / 2 / (64 * 2)) - 2;
             cameraStartRegionY = Math.Max(cameraStartRegionY, 0);
 
-
             int cameraEndRegionY = (cameraPositionRegionY + game.ClientSize.Height / 2 / (64 * 2)) + 2;
             cameraEndRegionY = Math.Min(cameraEndRegionY, tiles.GetUpperBound(1));
 
-            // drawing it
+            // Draw visable tiles
             for (long xindex = cameraStartRegionX; xindex <= cameraEndRegionX; xindex++) {
                 for (long yindex = cameraStartRegionY; yindex <= cameraEndRegionY; yindex++) {
 
@@ -68,10 +66,8 @@ namespace RPGame {
                         new RectangleF(x, -y, 64.0f * 2, 64.0f * 2),
                         new RectangleF(0.75f+tt.imageIndex % 21 * 64, 0.75f+ tt.imageIndex / 21 * 64, 63f, 63f), 
                         GraphicsUnit.Pixel);
-
                 }
             }
-
         }
 
         public void drawCharacters(Game game, Graphics gfx, Position cameraPosition) {

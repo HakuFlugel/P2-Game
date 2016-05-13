@@ -25,6 +25,12 @@ namespace RPGame {
 
         public UserInterface userInterface;
 
+        public static void Main() {
+            using (Game game = new Game()) {
+                game.run();
+            }
+        }
+
         public Game() {
             userInterface = new UserInterface(this);
             this.Text = "Titel";
@@ -59,7 +65,6 @@ namespace RPGame {
 
             } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
                 localPlayer.inventory.toggle(this);
-                
             } else if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
@@ -102,9 +107,20 @@ namespace RPGame {
 
         public void run() {
             Show();
+
             Activate();
 
             stopWatch.Start();
+
+            // Draw titleimage
+            Graphics gfx = CreateGraphics();
+            RectangleF barForegroundRect = new RectangleF(
+               0,0,ClientSize.Width, ClientSize.Height
+            );
+
+            Bitmap titleImage = ImageLoader.Load("Content/combatscreen.png");
+
+            gfx.DrawImage(titleImage, new RectangleF(0, 0, ClientSize.Width, ClientSize.Height));
 
             world = new World(this);
 
@@ -113,7 +129,6 @@ namespace RPGame {
                 render();
 
                 Application.DoEvents();
-
             }
         }
 
@@ -152,7 +167,7 @@ namespace RPGame {
                     userInterface.draw(gfx);
                 }
 
-                (localPlayer.character.currentCombat)?.draw(gfx);
+                localPlayer.character.currentCombat?.draw(gfx);
 
                 localPlayer.inventory.draw(gfx,this);
 
@@ -161,12 +176,6 @@ namespace RPGame {
                 menu.draw(gfx);
 
                 graphics.DrawImage(bmp, 0, 0);
-            }
-        }
-
-        public static void Main() {
-            using (Game game = new Game()) {
-                game.run();
             }
         }
     }

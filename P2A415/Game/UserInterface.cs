@@ -10,9 +10,6 @@ namespace RPGame {
 
         private SolidBrush background;
 
-
-        ///private int screenWidth, screenHeight;
-
         public UserInterface(Game game) {
             this.game = game;
 
@@ -31,7 +28,6 @@ Level: {localCharacter.stats.level}
 Experience: {localCharacter.stats.exp}/{localCharacter.expRequired()}
 Zone level: {game.world.calculateLevel(localCharacter.position.x, localCharacter.position.y)}";
 
-
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);
 
@@ -40,7 +36,6 @@ Zone level: {game.world.calculateLevel(localCharacter.position.x, localCharacter
             gfx.FillRectangle(background, uiRect);
 
             gfx.DrawString(text , font, Brushes.WhiteSmoke, textRect);
-            
         }
     }
 }
