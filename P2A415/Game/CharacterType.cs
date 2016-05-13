@@ -12,7 +12,6 @@ namespace RPGame {
         public double attackSpeed;
         public double armorPen;
         public double defence;
-        public ulong exp;
 
         public static List<CharacterType> characterTypes = new List<CharacterType>();
 
@@ -22,32 +21,29 @@ namespace RPGame {
                 name = "Player",
                 maxHP = 100,
                 attack = 20,
-                attackSpeed = 100,
-                armorPen = 3,
+                attackSpeed = 0.75,
+                armorPen = 7,
                 defence = 7,
-                exp = 10
             });
 
             characterTypes.Add(new CharacterType() {
                 imageFile = "Content/ghoul.png",
                 name = "Ghoul",
-                maxHP = 100,
-                attack = 35,
-                attackSpeed = 5,
-                armorPen =5.2,
-                defence = 5,
-                exp = 10
+                maxHP = 56,
+                attack = 28,
+                attackSpeed = 7,
+                armorPen =4.8,
+                defence = 4,
             });
 
             characterTypes.Add(new CharacterType() {
                 imageFile = "Content/zombie.png",
                 name = "Zombie",
-                maxHP = 130,
-                attack = 24,
-                attackSpeed = 7,
+                maxHP = 64,
+                attack = 22,
+                attackSpeed = 9,
                 armorPen = 5.2,
-                defence = 9,
-                exp = 13
+                defence = 5,
             });
         }
     }    
