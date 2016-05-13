@@ -37,9 +37,9 @@ namespace RPGame {
             for (int index = 0; index < 3; index++) {
                 int whichDrop = rand.Next(0, 3);
                 if (whichDrop == 0) {
-                    gainedItems[index] = (new Item(items[rand.Next(0, 5)], rand.Next(monsterLvl - 3, monsterLvl + 1)));
+                    gainedItems[index] = (new Item(items[rand.Next(0, 5)], rand.Next(monsterLvl - 7, monsterLvl + 1)));
                 } else if (whichDrop == 1) {
-                    gainedItems[index] = (new Item(items[rand.Next(6, 13)], rand.Next(monsterLvl - 3, monsterLvl + 1)));
+                    gainedItems[index] = (new Item(items[rand.Next(6, 13)], rand.Next(monsterLvl - 7, monsterLvl + 1)));
                 } else {
 
                     player.character.addExperience((ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
