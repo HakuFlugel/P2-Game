@@ -67,21 +67,21 @@ namespace RPGame {
             inventory[1] = new Item[4, 4];
 
             // TODO: debug code below
-            inventory[0][0, 0] = new Item(Item.itemTypes[0], 42);
-            inventory[0][1, 0] = new Item(Item.itemTypes[1], 42);
-            inventory[0][2, 0] = new Item(Item.itemTypes[2], 42);
-            inventory[0][3, 0] = new Item(Item.itemTypes[3], 42);
-            inventory[0][4, 0] = new Item(Item.itemTypes[4], 42);
-            inventory[0][5, 0] = new Item(Item.itemTypes[5], 42);
+            inventory[0][0, 0] = new Item(Item.itemTypes[0], 400);
+            inventory[0][1, 0] = new Item(Item.itemTypes[1], 400);
+            inventory[0][2, 0] = new Item(Item.itemTypes[2], 400);
+            inventory[0][3, 0] = new Item(Item.itemTypes[3], 400);
+            inventory[0][4, 0] = new Item(Item.itemTypes[4], 400);
+            inventory[0][5, 0] = new Item(Item.itemTypes[5], 400);
 
 
-            inventory[0][0, 1] = new Item(Item.itemTypes[6], 42);
-            inventory[0][0, 2] = new Item(Item.itemTypes[7], 42);
-            inventory[0][0, 3] = new Item(Item.itemTypes[8], 42);
-            inventory[0][0, 4] = new Item(Item.itemTypes[9], 42);
-            inventory[0][0, 5] = new Item(Item.itemTypes[10], 42);
-            inventory[0][0, 6] = new Item(Item.itemTypes[11], 42);
-            inventory[0][0, 7] = new Item(Item.itemTypes[12], 42);
+            inventory[0][0, 1] = new Item(Item.itemTypes[6], 400);
+            inventory[0][0, 2] = new Item(Item.itemTypes[7], 400);
+            inventory[0][0, 3] = new Item(Item.itemTypes[8], 400);
+            inventory[0][0, 4] = new Item(Item.itemTypes[9], 400);
+            inventory[0][0, 5] = new Item(Item.itemTypes[10], 400);
+            inventory[0][0, 6] = new Item(Item.itemTypes[11], 400);
+            inventory[0][0, 7] = new Item(Item.itemTypes[12], 400);
 
            
 
@@ -229,7 +229,7 @@ namespace RPGame {
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
                     Item item = inventory[0][y, x];
                     if (item == null) {
-                        item = gainedItem;
+                        inventory[0][y, x] = gainedItem;
                         return true;    
                     }
                 }

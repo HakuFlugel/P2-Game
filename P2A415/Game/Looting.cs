@@ -86,7 +86,7 @@ namespace RPGame {
 
             const int itemSize = 128;
             const int itemPadding = 10;
-
+            const int lootPadding = 12;
             
 
 
@@ -102,47 +102,74 @@ namespace RPGame {
             PointF InnerBoxPoint = new PointF(OutterBoxPoint.X + 5, OutterBoxPoint.Y + 5);
             SizeF InnerBoxSize = new SizeF(lootplaceX / 3 - 10, lootplaceX / 3 - 10);
 
-            float the_addition = OutterBoxSize.Width + lootWidth / 6.5f;
+            float the_addition = OutterBoxSize.Width + lootWidth / 8f;
 
             if(!hasDone) {
                 gained_items = generateLoot(monsterLvl);
 
 
-                if (gained_items != null)
-                    foreach (var item in gained_items)
+                foreach (var item in gained_items)
+                    if (item != null)
                         Console.WriteLine(game.localPlayer.character.inventory.addItem(item));
 
             }
 
 
             gfx.FillRectangle(background, new RectangleF(new PointF(0,0),new SizeF(game.Width,game.Height)));
-            gfx.FillRectangle(lootBackground,new RectangleF(lootplaceX, lootplaceY, lootWidth, lootHeight));
+
+
+
+            
             float setX = lootplaceX + 5, setY = lootplaceY + lootHeight * 0.1f;
 
 
-            gfx.DrawString("Experience: " + exp,font,Brushes.Wheat,setX, setY);
-            if(lvl != 0) {
-                SizeF experienceString = gfx.MeasureString("Experience: " + exp, font);
-                if (experienceString.Width + gfx.MeasureString("Gained levels: " + lvl, font).Width > lootWidth)
-                    setY += experienceString.Height;
-                else
-                    setX += experienceString.Width + 5;
+            SizeF carriedSize = new SizeF(
+                (itemSize + itemPadding) * 3 + itemPadding,
+                (itemSize + itemPadding) * 3 + itemPadding);
+
+            string experience = "Experience: {exp}     " + ((lvl != 0 ) ? "level raised: {lvl}" : "");
+            SizeF experienceSize = gfx.MeasureString(experience, font);
+
+            SizeF lootSize = new SizeF(
+                carriedSize.Width + experienceSize.Width + 3 * lootPadding,
+                itemSize + 2 * itemPadding);
+
+            
+
+            RectangleF lootRect = new RectangleF(
+               (screenWidth - lootSize.Width) / 2,
+               (screenHeight - lootSize.Height) / 2,
+               lootSize.Width, lootSize.Height);
+
+            RectangleF itemGainedRect = new RectangleF(
+                lootRect.X + lootPadding,
+                lootRect.Y + lootPadding,
+                carriedSize.Width, carriedSize.Height);
+
+            SizeF allLootSize = new SizeF(
+                carriedSize.Width + 3 * lootPadding,
+                carriedSize.Height + experienceSize.Height + lootPadding + 2 * lootPadding);
 
 
-                gfx.DrawString("Gained levels: " + lvl, font, Brushes.Wheat, setX, setY);
-            }
+            RectangleF allLootRect = new RectangleF(
+               (screenWidth - lootRect.Width) / 2,
+               (screenHeight - lootRect.Height) / 2,
+               lootRect.Width, lootRect.Height);
+
+            gfx.FillRectangle(lootBackground, allLootRect);
+            gfx.FillRectangle(lootBackground, itemGainedRect);
 
             for (int index = 0; index < 3; index++) {
                 RectangleF itemRect = new RectangleF(
-                        OutterBoxPoint.X + itemPadding + index * (itemSize + itemPadding),
-                        OutterBoxPoint.Y + itemPadding,
+                        itemGainedRect.X + itemPadding + index * (itemSize + itemPadding),
+                        itemGainedRect.Y + itemPadding,
                         itemSize, itemSize);
 
-                gfx.FillRectangle(itemBackground, new RectangleF(OutterBoxPoint, OutterBoxSize));
+                gfx.FillRectangle(itemBackground, itemRect);
 
                 if (gained_items[index] != null) {
                     RectangleF srcRect = new RectangleF(gained_items[index].imageIndex % 3 * 32, gained_items[index].imageIndex / 3 * 32, 32, 32);
-                    gfx.DrawImage(Item.itemImage, new RectangleF(InnerBoxPoint,InnerBoxSize), srcRect, GraphicsUnit.Pixel);
+                    gfx.DrawImage(Item.itemImage, itemRect, srcRect, GraphicsUnit.Pixel);
                 }
                     
                 OutterBoxPoint.X += the_addition;
