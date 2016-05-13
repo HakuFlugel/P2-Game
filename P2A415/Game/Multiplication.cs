@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace RPGame {
-    class Multiplication : Question {
+    public class Multiplication : Question {
         public Multiplication(int level) : base(level) {
             this.text = "Multiply the following numbers";
 
