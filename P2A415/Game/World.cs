@@ -19,6 +19,8 @@ namespace RPGame {
 
             game.localPlayer = new Player(regions[0,0]);// characters[rand.Next(characters.Count - 1)];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
+
+            regions[1,1].characters.Add(new Character(regions[1,1], 4, regions[1,1].townx+32, regions[1,1].towny+32, calculateLevel(64, 64)));
         }
 
         public int this[long x, long y] {

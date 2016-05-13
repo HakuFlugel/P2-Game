@@ -97,7 +97,7 @@ namespace RPGame {
         }
 
         public void update(double deltaTime) {
-            enemyAttackTime -= deltaTime;
+            enemyAttackTime -= deltaTime * (game.Focused ? 1.0 : 1.1); // Penalty if game is not focused to punish using the calculator
             if (enemyAttackTime <= 0) {
 				doAttack(secondCharacter, firstCharacter);
                 enemyAttackTime = enemyTimePerAttack;

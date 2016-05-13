@@ -95,7 +95,7 @@ namespace RPGame {
                 itemName = "Two-Handed Axe",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 15,
+                itemDMG = 19,
                 itemPENE = 4,
                 itemDEF = 0,
                 itemSPEED = 0.25,
@@ -108,7 +108,7 @@ namespace RPGame {
                 itemName = "Claw",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 12,
+                itemDMG = 6,
                 itemPENE = 4.55,
                 itemSPEED = 0.3,
                 itemDEF = 0,
@@ -121,7 +121,7 @@ namespace RPGame {
                 itemName = "Two-Handed Sword",
                 itemHP = 0,
                 itemLVL = 1,
-                itemDMG = 13,
+                itemDMG = 16,
                 itemPENE = 1.4,
                 itemSPEED = 0.29,
                 itemDEF = 0,
@@ -139,7 +139,7 @@ namespace RPGame {
                 itemSPEED = 0.375,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 2
+                    Hand = 1
                 }
             });
 
@@ -217,7 +217,7 @@ namespace RPGame {
                 itemName = "Gloves",
                 itemHP = 0,
                 itemLVL = 3,
-                itemDMG = 0,
+                itemDMG = 2,
                 itemPENE = 0,
                 itemSPEED = 0.15,
                 itemDEF = 0,
@@ -271,9 +271,9 @@ namespace RPGame {
 
         }
 
-        private string[] Prefix = { "Wooden ", "Rusty ", "Blunt ", "Marked ", "Fugly ", "Ugly ", "Singing And Dancing ", "Longshot ", "Lickable ", "Beautifull ", "Outstanding ", "Understandable ", "Glory ", "Golden ", "Fine ", "Godly ", "Bloody ", "Sureal " };
+        private string[] Prefix = { "Harmless ", "Wooden ", "Rusty ", "Iron ", "Blunt ", "Marked ", "Fugly ", "Ugly ", "Steel ", "Singing And Dancing ", "Longshot ", "Lickable ", "Beautifull ", "Outstanding ", "Understandable ", "Deadly ", "Glory ", "Unholy ", "Holy ", "Dark ",  "Golden ", "Fine ", "Godly ", "Bloody ", "Sureal " };
 
-        private string[] Suffix = { " Of Destiny", " Made By God", " Of Slayer", " Slaien", ", Bob", ", Edgar", ", Hem", " Made Outta Gold", " Of What?", " Of Wood", " Of Leather", " Of Gold", ", Joakim" };
+        private string[] Suffix = { " Of Destiny", " Made By God", " Of Slayer", " Slaien", ", Bob", ", Edgar", ", Hem", " Made Outta Gold", " Of What?", " Of Wood", " Of Leather", " Of Gold", ", Joakim", " of Steel", " of Iron", " of Ponies", " of Holiness", " of Unholiness" };
         
         private string[] flavorText = {
             "This ITEMNAME is a long lost item. Now found, by you!", "Who is ready for some seal clubbing?",

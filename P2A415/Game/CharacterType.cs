@@ -55,6 +55,16 @@ namespace RPGame {
                 armorPen = 4.6,
                 defence = 4.5,
             });
+
+            characterTypes.Add(new CharacterType() {
+                imageFile = "Content/boss.png",
+                name = "Player",
+                maxHP = 85,
+                attack = 35,
+                attackSpeed = 10,
+                armorPen = 8,
+                defence = 7,
+            });
         }
     }    
 }
