@@ -38,7 +38,7 @@ namespace RPGame {
             font = new Font("Arial", 32
                 , FontStyle.Bold);
 
-            
+            // Menu buttons
             buttons.Add(new Button("Resume Game", (button) => {
                 this.isOpen = false;
             }));
@@ -112,7 +112,7 @@ namespace RPGame {
             const int buttonWidth = 384;
             const int buttonHeight = 128;
             
-
+            //Draw menu background
             Rectangle menuRect = new Rectangle(
                 game.ClientSize.Width / 2 - buttonWidth / 2 - padding,
                 game.ClientSize.Height / 2 - ((buttonHeight + padding) * buttons.Count + padding) / 2,
@@ -120,9 +120,9 @@ namespace RPGame {
                 ((buttonHeight + padding) * buttons.Count + padding)
                 );
 
-
             gfx.FillRectangle(menuBackground, menuRect);
 
+            // Draws buttons
             for (int i = 0; i < buttons.Count; i++) {
 
                 Rectangle buttonRect = new Rectangle(

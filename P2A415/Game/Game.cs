@@ -26,7 +26,6 @@ namespace RPGame {
         public UserInterface userInterface;
 
         public Game() {
-
             userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
@@ -37,7 +36,6 @@ namespace RPGame {
             menu = new Menu(this);
 
             menu = new Menu(this);
-            //invi = new Inventory();
             
             loot = new Looting();
 
@@ -53,11 +51,13 @@ namespace RPGame {
             KeyUp += (sender, e) => {
                 keyInput(sender, e, false);
             };
+
+            Resize += (sender, e) => {
+                localPlayer.character.currentCombat?.resize();
+            };
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) {
-
-
             if (e.KeyChar == (char)Keys.Escape) {
                 menu.toggle();
 
@@ -70,7 +70,6 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if (loot.isOpen && isDown) {
@@ -79,8 +78,6 @@ namespace RPGame {
                 localPlayer.inventory.keyInput(e);
             } else
             
-                
-
             switch (e.KeyCode) {
             case Keys.W:
             case Keys.Up:
@@ -102,12 +99,10 @@ namespace RPGame {
             default:
                 break;
             }
-
             Console.WriteLine(e.KeyCode +" "+ isDown);
         }
 
         public void run() {
-
             Show();
             Activate();
 
@@ -125,7 +120,6 @@ namespace RPGame {
         }
 
         private void update() {
-            
             lastTime = thisTime;
             thisTime = stopWatch.ElapsedTicks;
 

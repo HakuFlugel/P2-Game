@@ -84,7 +84,6 @@ namespace RPGame {
 
                     break;
 
-
                 case Keys.W:
                 case Keys.Up:
                     
