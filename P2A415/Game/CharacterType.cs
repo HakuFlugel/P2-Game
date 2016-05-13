@@ -18,7 +18,7 @@ namespace RPGame {
         static CharacterType() {
             characterTypes.Add(new CharacterType() {
                 imageFile = "Content/character.png",
-                name = "Player",
+                name = "You",
                 maxHP = 100,
                 attack = 20,
                 attackSpeed = 0.75,
@@ -58,7 +58,7 @@ namespace RPGame {
 
             characterTypes.Add(new CharacterType() {
                 imageFile = "Content/boss.png",
-                name = "Player",
+                name = "You",
                 maxHP = 85,
                 attack = 35,
                 attackSpeed = 5,
