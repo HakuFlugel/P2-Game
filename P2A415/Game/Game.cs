@@ -41,8 +41,6 @@ namespace RPGame {
 
             menu = new Menu(this);
 
-            loot = new Looting();
-
             FormClosing += delegate {
                 shouldRun = false;
             };
@@ -61,7 +59,7 @@ namespace RPGame {
             };
         }
 
-        private void keyPress(object sender, KeyPressEventArgs e) {
+        private void keyPress(object sender, KeyPressEventArgs e) { // TODO: flyt til keyinput
             if (e.KeyChar == (char)Keys.Escape) {
                 menu.toggle();
 
@@ -75,8 +73,10 @@ namespace RPGame {
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
             if (menu.isOpen && isDown) {
                 menu.keyInput(e);
-            } else if (loot.isOpen && isDown) {
-                loot.keyInput(e);
+            } else if (loot != null && isDown) {
+                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape ) {
+                    loot = null;
+                }
             } else if(localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(e);
             } else
@@ -171,7 +171,7 @@ namespace RPGame {
 
                 localPlayer.inventory.draw(gfx,this);
 
-                loot.draw(gfx, this);
+                loot?.draw(gfx, this);
 
                 menu.draw(gfx);
 

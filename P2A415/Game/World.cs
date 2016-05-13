@@ -135,7 +135,7 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-        }
+                }
 
         private bool shouldPathConnect(int x, int y) {
             try {
