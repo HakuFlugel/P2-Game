@@ -90,9 +90,6 @@ namespace RPGame {
             
 
 
-
-
-
             float lootWidth = game.Width * 0.50f, lootHeight = game.Height * 0.50f;
             float lootplaceX = game.Width / 2 - lootWidth / 2, lootplaceY = game.Height / 2 - lootHeight / 2;
             
@@ -123,41 +120,52 @@ namespace RPGame {
             float setX = lootplaceX + 5, setY = lootplaceY + lootHeight * 0.1f;
 
 
-            SizeF carriedSize = new SizeF(
+            SizeF itemSizes = new SizeF(
                 (itemSize + itemPadding) * 3 + itemPadding,
-                (itemSize + itemPadding) * 3 + itemPadding);
+                itemSize + 2 * itemPadding);
 
-            string experience = "Experience: {exp}     " + ((lvl != 0 ) ? "level raised: {lvl}" : "");
+            string experience = "Experience: " + exp.ToString() + ((lvl != 0 ) ? Environment.NewLine + "Level raised: " + lvl.ToString() : "");
             SizeF experienceSize = gfx.MeasureString(experience, font);
 
             SizeF lootSize = new SizeF(
-                carriedSize.Width + experienceSize.Width + 3 * lootPadding,
-                itemSize + 2 * itemPadding);
+                itemSizes.Width + experienceSize.Width + 3 * lootPadding,
+                itemSizes.Height + experienceSize.Height + 3 * lootPadding);
 
             
-
             RectangleF lootRect = new RectangleF(
                (screenWidth - lootSize.Width) / 2,
                (screenHeight - lootSize.Height) / 2,
                lootSize.Width, lootSize.Height);
 
-            RectangleF itemGainedRect = new RectangleF(
-                lootRect.X + lootPadding,
-                lootRect.Y + lootPadding,
-                carriedSize.Width, carriedSize.Height);
+           
 
             SizeF allLootSize = new SizeF(
-                carriedSize.Width + 3 * lootPadding,
-                carriedSize.Height + experienceSize.Height + lootPadding + 2 * lootPadding);
+                itemSizes.Width +  Math.Max(3 * lootPadding, experienceSize.Width),
+                itemSizes.Height + experienceSize.Height + lootPadding + 2 * lootPadding);
 
 
             RectangleF allLootRect = new RectangleF(
-               (screenWidth - lootRect.Width) / 2,
+               (screenWidth - allLootSize.Width) / 2,
                (screenHeight - lootRect.Height) / 2,
-               lootRect.Width, lootRect.Height);
+               allLootSize.Width, lootRect.Height);
+
+            RectangleF stringRect = new RectangleF(
+                allLootRect.X + lootPadding,
+                allLootRect.Y + lootPadding,
+                experienceSize.Width,experienceSize.Height
+                );
+
+
+            RectangleF itemGainedRect = new RectangleF(
+               (screenWidth - itemSizes.Width) / 2,
+               allLootRect.Y + 2 * lootPadding + experienceSize.Height,
+               itemSizes.Width, itemSizes.Height);
+
+            
 
             gfx.FillRectangle(lootBackground, allLootRect);
             gfx.FillRectangle(lootBackground, itemGainedRect);
+            gfx.DrawString(experience,font,Brushes.Wheat,stringRect);
 
             for (int index = 0; index < 3; index++) {
                 RectangleF itemRect = new RectangleF(
