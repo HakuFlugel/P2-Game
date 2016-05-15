@@ -183,7 +183,7 @@ namespace RPGame {
 
                 menu.draw(gfx);
 
-                generalMessage.draw(gfx,this);
+                generalMessage?.draw(gfx,this);
 
                 graphics.DrawImage(bmp, 0, 0);
             }
