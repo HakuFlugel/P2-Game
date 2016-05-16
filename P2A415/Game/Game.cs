@@ -126,7 +126,7 @@ namespace RPGame {
                0,0,ClientSize.Width, ClientSize.Height
             );
 
-            Bitmap titleImage = ImageLoader.Load("Content/Titleimage.png");
+            Bitmap titleImage = ImageLoader.Load("Content/combatscreen.png");
 
             gfx.DrawImage(titleImage, new RectangleF(0, 0, ClientSize.Width, ClientSize.Height));
 
