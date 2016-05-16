@@ -52,6 +52,8 @@ namespace RPGame {
 
             bf.Serialize(fs, player.inventory.inventory);
 
+            bf.Serialize(fs, player.statistics);
+
 //            for (int y = 0; y < player.inventory.inventory[0].GetLength(0); y++) {
 //                for (int x = 0; x < player.inventory.inventory[0].GetLength(1); x++) {
 //                    Item item = player.inventory.inventory[0][y, x];
@@ -94,6 +96,8 @@ namespace RPGame {
             player.inventory.equipSlots = (EquipSlot)bf.Deserialize(fs);
 
             player.inventory.inventory = (Item[][,])bf.Deserialize(fs);
+
+            player.statistics = (Statistics)bf.Deserialize(fs);
 
 //            for (int row = 0; row < player.inventory.inventory[0].GetLength(0); row++) {
 //                for (int col = 0; col < player.inventory.inventory[0].GetLength(1); col++) {

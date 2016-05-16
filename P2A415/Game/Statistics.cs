@@ -5,20 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RPGame {
+    [Serializable]
     public class Statistics {
 
-        public static int Encounters { get; set; }
-        public static int Kills { get; set; }
-        public static int Deaths { get; set; }
+        public int encounters { get; set; }
+        public int kills { get; set; }
+        public int deaths { get; set; }
 
-        public static int Questions { get {return Correct + Wrong;}}
-        public static int Correct { get; set; }
-        public static int Wrong { get; set; }
+        public int questions { get {return correct + wrong;}}
+        public int correct { get; set; }
+        public int wrong { get; set; }
 
-        public static int Distance { get; set; }
+        public int distance { get; set; }
 
-        private static int _highestLevel;
-        public static int HighestLevel {
+        private int _highestLevel;
+        public int highestLevel {
             get { return _highestLevel; }
             set {
                 if (_highestLevel < value) {
@@ -26,6 +27,6 @@ namespace RPGame {
                 }
             }
         }
-        public static int TownVisit { get; set; }
+        public int townVisits { get; set; }
     }
 }

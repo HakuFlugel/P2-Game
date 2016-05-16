@@ -143,18 +143,19 @@ namespace RPGame {
         }
 
         public void drawStatistics(Graphics gfx) {
+            Statistics statistics = game.localPlayer.statistics;
             String text = $@"Statistics 
-Encounters: {Statistics.Encounters} 
-Kills: {Statistics.Kills}
-Deaths: {Statistics.Deaths}
+Encounters: {statistics.encounters} 
+Kills: {statistics.kills}
+Deaths: {statistics.deaths}
 
-Questions: {Statistics.Questions} 
-Correct: {Statistics.Correct}
-Wrong: {Statistics.Wrong}
+Questions: {statistics.questions} 
+Correct: {statistics.correct}
+Wrong: {statistics.wrong}
 
-Distance: {Statistics.Distance}
-Highest Level: {Statistics.HighestLevel}
-Town visits: {Statistics.TownVisit}";
+Distance: {statistics.distance}
+Highest Level: {statistics.highestLevel}
+Town visits: {statistics.townVisits}";
 
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);

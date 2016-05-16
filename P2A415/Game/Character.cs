@@ -104,7 +104,7 @@ namespace RPGame {
 
         public void move(Game game,int x, int y) {
             if (canMove(game, position.x + x, position.y + y)) {
-                Statistics.Distance++;
+                game.localPlayer.statistics.distance++;
                 int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
@@ -137,7 +137,7 @@ namespace RPGame {
                 
                 if (region.townx == position.x % 32 && region.towny == position.y % 32) { 
                     stats.curHP = stats.maxHP;
-                    Statistics.TownVisit++;
+                    game.localPlayer.statistics.townVisits++;
                 }
             }
         }
