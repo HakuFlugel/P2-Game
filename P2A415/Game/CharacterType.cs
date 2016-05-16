@@ -61,7 +61,7 @@ namespace RPGame {
                 name = "You",
                 maxHP = 85,
                 attack = 35,
-                attackSpeed = 5,
+                attackSpeed = 6,
                 armorPen = 8,
                 defence = 7,
             });
