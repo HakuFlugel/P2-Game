@@ -221,6 +221,21 @@ namespace RPGame {
             const string titleText = "Equipped";
             SizeF titleSize = gfx.MeasureString(titleText, titleFont);
 
+            const string statTitleText = "Player Stats";
+            SizeF statTitleSize = gfx.MeasureString(statTitleText, nameFont);
+
+            string playerdmg = player.character.stats.attack.ToString("0.00");
+            string playerpen = player.character.stats.armorPen.ToString("0.00");
+            string playerhp = player.character.stats.curHP.ToString("0") + "/" + player.character.stats.maxHP.ToString("0");
+            string playerdef = player.character.stats.defence.ToString("0");
+            string playerats = player.character.stats.attackSpeed.ToString("0.000");
+
+            SizeF statSize = gfx.MeasureString("Attack: " + playerdmg + $@"
+Penetration: " + playerpen + $@"
+Health points: " + playerhp + $@"
+Defence: " + playerdef + $@"
+Slow: " + playerats, statsFont);
+
             SizeF inventorySize = new SizeF(
                 carriedSize.Width + Math.Max(equippedSize.Width, titleSize.Width) + 3 * inventoryPadding,
                 Math.Max(carriedSize.Height, equippedSize.Height + titleSize.Height + inventoryPadding) + 2 * inventoryPadding );
@@ -245,12 +260,29 @@ namespace RPGame {
                 titleRect.Y + titleRect.Height + inventoryPadding,
                 equippedSize.Width, equippedSize.Height);
 
+            RectangleF statTitleRect = new RectangleF(
+                carriedRect.X + carriedRect.Width + inventoryPadding,
+                equippedRect.Height + titleRect.Y + titleRect.Height + inventoryPadding,
+                statTitleSize.Width, statTitleSize.Height);
+
+            RectangleF statRect = new RectangleF(
+                carriedRect.X + carriedRect.Width + inventoryPadding,
+                statTitleRect.Height + equippedRect.Height + titleRect.Y + titleRect.Height + inventoryPadding,
+                statSize.Width, statSize.Height);
+            
             gfx.FillRectangle(background, inventoryRect);
             gfx.FillRectangle(invBackground, carriedRect);
             gfx.FillRectangle(invBackground, equippedRect);
+            gfx.FillRectangle(invBackground, statRect);
 
             gfx.DrawString(titleText, titleFont, Brushes.WhiteSmoke, titleRect);
-            
+            gfx.DrawString(statTitleText, nameFont, Brushes.WhiteSmoke, statTitleRect);
+            gfx.DrawString("Attack: " + playerdmg + $@"
+Penetration: " + playerpen + $@"
+Health points: " + playerhp + $@"
+Defence: " + playerdef + $@"
+Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
+
             for (int y = 0; y < inventory[0].GetLength(0); y++) {               //Draw carried
                 for (int x = 0; x < inventory[0].GetLength(1); x++) {
 
