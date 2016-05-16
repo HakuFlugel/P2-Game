@@ -218,7 +218,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0.75,
                 equipSlot = new EquipSlot() {
-                    Chest = 1
+                    Pants = 1
                 }
             });
 
