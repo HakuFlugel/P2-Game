@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
+using System.Threading;
 
 
 namespace RPGame {
@@ -45,7 +47,9 @@ namespace RPGame {
                 statisticsToggle();
             }));
             buttons.Add(new Button("New Game", (button) => {
-                Application.Restart();
+                File.Delete("save.dat");
+                this.isOpen = false;
+                game.world = new World(game);
             }));
 
             buttons.Add(new Button("Quit", (button) => {

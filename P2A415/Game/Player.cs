@@ -1,10 +1,18 @@
-﻿
+﻿using System;
+
 namespace RPGame {
+
     public class Player {
         public Character character;
         public Inventory inventory;
 
         public PlayerInput input = new PlayerInput();
+
+        public Player() {
+            character = new Character();
+            inventory = new Inventory(this);
+            character.inventory = inventory;
+        }
 
         public Player(Region region) {
             character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);

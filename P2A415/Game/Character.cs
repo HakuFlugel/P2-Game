@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace RPGame {
 
+    [Serializable]
     public struct Stats {
         public double curHP;
         public double maxHP;
@@ -47,6 +48,18 @@ namespace RPGame {
 
         public Combat currentCombat;
         public Inventory inventory;
+
+        public Character() {
+
+            this.characterType = 0;
+
+            CharacterType charType = CharacterType.characterTypes[characterType];
+
+            texture = ImageLoader.Load(charType.imageFile);
+            
+            stats.maxHP = 1;
+            stats.curHP = 1;
+        }
 
         public Character(Region region, int characterType, int x, int y, int level)
         {

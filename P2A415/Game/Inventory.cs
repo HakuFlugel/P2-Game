@@ -31,9 +31,9 @@ namespace RPGame {
         Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
         Font flavortextFont = new Font("Arial", 12, FontStyle.Italic);
 
-        private Item[][,] inventory = new Item[2][,];
+        public Item[][,] inventory = new Item[2][,];
 
-        private EquipSlot equipSlots = new EquipSlot() {
+        public EquipSlot equipSlots = new EquipSlot() {
             Hand = 2,
             Gloves = 1,
             Helmet = 1,
