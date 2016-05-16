@@ -46,7 +46,7 @@ namespace RPGame {
                 }
                 if(gainedItems[index] != null)
                     if(!game.localPlayer.inventory.addItem(gainedItems[index])) {
-                        game.generalMessage = new DrawGeneralMessage("Inventory full");
+                        game.popupMessage = new PopupMessage("Inventory full");
                     }
             }
            

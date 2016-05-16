@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 namespace RPGame {
-    public class DrawGeneralMessage {
+    public class PopupMessage {
 
         public string text;
 
         private Brush background = new SolidBrush(Color.FromArgb(128, Color.Black));
 
 
-        public DrawGeneralMessage(string text) { this.text = text; }
+        public PopupMessage(string text) { this.text = text; }
 
         public void draw(Graphics gfx, Game game) {
             int padding = 12;

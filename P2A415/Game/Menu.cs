@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
+using System.Threading;
 
 
 namespace RPGame {
@@ -45,7 +47,9 @@ namespace RPGame {
                 statisticsToggle();
             }));
             buttons.Add(new Button("New Game", (button) => {
-                Application.Restart();
+                File.Delete("save.dat");
+                this.isOpen = false;
+                game.world = new World(game);
             }));
 
             buttons.Add(new Button("Quit", (button) => {
@@ -139,18 +143,19 @@ namespace RPGame {
         }
 
         public void drawStatistics(Graphics gfx) {
+            Statistics statistics = game.localPlayer.statistics;
             String text = $@"Statistics 
-Encounters: {Statistics.Encounters} 
-Kills: {Statistics.Kills}
-Deaths: {Statistics.Deaths}
+Encounters: {statistics.encounters} 
+Kills: {statistics.kills}
+Deaths: {statistics.deaths}
 
-Questions: {Statistics.Questions} 
-Correct: {Statistics.Correct}
-Wrong: {Statistics.Wrong}
+Questions: {statistics.questions} 
+Correct: {statistics.correct}
+Wrong: {statistics.wrong}
 
-Distance: {Statistics.Distance}
-Highest Level: {Statistics.HighestLevel}
-Town visits: {Statistics.TownVisit}";
+Distance: {statistics.distance}
+Highest Level: {statistics.highestLevel}
+Town visits: {statistics.townVisits}";
 
             const int padding = 4;
             SizeF size = gfx.MeasureString(text, font);
