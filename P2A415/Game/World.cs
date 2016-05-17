@@ -22,15 +22,16 @@ namespace RPGame {
 
             if (File.Exists("save.dat")) {
                 load();
-                //game.localPlayer.character.region = regions[]
             } else {
-            generateWorld();
+                generateWorld();
 
-            game.localPlayer = new Player(regions[0,0]);
-            regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
+                game.localPlayer = new Player(regions[0,0]);
+                regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
             }
 
-            regions[1,1].characters.Add(new Character(regions[1,1], 4, regions[1,1].townx+32, regions[1,1].towny+32, calculateLevel(64, 64)));
+            //regions[1,1].characters.Add(new Character(regions[1,1], 4, regions[1,1].townx+32, regions[1,1].towny+32, calculateLevel(64, 64)));
+            regions[15, 15].characters.Add(new Character(regions[15, 15], 4, regions[15, 15].townx + 32 * 15, regions[15, 15].towny + 32 * 15, calculateLevel(32 * 16, 32 * 16)));
+
             // TODO: flyt boss til generate monsters eller world
         }
 

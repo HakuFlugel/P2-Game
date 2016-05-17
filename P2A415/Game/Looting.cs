@@ -21,6 +21,7 @@ namespace RPGame {
 
         private Font font = new Font("Bradley Hand ITC", 40, FontStyle.Italic);
 
+        private static Random rand = new Random();
 
         public Looting(Game game, int gainedLvl, ulong gainedXp, int monsterLvl) {
             this.gainedXp = gainedXp;
@@ -30,7 +31,7 @@ namespace RPGame {
 
             List<Item> items = Item.itemTypes;
             
-            Random rand = new Random(Guid.NewGuid().GetHashCode());
+//            Random rand = new Random(Guid.NewGuid().GetHashCode());
             var weapon = rand.Next(0, 1);
 
 

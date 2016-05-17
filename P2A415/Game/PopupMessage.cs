@@ -25,7 +25,7 @@ namespace RPGame {
 
             SizeF textSize = gfx.MeasureString(text, font);
 
-            SizeF displayBoxSize = new SizeF(textSize.Width + 2 * padding, textSize.Height + 2 * padding);
+            SizeF displayBoxSize = new SizeF(Math.Max(textSize.Width + 2 * padding,400), Math.Max(textSize.Height + 2 * padding,200));
 
             RectangleF displayBoxRect =
                 new RectangleF(
