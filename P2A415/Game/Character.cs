@@ -78,6 +78,11 @@ namespace RPGame {
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
+
+                if (region.townx == position.x % 32 && region.towny == position.y % 32)
+                {
+                    stats.curHP = stats.maxHP;
+                }
             }
         }
 
@@ -123,7 +128,6 @@ namespace RPGame {
 
                 
                 if (region.townx == position.x % 32 && region.towny == position.y % 32) { 
-                    stats.curHP = stats.maxHP;
                     Statistics.TownVisit++;
                 }
             }

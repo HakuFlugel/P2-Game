@@ -17,7 +17,7 @@ namespace RPGame {
 
             generateWorld();
 
-            game.localPlayer = new Player(regions[0,0]);
+            game.localPlayer = new Player(regions[15,15]);
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
 
             regions[15,15].characters.Add(new Character(regions[15,15], 4, regions[15,15].townx + 32*15, regions[15,15].towny + 32*15, calculateLevel(32*16, 32*16)));
