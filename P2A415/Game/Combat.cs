@@ -238,6 +238,9 @@ namespace RPGame {
             
             const int padding = 4;
 
+            fraction = Math.Min(fraction, 1.0);
+            fraction = Math.Max(fraction, 0.0);
+
             RectangleF barForegroundRect = new RectangleF(
                 barBackgroundRect.X + padding,
                 barBackgroundRect.Y + padding,
@@ -246,7 +249,10 @@ namespace RPGame {
             );
 
             gfx.FillRectangle(barBackground, barBackgroundRect);
-            gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255+255*(-fraction)), (int)(255*fraction), 0)) : barForeground, barForegroundRect);
+            if (fraction > 0) {
+                gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255*(1-fraction)), (int)(255*fraction), 0)) : barForeground, barForegroundRect);
+
+            }
         }
     }
 }
