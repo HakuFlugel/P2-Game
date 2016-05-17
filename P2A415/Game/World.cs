@@ -25,7 +25,7 @@ namespace RPGame {
             } else {
                 generateWorld();
 
-                game.localPlayer = new Player(regions[15,15]);
+                game.localPlayer = new Player(regions[0,0]);
                 regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
             }
 
