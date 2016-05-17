@@ -3,3 +3,8 @@
 /P2A415/.vs
 *.userprefs
 *.directory
+/P2A415/Game/bin/Debug
+/P2A415/UnitTestProject/bin/Debug
+/P2A415/UnitTestProject/obj/Debug
+*.user
+/P2A415/UpgradeLog.htm
