@@ -232,9 +232,9 @@ namespace RPGame {
             string playerdef = player.character.stats.defence.ToString("0");
             string playerstats = player.character.stats.attackSpeed.ToString("0.000");
 
-            string statsText = $@"Attack: {playerdmg}
+            string statsText = $@"Damage: {playerdmg}
 Penetration: {playerpen}
-Health points: {playerhp}
+Health: {playerhp}
 Defence: {playerdef}
 Slow: {playerstats}";
 
