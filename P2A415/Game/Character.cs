@@ -94,6 +94,11 @@ namespace RPGame {
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
+
+                if (region.townx == position.x % 32 && region.towny == position.y % 32)
+                {
+                    stats.curHP = stats.maxHP;
+                }
             }
         }
 
@@ -139,7 +144,6 @@ namespace RPGame {
 
                 
                 if (region.townx == position.x % 32 && region.towny == position.y % 32) { 
-                    stats.curHP = stats.maxHP;
                     game.localPlayer.statistics.townVisits++;
                 }
             }
@@ -189,13 +193,14 @@ namespace RPGame {
             return (ulong)(Math.Pow(level, 1.16) * 10 + 10);
         }
 
-        public int addExperience(ulong exp) {
+        public int addExperience(Game game, ulong exp) {
             stats.exp += exp;
             int temp_lvl = stats.level;
             while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
                 stats.level++;
+                game.localPlayer.statistics.highestLevel++;
 
                 calculateStats();
             }

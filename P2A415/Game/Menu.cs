@@ -49,7 +49,10 @@ namespace RPGame {
             buttons.Add(new Button("New Game", (button) => {
                 File.Delete("save.dat");
                 this.isOpen = false;
+                int highestLevel = game.localPlayer.statistics.highestLevel;
                 game.world = new World(game);
+                game.localPlayer.statistics.highestLevel = highestLevel;
+                
             }));
 
             buttons.Add(new Button("Quit", (button) => {
@@ -155,6 +158,7 @@ Wrong: {statistics.wrong}
 
 Distance: {statistics.distance}
 Highest Level: {statistics.highestLevel}
+Hardest Monster: {statistics.monsterHighestLevel}
 Town visits: {statistics.townVisits}";
 
             const int padding = 4;

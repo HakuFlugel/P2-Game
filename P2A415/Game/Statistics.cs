@@ -18,6 +18,15 @@ namespace RPGame {
 
         public int distance { get; set; }
 
+        private int _monsterHighestLevel;
+        public int monsterHighestLevel {
+            get { return _monsterHighestLevel; }
+            set {
+                if (_monsterHighestLevel < value) {
+                    _monsterHighestLevel = value;
+                }
+            }
+        }
         private int _highestLevel;
         public int highestLevel {
             get { return _highestLevel; }

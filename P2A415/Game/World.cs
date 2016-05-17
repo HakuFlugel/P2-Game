@@ -24,7 +24,7 @@ namespace RPGame {
                 load();
             } else {
             generateWorld();
-                
+
             game.localPlayer = new Player(regions[0,0]);
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
             }
@@ -197,7 +197,7 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-        }
+                }
 
         private bool shouldPathConnect(int x, int y) {
             try {
@@ -400,7 +400,7 @@ namespace RPGame {
                 for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].drawCharacters(game, gfx, cameraPosition);
                 }
+                }
             }
-        }
     }
 }
