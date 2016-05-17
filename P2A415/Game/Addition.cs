@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace RPGame {
-    
     public class Addition : Question{
         
         public Addition(int level) : base(level) {

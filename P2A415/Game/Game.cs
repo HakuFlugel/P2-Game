@@ -75,7 +75,7 @@ namespace RPGame {
             } else if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if (localPlayer.inventory.isOpen && isDown) {
-                localPlayer.inventory.keyInput(e);
+                localPlayer.inventory.keyInput(this, e);
             } else
 
                 switch (e.KeyCode) {

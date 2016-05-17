@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace RPGame {
-    public class ImageLoader {
+    public static class ImageLoader {
 
         public class ImageResource {
             public ulong number_of_times_used = 0;
