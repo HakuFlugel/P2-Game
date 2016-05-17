@@ -20,6 +20,8 @@ namespace RPGame {
         public bool shouldRun = true;
         private Graphics graphics;
 
+        private MusicPlayer music;
+
         private Stopwatch stopWatch = new Stopwatch();
 
         private long lastTime = 0;
@@ -34,23 +36,27 @@ namespace RPGame {
             graphics = CreateGraphics();
 
             menu = new Menu(this);
+            music = new MusicPlayer();
         }
 
         public static void Main() {
+            
+
             using (Game game = new Game()) {
                 game.run();
             }
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) { // TODO: flyt til keyinput
-             
             if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            if (popupMessage != null) {
+            if (e.KeyCode == Keys.M && isDown) {
+                music.toggleMute();
+            } else if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
                     popupMessage = null;
                 }
@@ -73,6 +79,7 @@ namespace RPGame {
             } else
 
                 switch (e.KeyCode) {
+
                     case Keys.W:
                     case Keys.Up:
                         localPlayer.input.moveUp = isDown;
@@ -131,7 +138,7 @@ namespace RPGame {
             while(shouldRun) {
                 update();
                 render();
-
+                
                 Application.DoEvents();
             }
 
@@ -153,6 +160,7 @@ namespace RPGame {
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
+            music.update();
         }
         
         private void render() {
