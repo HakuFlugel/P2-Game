@@ -72,7 +72,7 @@ namespace RPGame {
                 Item item = content[activeContainer][selectedRow, selectedColumn];
                     
                 if (item != null) {
-                    player.character.addExperience((ulong)(game, Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
+                    player.character.addExperience(game, (ulong)(Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
                     content[activeContainer][selectedRow, selectedColumn] = null;
                         }
                 break;
