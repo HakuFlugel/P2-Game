@@ -68,7 +68,7 @@ namespace RPGame {
             mciSendString(string.Format("open \"{0}\" type waveaudio alias wave", soundFile), null, 0, IntPtr.Zero);
             mciSendString("status wave length", lengthBuf, lengthBuf.Capacity, IntPtr.Zero);
             mciSendString("close wave", null, 0, IntPtr.Zero);
-
+            
             int length = 0;
             int.TryParse(lengthBuf.ToString(), out length);
 

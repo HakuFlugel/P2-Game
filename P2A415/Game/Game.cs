@@ -28,6 +28,7 @@ namespace RPGame {
         private long thisTime = 0;
 
         public Game() {
+            
             userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
