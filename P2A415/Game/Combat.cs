@@ -111,7 +111,7 @@ namespace RPGame {
         }
 
         private void doAttack(Character attacker, Character victim) {
-            victim.stats.curHP -= (attacker.stats.attack) / Math.Max(0.5, 1 + (secondCharacter.stats.defence - firstCharacter.stats.armorPen)/20.0);
+            victim.stats.curHP -= (attacker.stats.attack) / Math.Max(0.5, 1 + (victim.stats.defence - attacker.stats.armorPen)/20.0);
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
