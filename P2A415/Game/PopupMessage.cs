@@ -25,7 +25,7 @@ namespace RPGame {
 
             SizeF textSize = gfx.MeasureString(text, font);
 
-            SizeF displayBoxSize = new SizeF(Math.Max(textSize.Width + 2 * padding,400), Math.Max(textSize.Height + 2 * padding,200));
+            SizeF displayBoxSize = new SizeF(Math.Max(textSize.Width + 2 * padding, 400), Math.Max(textSize.Height + 2 * padding, 200));
 
             RectangleF displayBoxRect =
                 new RectangleF(
@@ -34,9 +34,9 @@ namespace RPGame {
                     displayBoxSize.Width, displayBoxSize.Height
                     );
 
-            gfx.FillRectangle(background, new RectangleF(0, 0,gameWidth, gameHeight));
+            gfx.FillRectangle(background, new RectangleF(0, 0, gameWidth, gameHeight));
             gfx.FillRectangle(background, displayBoxRect);
-            gfx.DrawString(text,font, Brushes.Wheat,displayBoxRect.X + padding, displayBoxRect.Y + padding);
+            gfx.DrawString(text, font, Brushes.Wheat, displayBoxRect.X + padding, displayBoxRect.Y + padding);
 
 
 

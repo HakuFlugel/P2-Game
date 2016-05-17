@@ -20,7 +20,7 @@ namespace RPGame {
         int activeContainer = 0;
 
         private Brush background = new SolidBrush(Color.FromArgb(128,Color.Black));
-        private Brush invBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
+        private Brush inventoryBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
         private Brush itemBackground = new SolidBrush(Color.FromArgb(192, Color.WhiteSmoke));
         private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
         private Brush itemHighlightedBackground = new SolidBrush(Color.FromArgb(192, Color.Violet));
@@ -31,7 +31,7 @@ namespace RPGame {
         Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
         Font flavortextFont = new Font("Arial", 12, FontStyle.Italic);
 
-        public Item[][,] inventory = new Item[2][,];
+        public Item[][,] content = new Item[2][,];
 
         public EquipSlot equipSlots = new EquipSlot() {
             Hand = 2,
@@ -60,8 +60,8 @@ namespace RPGame {
         public Inventory(Player player) {
             this.player = player;
 
-            inventory[0] = new Item[8, 8];
-            inventory[1] = new Item[4, 4];
+            content[0] = new Item[8, 8];
+            content[1] = new Item[4, 4];
         }
 
         public void keyInput(KeyEventArgs e) {
@@ -69,11 +69,11 @@ namespace RPGame {
 
             case Keys.Delete:
             case Keys.Back:
-                Item item = inventory[activeContainer][selectedRow, selectedColumn];
+                Item item = content[activeContainer][selectedRow, selectedColumn];
                     
                 if (item != null) {
                     player.character.addExperience((ulong)(Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
-                    inventory[activeContainer][selectedRow, selectedColumn] = null;
+                    content[activeContainer][selectedRow, selectedColumn] = null;
                         }
                 break;
 
@@ -86,8 +86,8 @@ namespace RPGame {
 
             case Keys.S:
             case Keys.Down:
-                if (++selectedRow > inventory[activeContainer].GetUpperBound(0)) {
-                    selectedRow = inventory[activeContainer].GetUpperBound(0);
+                if (++selectedRow > content[activeContainer].GetUpperBound(0)) {
+                    selectedRow = content[activeContainer].GetUpperBound(0);
                 }
                 break;
 
@@ -97,8 +97,8 @@ namespace RPGame {
 
                     if (activeContainer == 1) {
                         activeContainer = 0;
-                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[activeContainer == 0 ? 1 : 0].GetLength(0);
-                        selectedColumn = inventory[activeContainer].GetUpperBound(1);
+                        selectedRow = selectedRow * content[activeContainer].GetLength(0) / content[activeContainer == 0 ? 1 : 0].GetLength(0);
+                        selectedColumn = content[activeContainer].GetUpperBound(1);
                     } else
                         selectedColumn = 0;
                 }
@@ -106,14 +106,14 @@ namespace RPGame {
 
             case Keys.D:
             case Keys.Right:
-                if (++selectedColumn > inventory[activeContainer].GetUpperBound(1)) {
+                if (++selectedColumn > content[activeContainer].GetUpperBound(1)) {
 
                     if (activeContainer == 0) {
                         activeContainer = 1;
-                        selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[activeContainer == 0 ? 1 : 0].GetLength(0);
+                        selectedRow = selectedRow * content[activeContainer].GetLength(0) / content[activeContainer == 0 ? 1 : 0].GetLength(0);
                         selectedColumn = 0;
                     } else
-                        selectedColumn = inventory[activeContainer].GetUpperBound(1);
+                        selectedColumn = content[activeContainer].GetUpperBound(1);
                 }
                 break;
 
@@ -139,8 +139,8 @@ namespace RPGame {
                 int prevContainer = activeContainer;
                 activeContainer = activeContainer == 0 ? 1 : 0;
 
-                selectedRow = selectedRow * inventory[activeContainer].GetLength(0) / inventory[prevContainer].GetLength(0);
-                selectedColumn = selectedColumn * inventory[activeContainer].GetLength(1) / inventory[prevContainer].GetLength(1);
+                selectedRow = selectedRow * content[activeContainer].GetLength(0) / content[prevContainer].GetLength(0);
+                selectedColumn = selectedColumn * content[activeContainer].GetLength(1) / content[prevContainer].GetLength(1);
                 break;
 
             default:
@@ -149,8 +149,8 @@ namespace RPGame {
         }
  
         public void moveItem(HighlightedItem source, HighlightedItem target) {
-            Item sourceItem = inventory[source.container][source.row,source.column];
-            Item targetItem = inventory[target.container][target.row, target.column];
+            Item sourceItem = content[source.container][source.row,source.column];
+            Item targetItem = content[target.container][target.row, target.column];
 
             if (sourceItem == null && targetItem == null) {
                 return;
@@ -173,8 +173,8 @@ namespace RPGame {
                 equipSlots = resultingEquipSlots;
             }
 
-            inventory[source.container][source.row,source.column] = targetItem;
-            inventory[target.container][target.row, target.column] = sourceItem;
+            content[source.container][source.row,source.column] = targetItem;
+            content[target.container][target.row, target.column] = sourceItem;
             
             player.character.calculateStats();
         }
@@ -188,10 +188,10 @@ namespace RPGame {
         }
 
         public bool addItem(Item gainedItem) {
-            for (int y = 0; y < inventory[0].GetLength(0); y++)
-                for (int x = 0; x < inventory[0].GetLength(1); x++)
-                    if (inventory[0][y, x] == null) {
-                        inventory[0][y, x] = gainedItem;
+            for (int y = 0; y < content[0].GetLength(0); y++)
+                for (int x = 0; x < content[0].GetLength(1); x++)
+                    if (content[0][y, x] == null) {
+                        content[0][y, x] = gainedItem;
                         return true;
                     }
 
@@ -211,12 +211,12 @@ namespace RPGame {
             const int itemPadding = 8;
 
             SizeF carriedSize = new SizeF(
-                (itemSize + itemPadding) * inventory[0].GetLength(1) + itemPadding,
-                (itemSize + itemPadding) * inventory[0].GetLength(0) + itemPadding);
+                (itemSize + itemPadding) * content[0].GetLength(1) + itemPadding,
+                (itemSize + itemPadding) * content[0].GetLength(0) + itemPadding);
             
             SizeF equippedSize = new SizeF(
-                (itemSize + itemPadding) * inventory[1].GetLength(1) + itemPadding,
-                (itemSize + itemPadding) * inventory[1].GetLength(0) + itemPadding);
+                (itemSize + itemPadding) * content[1].GetLength(1) + itemPadding,
+                (itemSize + itemPadding) * content[1].GetLength(0) + itemPadding);
 
             const string titleText = "Equipped";
             SizeF titleSize = gfx.MeasureString(titleText, titleFont);
@@ -271,9 +271,9 @@ Slow: " + playerats, statsFont);
                 statSize.Width, statSize.Height);
             
             gfx.FillRectangle(background, inventoryRect);
-            gfx.FillRectangle(invBackground, carriedRect);
-            gfx.FillRectangle(invBackground, equippedRect);
-            gfx.FillRectangle(invBackground, statRect);
+            gfx.FillRectangle(inventoryBackground, carriedRect);
+            gfx.FillRectangle(inventoryBackground, equippedRect);
+            gfx.FillRectangle(inventoryBackground, statRect);
 
             gfx.DrawString(titleText, titleFont, Brushes.WhiteSmoke, titleRect);
             gfx.DrawString(statTitleText, nameFont, Brushes.WhiteSmoke, statTitleRect);
@@ -283,8 +283,8 @@ Health points: " + playerhp + $@"
 Defence: " + playerdef + $@"
 Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
 
-            for (int y = 0; y < inventory[0].GetLength(0); y++) {               //Draw carried
-                for (int x = 0; x < inventory[0].GetLength(1); x++) {
+            for (int y = 0; y < content[0].GetLength(0); y++) {               //Draw carried
+                for (int x = 0; x < content[0].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
                         carriedRect.X + itemPadding + x * (itemSize + itemPadding),
@@ -301,7 +301,7 @@ Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
             
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
 
-                    Item item = inventory[0][y, x];
+                    Item item = content[0][y, x];
 
                     if (item != null) {
                         RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
@@ -310,8 +310,8 @@ Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
                 }
             }
 
-            for (int y = 0; y < inventory[1].GetLength(0); y++) {               //Draw Equipped
-                for (int x = 0; x < inventory[1].GetLength(1); x++) {
+            for (int y = 0; y < content[1].GetLength(0); y++) {               //Draw Equipped
+                for (int x = 0; x < content[1].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
                         equippedRect.X + itemPadding + x * (itemSize + itemPadding),
@@ -328,7 +328,7 @@ Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
 
                     gfx.DrawRectangle(Pens.Black, itemRect.X, itemRect.Y, itemRect.Width, itemRect.Height);
 
-                    Item item = inventory[1][y, x];
+                    Item item = content[1][y, x];
 
                     if (item != null) {
                         RectangleF srcRect = new RectangleF(item.imageIndex % 3 * 32, item.imageIndex / 3 * 32, 32, 32);
@@ -337,7 +337,7 @@ Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
                 }
             }
 
-            Item selectedItem = inventory[activeContainer][selectedRow, selectedColumn];
+            Item selectedItem = content[activeContainer][selectedRow, selectedColumn];
             
             if (selectedItem != null) {
                 string name = selectedItem.itemName;
@@ -399,7 +399,7 @@ Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
         public double[] calculateStats() {
             double attack = 0, defence = 0, speed = 0, penetration = 0, hp = 0;
 
-            foreach (Item item in inventory[1]) {
+            foreach (Item item in content[1]) {
                 if(item != null) {
                     attack += item.itemDMG;
                     defence += item.itemDEF;

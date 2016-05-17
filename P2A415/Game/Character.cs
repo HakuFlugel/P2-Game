@@ -37,7 +37,6 @@ namespace RPGame {
 
     public class Character {
         public const double moveDelay = 0.25;
-        //public static Random rand = new Random();
 
         public Region region;
         public Bitmap texture;
@@ -50,7 +49,6 @@ namespace RPGame {
         public Inventory inventory;
 
         public Character() {
-
             this.characterType = 0;
 
             CharacterType charType = CharacterType.characterTypes[characterType];
@@ -61,8 +59,7 @@ namespace RPGame {
             stats.curHP = 1;
         }
 
-        public Character(Region region, int characterType, int x, int y, int level)
-        {
+        public Character(Region region, int characterType, int x, int y, int level) {
             position.x = x;
             position.y = y;
 
@@ -78,6 +75,12 @@ namespace RPGame {
             stats.maxHP = 1;
             stats.curHP = 1;
             calculateStats();
+        }
+
+        public CharacterType charType {
+            get {
+                return CharacterType.characterTypes[characterType];
+            }
         }
 
         public void update(Game game, double deltaTime) {
@@ -152,12 +155,11 @@ namespace RPGame {
         }
 
         public void calculateStats() {
-
             CharacterType charType = CharacterType.characterTypes[characterType];
 
             double oldMaxHP = stats.maxHP;
 
-            if (characterType == 0/*charType.name == "Player"*/) {
+            if (characterType == 0) {
                 double[] equipmentStats = new double[5];
                 if (inventory != null) {
                     equipmentStats = inventory.calculateStats();

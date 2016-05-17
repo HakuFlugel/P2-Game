@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace RPGame {
-    class Division : Question {
+    public class Division : Question {
         int correctAnswer;
 
         public Division(int level) : base(level) {
@@ -14,7 +14,7 @@ namespace RPGame {
 
             operands[0] = correctAnswer;
             for (int index = 1; index < length; index++) {
-                operands[index] = rand.Next(2, 2 + (int)Math.Log(level + 1)*4);
+                operands[index] = rand.Next(2, 2 + (int)Math.Log(level + 1) * 4);
                 operands[0] *= operands[index];
             }
 

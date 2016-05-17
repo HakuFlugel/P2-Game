@@ -15,7 +15,7 @@ namespace RPGame {
 		public Question currentQuestion;
         public string answerString = "";
 
-        SolidBrush barForeground = new SolidBrush(Color.White);
+        SolidBrush barForeground = new SolidBrush(Color.WhiteSmoke);
         SolidBrush barBackground = new SolidBrush(Color.Black);
         SolidBrush questionBackground = new SolidBrush(Color.FromArgb(128,Color.Black));
 
@@ -93,7 +93,7 @@ namespace RPGame {
             bigfont = new Font("Arial", 72 * scaleFinal, FontStyle.Regular);
             biggerfont = new Font("Arial", 96 * scaleFinal, FontStyle.Regular);
 
-            barSize = new SizeF(768 * scaleFinal, 24 * scaleFinal);
+            barSize = new SizeF(768 * scaleFinal, 32 * scaleFinal);
         }
 
         public void update(double deltaTime) {
@@ -166,33 +166,20 @@ namespace RPGame {
                 new RectangleF(width / 3 * 2 - sizeFinal / 2, height / 2f - sizeFinal * 0.8f, sizeFinal, sizeFinal),
                 new Rectangle(0, 0, 64, 64), GraphicsUnit.Pixel);
 
-            string player_name = CharacterType.characterTypes[firstCharacter.characterType].name;
-            double player_health = Math.Round(firstCharacter.stats.curHP, 0);
-            double player_level = firstCharacter.stats.level;
             string monster_name = CharacterType.characterTypes[secondCharacter.characterType].name;
             double monster_health = Math.Round(secondCharacter.stats.curHP, 0);
             double monster_level = secondCharacter.stats.level;
 
             string timeleft = enemyAttackTime.ToString("0.00");
-            const int padding = 4;
 
             // Draw time bar
-            RectangleF barBackgroundRect = new RectangleF(
-                width  / 2  - barSize.Width / 2      - padding,
+            RectangleF barRect = new RectangleF(
+                width  / 2  - barSize.Width / 2,
                 height / 64,
-                barSize.Width + 2 * padding,
-                barSize.Height + 2 * padding
+                barSize.Width,
+                barSize.Height
             );
-
-            RectangleF barForegroundRect = new RectangleF(
-                barBackgroundRect.X + padding,
-                barBackgroundRect.Y + padding,
-                (int)((barBackgroundRect.Width - 2 * padding) * (enemyAttackTime/enemyTimePerAttack)),
-                barBackgroundRect.Height - 2 * padding
-            );
-
-            gfx.FillRectangle(barBackground, barBackgroundRect);
-            gfx.FillRectangle(barForeground, barForegroundRect);
+            drawBar(gfx, barRect, enemyAttackTime / enemyTimePerAttack);
 
             // Draw questionbar
             RectangleF questionRect = new RectangleF(
@@ -207,14 +194,11 @@ namespace RPGame {
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-            gfx.DrawString($"{timeleft}", mediumfont, Brushes.OrangeRed, barBackgroundRect, stringFormat);
+            gfx.DrawString($"{timeleft}", mediumfont, Brushes.OrangeRed, barRect, stringFormat);
             
             // draw player and monster text
-            string left = $@"Name: {player_name}" + "\n" + $@"Health: {player_health} " + "\n" + $@"Level: {player_level}";
-            string right = $@"Name: { monster_name}" + "\n" + $@"Health: {monster_health}" + "\n" + $@"Level: {monster_level}";
-
-            drawinfo(left, gfx, 0); // left
-            drawinfo(right, gfx, 1); // right
+            drawinfo(gfx, 0, firstCharacter); 
+            drawinfo(gfx, 1, secondCharacter); 
 
             // draw question
             SizeF sizeOfQustionText = gfx.MeasureString(currentQuestion.text,bigfont);
@@ -224,10 +208,15 @@ namespace RPGame {
             gfx.DrawString($@"{currentQuestion.expression}  {answerString}", biggerfont, Brushes.WhiteSmoke, ((width / 2) - sizeOfExpression.Width / 2)- width/8, height / 1.35f);
         }
 
-        public void drawinfo(string text, Graphics gfx, int i ) {
+        public void drawinfo(Graphics gfx, int i, Character character) {
             if (i > 1 || i < 0) {
                 throw new ArgumentOutOfRangeException("Can be either left(0) or right(1)");
             }
+
+            string name = CharacterType.characterTypes[character.characterType].name;
+            double health = Math.Round(character.stats.curHP, 0);
+            double level = character.stats.level;
+            string text = $@"Name: { name}" + "\n" + $@"Health: {health}" + "\n" + $@"Level: {level}";
 
             int padding = 4;
             SizeF size = gfx.MeasureString(text, font);
@@ -241,7 +230,23 @@ namespace RPGame {
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
             gfx.FillRectangle(questionBackground, uiRect);
 
+            drawBar(gfx, uiRect, character.stats.curHP / character.stats.maxHP, true);
             gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
+        }
+
+        public void drawBar(Graphics gfx, RectangleF barBackgroundRect, double fraction, bool isHP = false ) {
+            
+            const int padding = 4;
+
+            RectangleF barForegroundRect = new RectangleF(
+                barBackgroundRect.X + padding,
+                barBackgroundRect.Y + padding,
+                (int)((barBackgroundRect.Width - 2 * padding) * fraction),
+                barBackgroundRect.Height - 2 * padding
+            );
+
+            gfx.FillRectangle(barBackground, barBackgroundRect);
+            gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255+255*(-fraction)), (int)(255*fraction), 0)) : barForeground, barForegroundRect);
         }
     }
 }

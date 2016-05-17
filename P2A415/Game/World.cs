@@ -22,16 +22,12 @@ namespace RPGame {
 
             if (File.Exists("save.dat")) {
                 load();
-                //game.localPlayer.character.region = regions[]
             } else {
             generateWorld();
-
+                
             game.localPlayer = new Player(regions[0,0]);
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
             }
-
-            regions[1,1].characters.Add(new Character(regions[1,1], 4, regions[1,1].townx+32, regions[1,1].towny+32, calculateLevel(64, 64)));
-            // TODO: flyt boss til generate monsters eller world
         }
 
         public void save() {
@@ -50,26 +46,11 @@ namespace RPGame {
 
             bf.Serialize(fs, player.inventory.equipSlots);
 
-            bf.Serialize(fs, player.inventory.inventory);
+            bf.Serialize(fs, player.inventory.content);
 
             bf.Serialize(fs, player.statistics);
 
-//            for (int y = 0; y < player.inventory.inventory[0].GetLength(0); y++) {
-//                for (int x = 0; x < player.inventory.inventory[0].GetLength(1); x++) {
-//                    Item item = player.inventory.inventory[0][y, x];
-//                    bf.Serialize(fs, item);
-//                }
-//            }
-//
-//            for (int y = 0; y < player.inventory.inventory[1].GetLength(0); y++) {
-//                for (int x = 0; x < player.inventory.inventory[1].GetLength(1); x++) {
-//                    Item item = player.inventory.inventory[1][y, x];
-//                    bf.Serialize(fs, item);
-//                }
-//            }
-
             fs.Close();
-
         }
 
         public void load() {
@@ -95,30 +76,13 @@ namespace RPGame {
 
             player.inventory.equipSlots = (EquipSlot)bf.Deserialize(fs);
 
-            player.inventory.inventory = (Item[][,])bf.Deserialize(fs);
+            player.inventory.content = (Item[][,])bf.Deserialize(fs);
 
             player.statistics = (Statistics)bf.Deserialize(fs);
-
-//            for (int row = 0; row < player.inventory.inventory[0].GetLength(0); row++) {
-//                for (int col = 0; col < player.inventory.inventory[0].GetLength(1); col++) {
-//                    Item item = (Item)bf.Deserialize(fs);
-//                    player.inventory.inventory[0][row, col] = item;
-//                }
-//            }
-//
-//            for (int row = 0; row < player.inventory.inventory[1].GetLength(0); row++) {
-//                for (int col = 0; col < player.inventory.inventory[1].GetLength(1); col++) {
-//                    Item item = (Item)bf.Deserialize(fs);
-//                    player.inventory.inventory[1][row, col] = item;
-//                }
-//            }
-
 
             game.localPlayer = player;
             game.localPlayer.character.region = regions[player.character.position.x / 32, player.character.position.y / 32];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
-
-            //player.character.move(game, player.character.position.x, player.character.position.x);
 
             fs.Close();
         }
@@ -141,7 +105,6 @@ namespace RPGame {
         }
 
         private void generateWorld() {
-
             // Allocate regions
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
@@ -159,20 +122,17 @@ namespace RPGame {
                 }
             }
 
-
             generateMountains();
 
             generateTrees();
 
             generateTowns();
             
-            //Number in ttweight.Add() is the weight for when generating roads.
             Dictionary<GeneratedTile,int> ttweight = new Dictionary<GeneratedTile, int>();
             ttweight.Add(GeneratedTile.Ground, 2);
             ttweight.Add(GeneratedTile.Mountain, 32);
             ttweight.Add(GeneratedTile.Trees, 16);
             ttweight.Add(GeneratedTile.Town, 1);
-            //ttweight.Add(GeneratedTile.Path, 1);
 
             // Weights
             for (int x = 0; x < regions.GetLength(0) * 32; x++) {
@@ -184,7 +144,7 @@ namespace RPGame {
             // monsters
             generateMonsters(weights);
 
-            //// path
+            // path
             RoadMaker roadmaker = new RoadMaker(this, weights);
             roadmaker.generatePath(new RoadMaker.coords(0, 0), new RoadMaker.coords(regions[0, 0].townx, regions[0, 0].towny));
 
@@ -237,7 +197,7 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-                }
+        }
 
         private bool shouldPathConnect(int x, int y) {
             try {
@@ -248,6 +208,7 @@ namespace RPGame {
         }
 
         private void generateMonsters(int[,] weights) {
+            // Generate monsters
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {
 
@@ -256,6 +217,9 @@ namespace RPGame {
                     }
                 }
             }
+
+            // Generate boss
+            regions[15, 15].characters.Add(new Character(regions[15, 15], 4, regions[15, 15].townx + 32 * 15, regions[15, 15].towny + 32 * 15, calculateLevel(32 * 16, 32 * 16)));
         }
 
         private void modifyWeight(int[,] weights, int x, int y, int add) {
@@ -438,15 +402,5 @@ namespace RPGame {
                 }
             }
         }
-
-        /*public void WorldSave() { // saves world to file.
-            using (BinaryWriter MyFile = new BinaryWriter(File.Open("Saves", FileMode.Create))) {
-                foreach (var item in arr) {
-                    MyFile.Write(item);
-                }
-                MyFile.Close();
-
-            }
-        }*/
     }
 }
