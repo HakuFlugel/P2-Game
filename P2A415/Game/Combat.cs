@@ -41,7 +41,7 @@ namespace RPGame {
             enemyTimePerAttack = secondCharacter.stats.attackSpeed;
             enemyAttackTime = enemyTimePerAttack;
             currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
-            Statistics.Encounters++;
+            game.localPlayer.statistics.encounters++;
 
             resize();
         }
@@ -64,10 +64,10 @@ namespace RPGame {
                 }
 
                 if (isCorrect) {
-                    Statistics.Correct++;
+                    game.localPlayer.statistics.correct++;
                     doAttack();
                 } else {
-                    Statistics.Wrong++;
+                    game.localPlayer.statistics.wrong++;
                     enemyAttackTime -= 2.5;
                     // TODO: effect, shake?
                 }
@@ -128,12 +128,12 @@ namespace RPGame {
 				hasEnded = true;
                 // Do victory/lose
                 if (victim==secondCharacter) {
-                    Statistics.Kills++;
-                    Statistics.HighestLevel = secondCharacter.stats.level;
+                    game.localPlayer.statistics.kills++;
+                    game.localPlayer.statistics.highestLevel = secondCharacter.stats.level;
                 }
                 if (victim==firstCharacter) {
-                    Statistics.Distance--;
-                    Statistics.Deaths++;
+                    game.localPlayer.statistics.distance--;
+                    game.localPlayer.statistics.deaths++;
                     victim.position = whereThePlayerCameFrom;
                     victim.stats.curHP = victim.stats.maxHP / 16;
                     game.world.regions[firstCharacter.position.x / 32,firstCharacter.position.y / 32].characters.Add(victim);

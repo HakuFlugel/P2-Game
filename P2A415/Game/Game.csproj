@@ -32,7 +32,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Division.cs" />
-    <Compile Include="DrawGeneralMessage.cs" />
     <Compile Include="Game.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +55,7 @@
     <Compile Include="Addition.cs" />
     <Compile Include="Subtraction.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="PopupMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data" />

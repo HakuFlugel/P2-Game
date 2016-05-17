@@ -2,25 +2,126 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RPGame {
     public class World {
 
         public Region[,] regions = new Region[16,16];
-        private Random rand;
         private Game game;
+
+        private int seed;
+        private Random rand;
 
         public World(Game game) {
             this.game = game;
 
-            rand = new Random(42); //42 is a seed.
+            this.seed = new Random().Next();
+            rand = new Random(this.seed);
 
+
+            if (File.Exists("save.dat")) {
+                load();
+            } else {
+                generateWorld();
+
+                game.localPlayer = new Player(regions[15,15]);
+                regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
+            }
+
+            //regions[1,1].characters.Add(new Character(regions[1,1], 4, regions[1,1].townx+32, regions[1,1].towny+32, calculateLevel(64, 64)));
+            regions[15, 15].characters.Add(new Character(regions[15, 15], 4, regions[15, 15].townx + 32 * 15, regions[15, 15].towny + 32 * 15, calculateLevel(32 * 16, 32 * 16)));
+
+            // TODO: flyt boss til generate monsters eller world
+        }
+
+        public void save() {
+            FileStream fs = new FileStream("save.dat", FileMode.Create);
+
+            Player player = game.localPlayer;
+
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(seed);
+
+            bw.Write(player.character.position.x);
+            bw.Write(player.character.position.y);
+
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, player.character.stats);
+
+            bf.Serialize(fs, player.inventory.equipSlots);
+
+            bf.Serialize(fs, player.inventory.inventory);
+
+            bf.Serialize(fs, player.statistics);
+
+//            for (int y = 0; y < player.inventory.inventory[0].GetLength(0); y++) {
+//                for (int x = 0; x < player.inventory.inventory[0].GetLength(1); x++) {
+//                    Item item = player.inventory.inventory[0][y, x];
+//                    bf.Serialize(fs, item);
+//                }
+//            }
+//
+//            for (int y = 0; y < player.inventory.inventory[1].GetLength(0); y++) {
+//                for (int x = 0; x < player.inventory.inventory[1].GetLength(1); x++) {
+//                    Item item = player.inventory.inventory[1][y, x];
+//                    bf.Serialize(fs, item);
+//                }
+//            }
+
+            fs.Close();
+
+        }
+
+        public void load() {
+            FileStream fs = new FileStream("save.dat", FileMode.Open);
+
+            Player player = new Player();
+
+            BinaryReader br = new BinaryReader(fs);
+            int seed = br.ReadInt32();
+
+            this.seed = seed;
+            rand = new Random(this.seed);
             generateWorld();
 
-            game.localPlayer = new Player(regions[15,15]);
+            int x = br.ReadInt32();
+            int y = br.ReadInt32();
+
+            player.character.position.x = x;
+            player.character.position.y = y;
+
+            BinaryFormatter bf = new BinaryFormatter();
+            player.character.stats = (Stats)bf.Deserialize(fs);
+
+            player.inventory.equipSlots = (EquipSlot)bf.Deserialize(fs);
+
+            player.inventory.inventory = (Item[][,])bf.Deserialize(fs);
+
+            player.statistics = (Statistics)bf.Deserialize(fs);
+
+//            for (int row = 0; row < player.inventory.inventory[0].GetLength(0); row++) {
+//                for (int col = 0; col < player.inventory.inventory[0].GetLength(1); col++) {
+//                    Item item = (Item)bf.Deserialize(fs);
+//                    player.inventory.inventory[0][row, col] = item;
+//                }
+//            }
+//
+//            for (int row = 0; row < player.inventory.inventory[1].GetLength(0); row++) {
+//                for (int col = 0; col < player.inventory.inventory[1].GetLength(1); col++) {
+//                    Item item = (Item)bf.Deserialize(fs);
+//                    player.inventory.inventory[1][row, col] = item;
+//                }
+//            }
+
+
+            game.localPlayer = player;
+            game.localPlayer.character.region = regions[player.character.position.x / 32, player.character.position.y / 32];
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
 
-            regions[15,15].characters.Add(new Character(regions[15,15], 4, regions[15,15].townx + 32*15, regions[15,15].towny + 32*15, calculateLevel(32*16, 32*16)));
+            //player.character.move(game, player.character.position.x, player.character.position.x);
+
+            fs.Close();
         }
 
         public int this[long x, long y] {
@@ -295,6 +396,7 @@ namespace RPGame {
                 // Do nothing
             }
         }
+
         private void generateTowns() {
             for (int x = 0; x < regions.GetLength(0); x++) {
                 for (int y = 0; y < regions.GetLength(1); y++) {

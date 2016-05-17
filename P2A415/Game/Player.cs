@@ -1,15 +1,27 @@
-﻿
+﻿using System;
+
 namespace RPGame {
+
     public class Player {
         public Character character;
         public Inventory inventory;
 
         public PlayerInput input = new PlayerInput();
 
+        public Statistics statistics;
+
+        public Player() {
+            character = new Character();
+            inventory = new Inventory(this);
+            character.inventory = inventory;
+
+        }
+
         public Player(Region region) {
             character = new Character(region, 0, region.x * 32 + region.townx, region.y * 32 + region.towny, 0);
             inventory = new Inventory(this);
             character.inventory = inventory;
+            statistics = new Statistics();
         }
 
         public void update(Game game,double deltaTime) {
