@@ -111,7 +111,7 @@ namespace RPGame {
         }
 
         private void doAttack(Character attacker, Character victim) {
-            victim.stats.curHP -= (attacker.stats.attack) / Math.Max(0.5, 1 + (secondCharacter.stats.defence - firstCharacter.stats.armorPen)/20.0);
+            victim.stats.curHP -= (attacker.stats.attack) / Math.Max(0.5, 1 + (victim.stats.defence - attacker.stats.armorPen)/20.0);
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
@@ -238,6 +238,9 @@ namespace RPGame {
             
             const int padding = 4;
 
+            fraction = Math.Min(fraction, 1.0);
+            fraction = Math.Max(fraction, 0.0);
+
             RectangleF barForegroundRect = new RectangleF(
                 barBackgroundRect.X + padding,
                 barBackgroundRect.Y + padding,
@@ -246,7 +249,10 @@ namespace RPGame {
             );
 
             gfx.FillRectangle(barBackground, barBackgroundRect);
-            gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255+255*(-fraction)), (int)(255*fraction), 0)) : barForeground, barForegroundRect);
+            if (fraction > 0) {
+                gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255*(1-fraction)), (int)(192*fraction), 32)) : barForeground, barForegroundRect);
+
+            }
         }
     }
 }

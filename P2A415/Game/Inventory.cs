@@ -25,10 +25,12 @@ namespace RPGame {
         private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
         private Brush itemHighlightedBackground = new SolidBrush(Color.FromArgb(192, Color.Violet));
        
-        Font titleFont = new Font("Bradley Hand ITC", 40, FontStyle.Italic); 
-        Font nameFont = new Font("Arial", 15, FontStyle.Bold);
+        Font titleFont = new Font("Arial", 40, FontStyle.Bold);
+        Font bigFont = new Font("Arial", 24, FontStyle.Bold);
+        Font nameFont = new Font("Arial", 16, FontStyle.Bold);
         Font lvlFont = new Font("Arial", 10, FontStyle.Regular);
         Font statsFont = new Font("Arial", 12, FontStyle.Regular); 
+        Font bigStatsFont = new Font("Arial", 16, FontStyle.Regular); 
         Font flavortextFont = new Font("Arial", 12, FontStyle.Italic);
 
         public Item[][,] content = new Item[2][,];
@@ -222,19 +224,21 @@ namespace RPGame {
             SizeF titleSize = gfx.MeasureString(titleText, titleFont);
 
             const string statTitleText = "Player Stats";
-            SizeF statTitleSize = gfx.MeasureString(statTitleText, nameFont);
+            SizeF statTitleSize = gfx.MeasureString(statTitleText, bigFont);
 
             string playerdmg = player.character.stats.attack.ToString("0.00");
             string playerpen = player.character.stats.armorPen.ToString("0.00");
             string playerhp = player.character.stats.curHP.ToString("0") + "/" + player.character.stats.maxHP.ToString("0");
             string playerdef = player.character.stats.defence.ToString("0");
-            string playerats = player.character.stats.attackSpeed.ToString("0.000");
+            string playerstats = player.character.stats.attackSpeed.ToString("0.000");
 
-            SizeF statSize = gfx.MeasureString("Attack: " + playerdmg + $@"
-Penetration: " + playerpen + $@"
-Health points: " + playerhp + $@"
-Defence: " + playerdef + $@"
-Slow: " + playerats, statsFont);
+            string statsText = $@"Damage: {playerdmg}
+Penetration: {playerpen}
+Health: {playerhp}
+Defence: {playerdef}
+Slow: {playerstats}";
+
+//            SizeF statSize = gfx.MeasureString(statsText, statsFont);
 
             SizeF inventorySize = new SizeF(
                 carriedSize.Width + Math.Max(equippedSize.Width, titleSize.Width) + 3 * inventoryPadding,
@@ -262,13 +266,20 @@ Slow: " + playerats, statsFont);
 
             RectangleF statTitleRect = new RectangleF(
                 carriedRect.X + carriedRect.Width + inventoryPadding,
-                equippedRect.Height + titleRect.Y + titleRect.Height + inventoryPadding,
+                equippedRect.Y + equippedRect.Height + inventoryPadding,
                 statTitleSize.Width, statTitleSize.Height);
 
             RectangleF statRect = new RectangleF(
-                carriedRect.X + carriedRect.Width + inventoryPadding,
-                statTitleRect.Height + equippedRect.Height + titleRect.Y + titleRect.Height + inventoryPadding,
-                statSize.Width, statSize.Height);
+                statTitleRect.X,
+                statTitleRect.Y + statTitleRect.Height + inventoryPadding,
+                equippedRect.Width,
+                inventoryRect.Height - titleRect.Height - equippedRect.Height - statTitleRect.Height - inventoryPadding * 5);
+
+            RectangleF statTextRect = new RectangleF(
+                statRect.X + itemPadding,
+                statRect.Y + itemPadding,
+                statRect.Width - itemPadding*2,
+                statRect.Height - itemPadding*2);
             
             gfx.FillRectangle(background, inventoryRect);
             gfx.FillRectangle(inventoryBackground, carriedRect);
@@ -276,12 +287,8 @@ Slow: " + playerats, statsFont);
             gfx.FillRectangle(inventoryBackground, statRect);
 
             gfx.DrawString(titleText, titleFont, Brushes.WhiteSmoke, titleRect);
-            gfx.DrawString(statTitleText, nameFont, Brushes.WhiteSmoke, statTitleRect);
-            gfx.DrawString("Attack: " + playerdmg + $@"
-Penetration: " + playerpen + $@"
-Health points: " + playerhp + $@"
-Defence: " + playerdef + $@"
-Slow: " + playerats, statsFont, Brushes.WhiteSmoke, statRect);
+            gfx.DrawString(statTitleText, bigFont, Brushes.WhiteSmoke, statTitleRect);
+            gfx.DrawString(statsText, bigStatsFont, Brushes.WhiteSmoke, statTextRect);
 
             for (int y = 0; y < content[0].GetLength(0); y++) {               //Draw carried
                 for (int x = 0; x < content[0].GetLength(1); x++) {

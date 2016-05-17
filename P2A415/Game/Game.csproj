@@ -41,7 +41,6 @@
     <Compile Include="Looting.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Multiplication.cs" />
-    <Compile Include="MusicPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInput.cs" />
     <Compile Include="Region.cs" />

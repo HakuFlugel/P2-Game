@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Media;
+using System.Threading;
 
 namespace RPGame {
     public class Game : Form {
@@ -19,8 +21,6 @@ namespace RPGame {
 
         public bool shouldRun = true;
         private Graphics graphics;
-
-        private MusicPlayer music;
 
         private Stopwatch stopWatch = new Stopwatch();
 
@@ -37,7 +37,24 @@ namespace RPGame {
             graphics = CreateGraphics();
 
             menu = new Menu(this);
-            music = new MusicPlayer();
+
+            // Events
+            FormClosing += delegate {
+                shouldRun = false;
+            };
+
+            KeyPress += keyPress;
+
+            KeyDown += (sender, e) => {
+                keyInput(sender, e, true);
+            };
+            KeyUp += (sender, e) => {
+                keyInput(sender, e, false);
+            };
+
+            Resize += (sender, e) => {
+                localPlayer.character.currentCombat?.resize();
+            };
         }
 
         public static void Main() {
@@ -55,9 +72,7 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            if (e.KeyCode == Keys.M && isDown) {
-                music.toggleMute();
-            } else if (popupMessage != null) {
+            if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
                     popupMessage = null;
                 }
@@ -116,27 +131,10 @@ namespace RPGame {
             Bitmap titleImage = ImageLoader.Load("Content/Titleimage.png");
             gfx.DrawImage(titleImage, new RectangleF(0, 0, ClientSize.Width, ClientSize.Height));
 
-            // Events
-            FormClosing += delegate {
-                shouldRun = false;
-            };
-
-            KeyPress += keyPress;
-
-            KeyDown += (sender, e) => {
-                keyInput(sender, e, true);
-            };
-            KeyUp += (sender, e) => {
-                keyInput(sender, e, false);
-            };
-
-            Resize += (sender, e) => {
-                localPlayer.character.currentCombat?.resize();
-            };
-
             // World
             world = new World(this);
             while(shouldRun) {
+
                 update();
                 render();
                 
@@ -161,7 +159,6 @@ namespace RPGame {
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
-            music.update();
         }
         
         private void render() {
