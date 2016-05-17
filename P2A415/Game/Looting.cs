@@ -42,7 +42,7 @@ namespace RPGame {
                     gainedItems[index] = (new Item(items[rand.Next(6, 13)], rand.Next(monsterLvl - 10, monsterLvl)));
                 } else {
 
-                    game.localPlayer.character.addExperience((ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
+                    game.localPlayer.character.addExperience(game, (ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
                 }
                 if(gainedItems[index] != null)
                     if(!game.localPlayer.inventory.addItem(gainedItems[index])) {

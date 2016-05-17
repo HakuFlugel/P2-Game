@@ -187,13 +187,14 @@ namespace RPGame {
             return (ulong)(Math.Pow(level, 1.16) * 10 + 10);
         }
 
-        public int addExperience(ulong exp) {
+        public int addExperience(Game game, ulong exp) {
             stats.exp += exp;
             int temp_lvl = stats.level;
             while (stats.exp >= expRequired()) { 
 
                 stats.exp -= expRequired();
                 stats.level++;
+                game.localPlayer.statistics.highestLevel++;
 
                 calculateStats();
             }

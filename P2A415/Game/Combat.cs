@@ -116,7 +116,7 @@ namespace RPGame {
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
                 ulong exp = (ulong)(Math.Pow(victim.stats.level, 1.4) * 1.1 + 5);
-                int lvl_raised = attacker.addExperience(exp);
+                int lvl_raised = attacker.addExperience(game, exp);
 
                 if(!victim.Equals(game.localPlayer.character))
                     game.loot = new Looting(game,lvl_raised,exp,secondCharacter.stats.level);
@@ -129,7 +129,7 @@ namespace RPGame {
                 // Do victory/lose
                 if (victim==secondCharacter) {
                     game.localPlayer.statistics.kills++;
-                    game.localPlayer.statistics.highestLevel = secondCharacter.stats.level;
+                    game.localPlayer.statistics.monsterHighestLevel = secondCharacter.stats.level;
                 }
                 if (victim==firstCharacter) {
                     game.localPlayer.statistics.distance--;
