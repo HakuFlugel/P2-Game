@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace RPGame {
 
+    [Serializable]
     public struct Stats {
         public double curHP;
         public double maxHP;
@@ -36,7 +37,7 @@ namespace RPGame {
 
     public class Character {
         public const double moveDelay = 0.25;
-        public static Random rand = new Random();
+        //public static Random rand = new Random();
 
         public Region region;
         public Bitmap texture;
@@ -47,6 +48,18 @@ namespace RPGame {
 
         public Combat currentCombat;
         public Inventory inventory;
+
+        public Character() {
+
+            this.characterType = 0;
+
+            CharacterType charType = CharacterType.characterTypes[characterType];
+
+            texture = ImageLoader.Load(charType.imageFile);
+            
+            stats.maxHP = 1;
+            stats.curHP = 1;
+        }
 
         public Character(Region region, int characterType, int x, int y, int level)
         {
@@ -91,7 +104,7 @@ namespace RPGame {
 
         public void move(Game game,int x, int y) {
             if (canMove(game, position.x + x, position.y + y)) {
-                Statistics.Distance++;
+                game.localPlayer.statistics.distance++;
                 int length = game.world.regions[(position.x + x) / 32, (position.y + y) / 32].characters.Count;
                 for (int i = 0; i < length; i++) {
 
@@ -124,7 +137,7 @@ namespace RPGame {
                 
                 if (region.townx == position.x % 32 && region.towny == position.y % 32) { 
                     stats.curHP = stats.maxHP;
-                    Statistics.TownVisit++;
+                    game.localPlayer.statistics.townVisits++;
                 }
             }
         }

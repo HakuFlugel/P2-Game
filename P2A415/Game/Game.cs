@@ -4,10 +4,15 @@ using System.Drawing;
 using System.Diagnostics; // fps osv.
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Runtime.InteropServices;
+using System.IO;
 
 namespace RPGame {
     public class Game : Form {
         private Menu menu;
+        public UserInterface userInterface;
+        public PopupMessage popupMessage;
+        public Looting loot;
 
         public World world;
         public Player localPlayer;
@@ -15,23 +20,10 @@ namespace RPGame {
         public bool shouldRun = true;
         private Graphics graphics;
 
-        public Looting loot;
-
-        public DrawGeneralMessage generalMessage;
-
-
         private Stopwatch stopWatch = new Stopwatch();
 
         private long lastTime = 0;
         private long thisTime = 0;
-
-        public UserInterface userInterface;
-
-        public static void Main() {
-            using (Game game = new Game()) {
-                game.run();
-            }
-        }
 
         public Game() {
             userInterface = new UserInterface(this);
@@ -42,46 +34,37 @@ namespace RPGame {
             graphics = CreateGraphics();
 
             menu = new Menu(this);
+        }
 
-            FormClosing += delegate {
-                shouldRun = false;
-            };
-
-            KeyPress += keyPress;
-
-            KeyDown += (sender, e) => {
-                keyInput(sender, e, true);
-            };
-            KeyUp += (sender, e) => {
-                keyInput(sender, e, false);
-            };
-
-            Resize += (sender, e) => {
-                localPlayer.character.currentCombat?.resize();
-            };
+        public static void Main() {
+            using (Game game = new Game()) {
+                game.run();
+            }
         }
 
         private void keyPress(object sender, KeyPressEventArgs e) { // TODO: flyt til keyinput
-            if (e.KeyChar == (char)Keys.Escape) {
-                menu.toggle();
-
-            } else if (e.KeyChar == 'E' || e.KeyChar == 'e') {
-                localPlayer.inventory.toggle(this);
-            } else if (localPlayer.character.currentCombat != null) {
+             
+            if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-
-
-            if (generalMessage != null && isDown) {
-                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) {
-                    generalMessage = null;
+            if (popupMessage != null) {
+                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
+                    popupMessage = null;
                 }
-            } else if (loot != null && isDown) {
-                if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) {
+            } else if (loot != null) {
+                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
                     loot = null;
+                }
+            } else if (e.KeyCode == Keys.Escape) {
+                if (isDown) {
+                    menu?.toggle();
+                }
+            } else if (e.KeyCode == Keys.E) {
+                if (isDown) {
+                    localPlayer.inventory.toggle(this);
                 }
             } else if (menu.isOpen && isDown) {
                 menu.keyInput(e);
@@ -110,7 +93,6 @@ namespace RPGame {
                     default:
                         break;
                 }
-            Console.WriteLine(e.KeyCode +" "+ isDown);
         }
 
         public void run() {
@@ -122,22 +104,38 @@ namespace RPGame {
 
             // Draw titleimage
             Graphics gfx = CreateGraphics();
-            RectangleF barForegroundRect = new RectangleF(
-               0,0,ClientSize.Width, ClientSize.Height
-            );
-
-            Bitmap titleImage = ImageLoader.Load("Content/combatscreen.png");
-
+            RectangleF barForegroundRect = new RectangleF(0,0,ClientSize.Width, ClientSize.Height);
+            Bitmap titleImage = ImageLoader.Load("Content/Titleimage.png");
             gfx.DrawImage(titleImage, new RectangleF(0, 0, ClientSize.Width, ClientSize.Height));
 
-            world = new World(this);
+            // Events
+            FormClosing += delegate {
+                shouldRun = false;
+            };
 
+            KeyPress += keyPress;
+
+            KeyDown += (sender, e) => {
+                keyInput(sender, e, true);
+            };
+            KeyUp += (sender, e) => {
+                keyInput(sender, e, false);
+            };
+
+            Resize += (sender, e) => {
+                localPlayer.character.currentCombat?.resize();
+            };
+
+            // World
+            world = new World(this);
             while(shouldRun) {
                 update();
                 render();
 
                 Application.DoEvents();
             }
+
+            world.save();
         }
 
         private void update() {
@@ -183,7 +181,7 @@ namespace RPGame {
 
                 menu.draw(gfx);
 
-                generalMessage.draw(gfx,this);
+                popupMessage?.draw(gfx,this);
 
                 graphics.DrawImage(bmp, 0, 0);
             }

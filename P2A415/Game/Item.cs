@@ -7,7 +7,8 @@ using System.Drawing;
 using System.Net.Mime;
 
 namespace RPGame {
-    
+
+    [Serializable]
     public struct EquipSlot {
         public int Hand; //2
         public int Gloves; //1
@@ -65,6 +66,7 @@ namespace RPGame {
         }
     }
 
+    [Serializable]
     public class Item {
 
         public static Bitmap itemImage;
@@ -218,7 +220,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0.75,
                 equipSlot = new EquipSlot() {
-                    Chest = 1
+                    Pants = 1
                 }
             });
 
