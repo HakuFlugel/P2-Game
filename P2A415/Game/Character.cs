@@ -37,7 +37,7 @@ namespace RPGame {
 
     public class Character {
         public const double moveDelay = 0.25;
-        public static Random rand = new Random();
+        //public static Random rand = new Random();
 
         public Region region;
         public Bitmap texture;
