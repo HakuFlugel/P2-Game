@@ -74,9 +74,10 @@ namespace RPGame {
                 Item item = content[activeContainer][selectedRow, selectedColumn];
                     
                 if (item != null) {
-                    player.character.addExperience(game, (ulong)(Math.Pow(item.itemLVL, 1.14) * 1.1 + 5));
+                    ulong exp = (ulong)(Math.Pow(1.20, item.itemLVL) * 6 + Math.Pow(1.40, item.itemLVL) * 3 + Math.Pow(1.60, item.itemLVL) * 1);
+                    player.character.addExperience(game, exp);
                     content[activeContainer][selectedRow, selectedColumn] = null;
-                        }
+                }
                 break;
 
             case Keys.W:
@@ -187,6 +188,10 @@ namespace RPGame {
             selectedColumn = 0;
             selectedRow = 0;  
             highlightedItem = null;
+            if (game.localPlayer.tutorial.firstInventory) {
+                game.popupMessage = new PopupMessage("First Inventory yeah?");
+                game.localPlayer.tutorial.firstInventory = false;
+            }
         }
 
         public bool addItem(Item gainedItem) {

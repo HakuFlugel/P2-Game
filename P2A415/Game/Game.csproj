@@ -49,6 +49,7 @@
     <Compile Include="RoadMaker.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="TileType.cs" />
+    <Compile Include="Tutorial.cs" />
     <Compile Include="UserInterface.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Combat.cs" />

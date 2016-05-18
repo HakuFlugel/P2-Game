@@ -9,6 +9,7 @@ namespace RPGame {
         public PlayerInput input = new PlayerInput();
 
         public Statistics statistics;
+        public Tutorial tutorial;
 
         public Player() {
             character = new Character();
@@ -22,9 +23,12 @@ namespace RPGame {
             inventory = new Inventory(this);
             character.inventory = inventory;
             statistics = new Statistics();
+            tutorial = new Tutorial();
         }
 
         public void update(Game game,double deltaTime) {
+            statistics.timePlayed += deltaTime;
+
             if (character.currentCombat != null) { // Is the player in combat?
 
                 character.currentCombat.update(deltaTime);

@@ -69,6 +69,10 @@ namespace RPGame {
             isOpen = !isOpen;
             selected = 0;
             StatisticsIsOpen = false;
+            if (game.localPlayer.tutorial.firstMenu) {
+                game.popupMessage = new PopupMessage("First menu yeah?");
+                game.localPlayer.tutorial.firstMenu = false;
+            }
         }
         
         public void statisticsToggle() { 
@@ -152,7 +156,9 @@ namespace RPGame {
 
         public void drawStatistics(Graphics gfx) {
             Statistics statistics = game.localPlayer.statistics;
-            String text = $@"Statistics 
+            String text = $@"Statistics
+Time played: {statistics.timePlayed.ToString("0.00"), -8}
+
 Encounters: {statistics.encounters} 
 Kills: {statistics.kills}
 Deaths: {statistics.deaths}

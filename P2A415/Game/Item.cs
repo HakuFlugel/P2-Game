@@ -308,10 +308,10 @@ namespace RPGame {
 
             this.itemName = prefix + itemType.itemName + suffix;
 
-            this.itemDMG = itemType.itemDMG * Math.Pow(1.10, level);
-            this.itemHP = itemType.itemHP * Math.Pow(1.10, level);
-            this.itemDEF = itemType.itemDEF * Math.Pow(1.07, level);
-            this.itemPENE = itemType.itemPENE * Math.Pow(1.07, level);
+            this.itemDMG = itemType.itemDMG * Math.Pow(1.20, level);
+            this.itemHP = itemType.itemHP * Math.Pow(1.20, level);
+            this.itemDEF = itemType.itemDEF * Math.Pow(1.17, level);
+            this.itemPENE = itemType.itemPENE * Math.Pow(1.17, level);
             this.itemSPEED = itemType.itemSPEED;
 
             this.itemLVL = level;
