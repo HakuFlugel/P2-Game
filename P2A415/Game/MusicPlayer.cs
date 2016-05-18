@@ -29,6 +29,7 @@ namespace RPGame {
             WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "08Ascending.wav", (giveSec(3) + 12)));
             WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "09ComeandFindMe-Bmix.wav", (giveSec(3) + 29)));
             WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "10Arpanauts.wav", (giveSec(3) + 16)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "VITAS-The7thElement.wav", (42)));
 
         }
 
