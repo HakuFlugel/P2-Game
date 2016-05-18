@@ -166,6 +166,9 @@ namespace RPGame {
             double deltaTime = (double)(thisTime - lastTime) / Stopwatch.Frequency;
 
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
+
+            music.update();
+
             if ((menu.isOpen || localPlayer.inventory.isOpen) && localPlayer.character.currentCombat == null || popupMessage != null) {
                 return;
             }
@@ -174,7 +177,7 @@ namespace RPGame {
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
-            music.update();
+           
         }
         
         private void render() {
