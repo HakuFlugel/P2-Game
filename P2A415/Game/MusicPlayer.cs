@@ -45,7 +45,6 @@ namespace RPGame {
 
 
         public void update() {
-            Console.WriteLine(isMute.ToString() + " vovovovovo " + isPlaying.ToString());
             if (isMute || isPlaying) {
                 
                 return;
