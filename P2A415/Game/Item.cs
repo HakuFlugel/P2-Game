@@ -18,7 +18,7 @@ namespace RPGame {
         public int Pants; //1
         public int Ring; //2
         public int Amulet; //1
-        public int Boots; //1 total = 10
+        public int Boots; //1 total = 11
 
         public static EquipSlot operator +(EquipSlot e1, EquipSlot e2) {
 
