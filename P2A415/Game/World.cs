@@ -51,9 +51,11 @@ namespace RPGame {
             bf.Serialize(fs, player.statistics);
 
             fs.Close();
+            
         }
 
         public void load() {
+            
             FileStream fs = new FileStream("save.dat", FileMode.Open);
 
             Player player = new Player();
@@ -85,6 +87,7 @@ namespace RPGame {
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
 
             fs.Close();
+            
         }
 
         public int this[long x, long y] {

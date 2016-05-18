@@ -9,22 +9,27 @@ using System.Runtime.InteropServices;
 namespace RPGame {
     public class MusicPlayer {
 
-        List<string> WhereWavFilesAre = new List<string>();
+        List<Tuple<string, int>> WhereWavFilesAre = new List<Tuple<string, int>>();
         private bool isPlaying = false;
         private static Random rand = new Random();
         public bool isMute = false;
         Thread _soundThread;
         System.Media.SoundPlayer player;
-
+        
         public MusicPlayer() {
-            string path = "Content";
+            string WhereIsLaid = "Content/";
 
-            string[] wavFiles = Directory.GetFiles(path,"*.wav");
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "01ANightOfDizzySpells.wav", giveSec(1) + 54));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "02Underclocked(underunderclockedmix).wav", (giveSec(3) + 8)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "03ChibiNinja.wav", (giveSec(2) + 3)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "04AllofUs.wav", (giveSec(1) + 57)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "05ComeandFindMe.wav", (giveSec(3) + 19)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "06Searching.wav", (giveSec(2) + 20)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "07We'retheResistors.wav", (giveSec(2) + 21)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "08Ascending.wav", (giveSec(3) + 12)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "09ComeandFindMe-Bmix.wav", (giveSec(3) + 29)));
+            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "10Arpanauts.wav", (giveSec(3) + 16)));
 
-            foreach (var item in wavFiles)
-                WhereWavFilesAre.Add(item);
-
-            
         }
 
         public void toggleMute() {
@@ -33,6 +38,9 @@ namespace RPGame {
             
             player?.Stop();
 
+        }
+        private int giveSec(int min) {
+            return min * 60;
         }
 
 
@@ -45,37 +53,20 @@ namespace RPGame {
                 
 
             _soundThread = new Thread(playMusic);
+            _soundThread.IsBackground = true;
             _soundThread.Start();
             
         }
-        [DllImport("winmm.dll")]
-        private static extern uint mciSendString(
-                string command,
-                StringBuilder returnValue,
-                int returnLength,
-                IntPtr winHandle);
 
         public void playMusic() {
             
-
-
             isPlaying = true;
 
-            string soundFile = WhereWavFilesAre[rand.Next(0, WhereWavFilesAre.Count-1)];
-
-            StringBuilder lengthBuf = new StringBuilder(128);
-
-            mciSendString(string.Format("open \"{0}\" type waveaudio alias wave", soundFile), null, 0, IntPtr.Zero);
-            mciSendString("status wave length", lengthBuf, lengthBuf.Capacity, IntPtr.Zero);
-            mciSendString("close wave", null, 0, IntPtr.Zero);
+            int soundIndex = rand.Next(0, WhereWavFilesAre.Count);
             
-            int length = 0;
-            int.TryParse(lengthBuf.ToString(), out length);
-
-
-            using (player = new System.Media.SoundPlayer(soundFile)) {
-                player.Play();//Sync();
-                Thread.Sleep(length);
+            using (player = new System.Media.SoundPlayer(WhereWavFilesAre[soundIndex].Item1)) {
+                player.Play();
+                Thread.Sleep(WhereWavFilesAre[soundIndex].Item2 * 1000);
             }
             isPlaying = false;
         }
