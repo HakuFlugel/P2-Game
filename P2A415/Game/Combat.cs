@@ -44,6 +44,11 @@ namespace RPGame {
             game.localPlayer.statistics.encounters++;
 
             resize();
+
+            if (game.localPlayer.tutorial.firstCombat) {
+                game.popupMessage = new PopupMessage("First combat yeah?");
+                game.localPlayer.tutorial.firstCombat = false;
+            }
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {

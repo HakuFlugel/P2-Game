@@ -18,7 +18,7 @@ namespace RPGame {
 
             this.seed = new Random().Next();
             rand = new Random(this.seed);
-
+            
 
             if (File.Exists("save.dat")) {
                 load();
@@ -27,6 +27,10 @@ namespace RPGame {
 
             game.localPlayer = new Player(regions[0,0]);
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
+            }
+            if (game.localPlayer.tutorial.firstStart) {
+                game.popupMessage = new PopupMessage(""/*ImageLoader.Load("Content/combatscreen.png")*/);
+                game.localPlayer.tutorial.firstStart = false;
             }
         }
 
@@ -49,6 +53,8 @@ namespace RPGame {
             bf.Serialize(fs, player.inventory.content);
 
             bf.Serialize(fs, player.statistics);
+
+            bf.Serialize(fs, player.tutorial);
 
             fs.Close();
         }
@@ -79,6 +85,8 @@ namespace RPGame {
             player.inventory.content = (Item[][,])bf.Deserialize(fs);
 
             player.statistics = (Statistics)bf.Deserialize(fs);
+
+            player.tutorial = (Tutorial)bf.Deserialize(fs);
 
             game.localPlayer = player;
             game.localPlayer.character.region = regions[player.character.position.x / 32, player.character.position.y / 32];

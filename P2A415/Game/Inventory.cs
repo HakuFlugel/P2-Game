@@ -187,6 +187,10 @@ namespace RPGame {
             selectedColumn = 0;
             selectedRow = 0;  
             highlightedItem = null;
+            if (game.localPlayer.tutorial.firstInventory) {
+                game.popupMessage = new PopupMessage("First Inventory yeah?");
+                game.localPlayer.tutorial.firstInventory = false;
+            }
         }
 
         public bool addItem(Item gainedItem) {

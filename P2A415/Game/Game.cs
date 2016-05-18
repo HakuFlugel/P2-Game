@@ -91,30 +91,30 @@ namespace RPGame {
                 menu.keyInput(e);
             } else if (localPlayer.inventory.isOpen && isDown) {
                 localPlayer.inventory.keyInput(this, e);
-            } else
+            }
 
-                switch (e.KeyCode) {
+            switch (e.KeyCode) {
 
-                    case Keys.W:
-                    case Keys.Up:
-                        localPlayer.input.moveUp = isDown;
-                        break;
-                    case Keys.S:
-                    case Keys.Down:
-                        localPlayer.input.moveDown = isDown;
-                        break;
-                    case Keys.D:
-                    case Keys.Right:
-                        localPlayer.input.moveRight = isDown;
-                        break;
-                    case Keys.A:
-                    case Keys.Left:
-                        localPlayer.input.moveLeft = isDown;
-                        break;
+                case Keys.W:
+                case Keys.Up:
+                    localPlayer.input.moveUp = isDown;
+                    break;
+                case Keys.S:
+                case Keys.Down:
+                    localPlayer.input.moveDown = isDown;
+                    break;
+                case Keys.D:
+                case Keys.Right:
+                    localPlayer.input.moveRight = isDown;
+                    break;
+                case Keys.A:
+                case Keys.Left:
+                    localPlayer.input.moveLeft = isDown;
+                    break;
 
-                    default:
-                        break;
-                }
+                default:
+                    break;
+            }
         }
 
         public void run() {
@@ -150,7 +150,7 @@ namespace RPGame {
             double deltaTime = (double)(thisTime - lastTime) / Stopwatch.Frequency;
 
             Text = $"{localPlayer.character.position.x}, {localPlayer.character.position.y}";
-            if ((menu.isOpen || localPlayer.inventory.isOpen) && localPlayer.character.currentCombat == null) {
+            if ((menu.isOpen || localPlayer.inventory.isOpen) && localPlayer.character.currentCombat == null || popupMessage != null) {
                 return;
             }
             localPlayer.update(this, deltaTime);

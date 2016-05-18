@@ -39,10 +39,15 @@ namespace RPGame {
 
                     game.localPlayer.character.addExperience(game, (ulong)(Math.Pow(gainedLvl, 1.14) * 1.1 + 5));
                 }
-                if(gainedItems[index] != null)
-                    if(!game.localPlayer.inventory.addItem(gainedItems[index])) {
+                if (gainedItems[index] != null) {
+                    if (!game.localPlayer.inventory.addItem(gainedItems[index])) {
                         game.popupMessage = new PopupMessage("Inventory full");
                     }
+                }
+                if (game.localPlayer.tutorial.firstVictory) {
+                    game.popupMessage = new PopupMessage("First victory yeah?");
+                    game.localPlayer.tutorial.firstVictory = false;
+                }
             }
         }
 
