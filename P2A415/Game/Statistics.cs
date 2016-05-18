@@ -37,5 +37,7 @@ namespace RPGame {
             }
         }
         public int townVisits { get; set; }
+
+        public double timePlayed;
     }
 }
