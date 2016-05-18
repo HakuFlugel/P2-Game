@@ -19,16 +19,20 @@ namespace RPGame {
         public World world;
         public Player localPlayer;
 
+        public MusicPlayer music;
+
         public bool shouldRun = true;
         private Graphics graphics;
 
         private Stopwatch stopWatch = new Stopwatch();
 
+        
+
         private long lastTime = 0;
         private long thisTime = 0;
 
         public Game() {
-            
+           
             userInterface = new UserInterface(this);
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
@@ -36,8 +40,11 @@ namespace RPGame {
 
             graphics = CreateGraphics();
 
-            menu = new Menu(this);
+            
 
+            
+            music = new MusicPlayer();
+            menu = new Menu(this);
             // Events
             FormClosing += delegate {
                 shouldRun = false;
@@ -57,6 +64,8 @@ namespace RPGame {
             };
         }
 
+        
+
         public static void Main() {
             
 
@@ -72,7 +81,9 @@ namespace RPGame {
         }
 
         private void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            if (popupMessage != null) {
+            if (e.KeyCode == Keys.M && isDown) {
+                music.toggleMute();
+            } else if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
                     popupMessage = null;
                 }
@@ -140,8 +151,12 @@ namespace RPGame {
                 
                 Application.DoEvents();
             }
-
+            
+            if (!music.isMute) { music.toggleMute(); }
+            
+            
             world.save();
+
         }
 
         private void update() {
@@ -159,6 +174,7 @@ namespace RPGame {
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
             }
+            music.update();
         }
         
         private void render() {
