@@ -115,7 +115,7 @@ namespace RPGame {
 
             // Victory/Defeat
             if (victim.stats.curHP <= 0) {
-                ulong exp = (ulong)(Math.Pow(victim.stats.level, 1.4) * 1.1 + 5);
+                ulong exp = (ulong)(Math.Pow(1.20, victim.stats.level) * 4 + Math.Pow(1.40, victim.stats.level) * 2 + Math.Pow(1.60, victim.stats.level) * 1);
                 int lvl_raised = attacker.addExperience(game, exp);
 
                 if(!victim.Equals(game.localPlayer.character))

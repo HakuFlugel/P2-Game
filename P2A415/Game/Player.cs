@@ -25,6 +25,8 @@ namespace RPGame {
         }
 
         public void update(Game game,double deltaTime) {
+            statistics.timePlayed += deltaTime;
+
             if (character.currentCombat != null) { // Is the player in combat?
 
                 character.currentCombat.update(deltaTime);

@@ -147,7 +147,9 @@ namespace RPGame {
 
         public void drawStatistics(Graphics gfx) {
             Statistics statistics = game.localPlayer.statistics;
-            String text = $@"Statistics 
+            String text = $@"Statistics
+Time played: {statistics.timePlayed.ToString("0.00"), -8}
+
 Encounters: {statistics.encounters} 
 Kills: {statistics.kills}
 Deaths: {statistics.deaths}
