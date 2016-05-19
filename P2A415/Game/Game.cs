@@ -80,7 +80,7 @@ namespace RPGame {
             }
         }
 
-        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
+        public void keyInput (object sender, KeyEventArgs e, bool isDown) {
             if (e.KeyCode == Keys.M && isDown) {
                 music.toggleMute();
             } else if (popupMessage != null) {
