@@ -26,16 +26,16 @@ namespace RPGame {
         }
 
         public void draw(Graphics gfx, Game game) {
-            int padding = 12;
+            int padding = 32;
 
 
             float gameWidth = game.ClientSize.Width, gameHeight = game.ClientSize.Height;
             Font font = new Font("Arial", 32, FontStyle.Regular);
 
             if (text != null) {
-                SizeF textSize = gfx.MeasureString(text, font);
+                SizeF textSize = gfx.MeasureString(text, font, (int)(gameWidth * 0.4));
 
-                SizeF displayBoxSize = new SizeF(Math.Max(textSize.Width + 2 * padding, 400), Math.Max(textSize.Height + 2 * padding, 200));
+                SizeF displayBoxSize = new SizeF(Math.Max(textSize.Width + 2 * padding, 400), Math.Max(textSize.Height + 2 * padding, 2/*00*/));
 
                 RectangleF displayBoxRect =
                     new RectangleF(
@@ -46,7 +46,7 @@ namespace RPGame {
 
                 gfx.FillRectangle(background, new RectangleF(0, 0, gameWidth, gameHeight));
                 gfx.FillRectangle(background, displayBoxRect);
-                gfx.DrawString(text, font, Brushes.Wheat, displayBoxRect.X + padding, displayBoxRect.Y + padding);
+                gfx.DrawString(text, font, Brushes.Wheat, new RectangleF(displayBoxRect.X + padding, displayBoxRect.Y + padding, gameWidth * 0.4f, gameHeight * 0.6f));
             }
 
             if (image != null) {
