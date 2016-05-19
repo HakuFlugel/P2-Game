@@ -26,8 +26,8 @@ namespace RPGame {
 
         private Stopwatch stopWatch = new Stopwatch();
 
+        private bool hasPressedM = false;
         
-
         private long lastTime = 0;
         private long thisTime = 0;
 
@@ -80,12 +80,21 @@ namespace RPGame {
             }
         }
 
-        public void keyInput (object sender, KeyEventArgs e, bool isDown) {
-            if (e.KeyCode == Keys.M && isDown) {
+        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
+            if (e.KeyCode == Keys.M) {
+                if (isDown && !hasPressedM) {
                 music.toggleMute();
+                    hasPressedM = true;
+                } else if (!isDown && hasPressedM) {
+                    Thread t = new Thread(() => {
+                        Thread.Sleep(1250);
+                        hasPressedM = false;
+                    });
+                    t.Start();
+                }
             } else if (popupMessage != null) {
-                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
-                    popupMessage = null;
+                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape || e.KeyCode == Keys.T) && isDown) {
+                    popupMessage = popupMessage.next;
                 }
             } else if (loot != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
@@ -99,6 +108,8 @@ namespace RPGame {
                 if (isDown) {
                     localPlayer.inventory.toggle(this);
                 }
+            } else if (e.KeyCode == Keys.T && isDown) {
+                popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
             } else if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if (localPlayer.inventory.isOpen && isDown) {
