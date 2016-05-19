@@ -32,6 +32,7 @@ namespace RPGame {
             musicList.Add(new Tuple<string, int>(folder + "08Ascending.wav", (toSec(3) + 12)));
             musicList.Add(new Tuple<string, int>(folder + "09ComeandFindMe-Bmix.wav", (toSec(3) + 29)));
             musicList.Add(new Tuple<string, int>(folder + "10Arpanauts.wav", (toSec(3) + 16)));
+            musicList.Add(new Tuple<string, int>(folder + "VITAS-The7thElement.wav", (42)));
 
         }
 
