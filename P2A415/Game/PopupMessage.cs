@@ -11,13 +11,19 @@ namespace RPGame {
         public string text;
 
         public Bitmap image;
-
         private Brush background = new SolidBrush(Color.FromArgb(128, Color.Black));
 
+        public PopupMessage next;
 
-        public PopupMessage(string text) { this.text = text; }
 
-        public PopupMessage(Bitmap image) { this.image = image; }
+        public PopupMessage(string text, PopupMessage next = null) { 
+            this.text = text;
+            this.next = next;
+        }
+        public PopupMessage(Bitmap image, PopupMessage next = null) {
+            this.image = image;
+            this.next = next;
+        }
 
         public void draw(Graphics gfx, Game game) {
             int padding = 12;

@@ -94,7 +94,7 @@ namespace RPGame {
                 }
             } else if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
-                    popupMessage = null;
+                    popupMessage = popupMessage.next;
                 }
             } else if (loot != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
