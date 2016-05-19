@@ -214,6 +214,8 @@ namespace RPGame {
 
                 localPlayer.character.currentCombat?.draw(gfx);
 
+                music.draw(gfx,this);
+
                 localPlayer.inventory.draw(gfx,this);
 
                 loot?.draw(gfx, this);
