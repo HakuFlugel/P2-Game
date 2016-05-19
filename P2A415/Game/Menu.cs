@@ -56,7 +56,10 @@ namespace RPGame {
             }));
 
             buttons.Add(new Button((game.music.isMuted) ? "Unmute" : "Mute", (button) => {
-                game.music.toggleMute();
+                KeyEventArgs e = new KeyEventArgs(Keys.M);
+                game.keyInput(null,e,true);
+                
+
                 if (game.music.isMuted)
                     button.text = "Unmute";
                 else
