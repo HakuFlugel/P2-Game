@@ -39,9 +39,6 @@ namespace RPGame {
             this.WindowState = FormWindowState.Maximized;
 
             graphics = CreateGraphics();
-
-            
-
             
             music = new MusicPlayer();
             menu = new Menu(this);
