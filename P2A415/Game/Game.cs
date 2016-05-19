@@ -93,7 +93,7 @@ namespace RPGame {
                     t.Start();
                 }
             } else if (popupMessage != null) {
-                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape) && isDown) {
+                if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape || e.KeyCode == Keys.T) && isDown) {
                     popupMessage = null;
                 }
             } else if (loot != null) {
@@ -108,6 +108,8 @@ namespace RPGame {
                 if (isDown) {
                     localPlayer.inventory.toggle(this);
                 }
+            } else if (e.KeyCode == Keys.T && isDown) {
+                popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
             } else if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if (localPlayer.inventory.isOpen && isDown) {
