@@ -80,18 +80,21 @@ namespace RPGame {
             }
         }
 
-        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
+        public void keyInput (object sender, KeyEventArgs e, bool isDown) {
             if (e.KeyCode == Keys.M) {
                 if (isDown && !hasPressedM) {
-                music.toggleMute();
+
+                    music.toggleMute();
                     hasPressedM = true;
-                } else if (!isDown && hasPressedM) {
                     Thread t = new Thread(() => {
+                        
                         Thread.Sleep(1250);
                         hasPressedM = false;
+                        
                     });
+                    t.IsBackground = true;
                     t.Start();
-                }
+                } 
             } else if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape || e.KeyCode == Keys.T) && isDown) {
                     popupMessage = popupMessage.next;
