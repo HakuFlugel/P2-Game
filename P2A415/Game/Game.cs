@@ -152,7 +152,7 @@ namespace RPGame {
                 Application.DoEvents();
             }
             
-            if (!music.isMute) { music.toggleMute(); }
+            if (!music.isMuted) { music.toggleMute(); }
             
             
             world.save();

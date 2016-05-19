@@ -55,9 +55,9 @@ namespace RPGame {
                 
             }));
 
-            buttons.Add(new Button((game.music.isMute) ? "Unmute" : "Mute", (button) => {
+            buttons.Add(new Button((game.music.isMuted) ? "Unmute" : "Mute", (button) => {
                 game.music.toggleMute();
-                if (game.music.isMute)
+                if (game.music.isMuted)
                     button.text = "Unmute";
                 else
                     button.text = "Mute";
@@ -158,6 +158,8 @@ namespace RPGame {
         }
 
         public void drawStatistics(Graphics gfx) {
+            Font statFont = new Font("Arial", 26);
+
             Statistics statistics = game.localPlayer.statistics;
             String text = $@"Statistics
 Seed: {game.world.seed}
@@ -177,13 +179,13 @@ Hardest Monster: {statistics.monsterHighestLevel}
 Town visits: {statistics.townVisits}";
 
             const int padding = 4;
-            SizeF size = gfx.MeasureString(text, font);
+            SizeF size = gfx.MeasureString(text, statFont);
             
             RectangleF uiRect = new RectangleF(game.ClientSize.Width - size.Width - padding, padding, size.Width, size.Height);
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, size.Width, size.Height);
             gfx.FillRectangle(menuBackground, uiRect);
 
-            gfx.DrawString(text, font, Brushes.WhiteSmoke, textRect);
+            gfx.DrawString(text, statFont, Brushes.WhiteSmoke, textRect);
         }
     }
 }

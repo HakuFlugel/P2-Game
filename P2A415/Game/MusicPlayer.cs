@@ -4,70 +4,69 @@ using System.IO;
 using System.Threading;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Media;
 
 
 namespace RPGame {
     public class MusicPlayer {
 
-        List<Tuple<string, int>> WhereWavFilesAre = new List<Tuple<string, int>>();
+        List<Tuple<string, int>> musicList = new List<Tuple<string, int>>();
         private bool isPlaying = false;
+        public bool isMuted = false;
+
+
         private static Random rand = new Random();
-        public bool isMute = false;
         Thread _soundThread;
-        System.Media.SoundPlayer player;
+        SoundPlayer player = new SoundPlayer();
         
         public MusicPlayer() {
-            string WhereIsLaid = "Content/";
+            const string folder = "Content/";
 
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "01ANightOfDizzySpells.wav", giveSec(1) + 54));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "02Underclocked(underunderclockedmix).wav", (giveSec(3) + 8)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "03ChibiNinja.wav", (giveSec(2) + 3)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "04AllofUs.wav", (giveSec(1) + 57)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "05ComeandFindMe.wav", (giveSec(3) + 19)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "06Searching.wav", (giveSec(2) + 20)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "07We'retheResistors.wav", (giveSec(2) + 21)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "08Ascending.wav", (giveSec(3) + 12)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "09ComeandFindMe-Bmix.wav", (giveSec(3) + 29)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "10Arpanauts.wav", (giveSec(3) + 16)));
-            WhereWavFilesAre.Add(new Tuple<string, int>(WhereIsLaid + "VITAS-The7thElement.wav", (42)));
+            musicList.Add(new Tuple<string, int>(folder + "01ANightOfDizzySpells.wav", toSec(1) + 54));
+            musicList.Add(new Tuple<string, int>(folder + "02Underclocked(underunderclockedmix).wav", (toSec(3) + 8)));
+            musicList.Add(new Tuple<string, int>(folder + "03ChibiNinja.wav", (toSec(2) + 3)));
+            musicList.Add(new Tuple<string, int>(folder + "04AllofUs.wav", (toSec(1) + 57)));
+            musicList.Add(new Tuple<string, int>(folder + "05ComeandFindMe.wav", (toSec(3) + 19)));
+            musicList.Add(new Tuple<string, int>(folder + "06Searching.wav", (toSec(2) + 20)));
+            musicList.Add(new Tuple<string, int>(folder + "07We'retheResistors.wav", (toSec(2) + 21)));
+            musicList.Add(new Tuple<string, int>(folder + "08Ascending.wav", (toSec(3) + 12)));
+            musicList.Add(new Tuple<string, int>(folder + "09ComeandFindMe-Bmix.wav", (toSec(3) + 29)));
+            musicList.Add(new Tuple<string, int>(folder + "10Arpanauts.wav", (toSec(3) + 16)));
 
         }
 
         public void toggleMute() {
-            isMute = !isMute;
-            isPlaying = false;
-            
-            player?.Stop();
-
+            isMuted = !isMuted;
         }
-        private int giveSec(int min) {
+        private int toSec(int min) {
             return min * 60;
         }
 
 
         public void update() {
-            if (isMute || isPlaying) {
-                
-                return;
-            }
-                
 
-            _soundThread = new Thread(playMusic);
-            _soundThread.IsBackground = true;
-            _soundThread.Start();
-            
+            if (isMuted && isPlaying) {
+                player?.Stop();
+                isPlaying = false;
+            } else if (!isMuted && !isPlaying) {
+                _soundThread = new Thread(playMusic);
+                _soundThread.IsBackground = true;
+                _soundThread.Start();
+            }
+
         }
 
         public void playMusic() {
             
             isPlaying = true;
 
-            int soundIndex = rand.Next(0, WhereWavFilesAre.Count);
-            
-            using (player = new System.Media.SoundPlayer(WhereWavFilesAre[soundIndex].Item1)) {
-                player.Play();
-                Thread.Sleep(WhereWavFilesAre[soundIndex].Item2 * 1000);
-            }
+            int soundIndex = rand.Next(0, musicList.Count);
+
+            player.Stop();
+            player.SoundLocation = musicList[soundIndex].Item1;
+            player.Play();
+            Thread.Sleep(musicList[soundIndex].Item2 * 1000);
+
             isPlaying = false;
         }
 

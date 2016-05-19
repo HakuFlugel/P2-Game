@@ -29,7 +29,7 @@ namespace RPGame {
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
             }
             if (game.localPlayer.tutorial.firstStart) {
-                game.popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
+                //game.popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
                 game.localPlayer.tutorial.firstStart = false;
             }
         }
