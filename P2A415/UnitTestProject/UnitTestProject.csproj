@@ -58,6 +58,7 @@
     <Compile Include="MultipliTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdditionTest.cs" />
+    <Compile Include="SaveLoadTest.cs" />
     <Compile Include="SubTest.cs" />
   </ItemGroup>
   <ItemGroup>

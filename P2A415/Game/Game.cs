@@ -176,7 +176,7 @@ namespace RPGame {
             
             if (!music.isMuted) { music.toggleMute(); }
 
-            world.save();
+            world.save(localPlayer);
         }
 
         private void update() {

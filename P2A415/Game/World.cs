@@ -20,7 +20,12 @@ namespace RPGame {
             rand = new Random(this.seed);
 
             if (File.Exists("save.dat")) {
-                load();
+                Player player = game.localPlayer;
+                load(out player);
+                game.localPlayer = player;
+                game.localPlayer.character.region = regions[player.character.position.x / 32, player.character.position.y / 32];
+                regions[game.localPlayer.character.position.x / 32, game.localPlayer.character.position.y / 32].characters.Add(game.localPlayer.character);
+
             } else {
             generateWorld();
 
@@ -34,10 +39,9 @@ namespace RPGame {
             }
         }
 
-        public void save() {
+        public void save(Player player) {
             FileStream fs = new FileStream("save.dat", FileMode.Create);
-
-            Player player = game.localPlayer;
+            
 
             BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(seed);
@@ -59,11 +63,11 @@ namespace RPGame {
             fs.Close();
         }
 
-        public void load() {
+        public void load(out Player player) {
             
             FileStream fs = new FileStream("save.dat", FileMode.Open);
 
-            Player player = new Player();
+            player = new Player();
 
             BinaryReader br = new BinaryReader(fs);
             int seed = br.ReadInt32();
@@ -88,11 +92,7 @@ namespace RPGame {
             player.statistics = (Statistics)bf.Deserialize(fs);
 
             player.tutorial = (Tutorial)bf.Deserialize(fs);
-
-            game.localPlayer = player;
-            game.localPlayer.character.region = regions[player.character.position.x / 32, player.character.position.y / 32];
-            regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
-
+            
             fs.Close();
         }
 
