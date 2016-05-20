@@ -296,7 +296,7 @@ namespace RPGame {
             "I once had this ITEMNAME like you, but then I took an arrow to the knee", "This ITEMNAME once showed great love towards other items, yet this love, was foolish."
         };
 
-        public Item() {
+        private Item() {
         }
 
         public Item(Item itemType, int level) {

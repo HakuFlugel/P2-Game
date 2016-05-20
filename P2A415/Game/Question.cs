@@ -9,6 +9,7 @@ namespace RPGame {
         public static Random rand = new Random();
 
         public static List<Tuple<Type, int>> questionTypes = new List<Tuple<Type, int>>();
+
         static Question() {
             questionTypes.Add (new Tuple<Type, int> (typeof(Addition), 0));     // the number is a level requirement for the qustions type
             questionTypes.Add (new Tuple<Type, int> (typeof(Subtraction), 5));
