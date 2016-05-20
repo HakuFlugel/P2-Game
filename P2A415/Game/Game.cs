@@ -37,11 +37,9 @@ namespace RPGame {
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
             this.WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
 
             graphics = CreateGraphics();
-
-            
-
             
             music = new MusicPlayer();
             menu = new Menu(this);

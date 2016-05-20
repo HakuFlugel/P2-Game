@@ -73,7 +73,7 @@ namespace RPGame {
             case Keys.Back:
                 Item item = content[activeContainer][selectedRow, selectedColumn];
                     
-                if (item != null) {
+                if (item != null && activeContainer == 0) {
                     ulong exp = (ulong)(Math.Pow(1.20, item.itemLVL) * 6 + Math.Pow(1.40, item.itemLVL) * 3 + Math.Pow(1.60, item.itemLVL) * 1);
                     player.character.addExperience(game, exp);
                     content[activeContainer][selectedRow, selectedColumn] = null;
@@ -189,7 +189,8 @@ namespace RPGame {
             selectedRow = 0;  
             highlightedItem = null;
             if (game.localPlayer.tutorial.firstInventory) {
-                game.popupMessage = new PopupMessage("First Inventory yeah?");
+                game.popupMessage = new PopupMessage("Inventory tutorial", new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"), new PopupMessage(ImageLoader.Load("Content/InvExplain4.png")))));
                 game.localPlayer.tutorial.firstInventory = false;
             }
         }

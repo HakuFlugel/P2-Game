@@ -21,7 +21,7 @@ namespace RPGame {
 
         private static Random rand = new Random();
         Thread _soundThread;
-        SoundPlayer player = new SoundPlayer();
+        SoundPlayer soundplayer = new SoundPlayer();
         
         public MusicPlayer() {
             const string folder = "Content/";
@@ -85,7 +85,7 @@ namespace RPGame {
         public void update() {
 
             if (isMuted && isPlaying) {
-                player?.Stop();
+                soundplayer?.Stop();
                 isPlaying = false;
             } else if (!isMuted && !isPlaying) {
                 _soundThread = new Thread(playMusic);
@@ -154,7 +154,7 @@ namespace RPGame {
                     
 
             }
-            
+
             
 
             const int padding = 4;
@@ -170,6 +170,6 @@ namespace RPGame {
             gfx.DrawString(author, font, Brushes.WhiteSmoke, authorRect);
             gfx.DrawString(timetext, timefont, Brushes.WhiteSmoke, timeRect);
 
-        }
     }
+}
 }

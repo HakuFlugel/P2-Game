@@ -50,7 +50,13 @@ namespace RPGame {
             }
 
             if (image != null) {
-                gfx.DrawImage(image, new RectangleF(0, 0, gameWidth, gameHeight));
+
+                SizeF imgSize = new SizeF(
+                    Math.Min(image.Width, gameWidth),
+                    Math.Min(image.Height, gameHeight)
+                    );
+
+                gfx.DrawImage(image, new RectangleF((gameWidth - imgSize.Width) / 2, (gameHeight - imgSize.Height) / 2, imgSize.Width, imgSize.Height));
             }
         }
     }
