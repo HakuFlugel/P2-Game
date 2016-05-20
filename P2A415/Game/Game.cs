@@ -27,7 +27,7 @@ namespace RPGame {
         private Stopwatch stopWatch = new Stopwatch();
 
         private bool hasPressedM = false;
-
+        
         private long lastTime = 0;
         private long thisTime = 0;
 
@@ -40,9 +40,6 @@ namespace RPGame {
             FormBorderStyle = FormBorderStyle.None;
 
             graphics = CreateGraphics();
-
-            
-
             
             music = new MusicPlayer();
             menu = new Menu(this);
@@ -81,18 +78,21 @@ namespace RPGame {
             }
         }
 
-        private void keyInput (object sender, KeyEventArgs e, bool isDown) {
+        public void keyInput (object sender, KeyEventArgs e, bool isDown) {
             if (e.KeyCode == Keys.M) {
                 if (isDown && !hasPressedM) {
+
                     music.toggleMute();
                     hasPressedM = true;
-                } else if (!isDown && hasPressedM) {
                     Thread t = new Thread(() => {
+                        
                         Thread.Sleep(1250);
                         hasPressedM = false;
+                        
                     });
+                    t.IsBackground = true;
                     t.Start();
-                }
+                } 
             } else if (popupMessage != null) {
                 if ((e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter || e.KeyCode == Keys.E || e.KeyCode == Keys.Escape || e.KeyCode == Keys.T) && isDown) {
                     popupMessage = popupMessage.next;
@@ -211,6 +211,8 @@ namespace RPGame {
                 }
 
                 localPlayer.character.currentCombat?.draw(gfx);
+
+                music.draw(gfx,this);
 
                 localPlayer.inventory.draw(gfx,this);
 

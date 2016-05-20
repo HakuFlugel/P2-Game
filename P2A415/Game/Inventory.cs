@@ -73,7 +73,7 @@ namespace RPGame {
             case Keys.Back:
                 Item item = content[activeContainer][selectedRow, selectedColumn];
                     
-                if (item != null) {
+                if (item != null && activeContainer == 0) {
                     ulong exp = (ulong)(Math.Pow(1.20, item.itemLVL) * 6 + Math.Pow(1.40, item.itemLVL) * 3 + Math.Pow(1.60, item.itemLVL) * 1);
                     player.character.addExperience(game, exp);
                     content[activeContainer][selectedRow, selectedColumn] = null;
