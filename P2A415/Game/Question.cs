@@ -33,7 +33,6 @@ namespace RPGame {
         public Question(int level) {
             this.level = level;
         }
-
         public abstract bool validateAnswer(int answer);
     }
 }

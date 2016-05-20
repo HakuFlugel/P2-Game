@@ -18,7 +18,6 @@ namespace RPGame {
 
             this.seed = new Random().Next();
             rand = new Random(this.seed);
-            
 
             if (File.Exists("save.dat")) {
                 load();
@@ -58,7 +57,6 @@ namespace RPGame {
             bf.Serialize(fs, player.tutorial);
 
             fs.Close();
-            
         }
 
         public void load() {
@@ -96,7 +94,6 @@ namespace RPGame {
             regions[game.localPlayer.character.position.x/32, game.localPlayer.character.position.y/32].characters.Add(game.localPlayer.character);
 
             fs.Close();
-            
         }
 
         public int this[long x, long y] {
@@ -209,7 +206,7 @@ namespace RPGame {
                     this[x, y] %= 21 * 4;
                 }
             }
-                }
+        }
 
         private bool shouldPathConnect(int x, int y) {
             try {
@@ -338,7 +335,6 @@ namespace RPGame {
         private void MakeTrees(int x, int y, int count = 1) {
 
             try {
-
                 if (this[x,y] != (int)GeneratedTile.Ground) {
                     return;
                 }
@@ -412,7 +408,7 @@ namespace RPGame {
                 for (int y = cameraStartY; y <= cameraEndY; y++) {
                     regions[x, y].drawCharacters(game, gfx, cameraPosition);
                 }
-                }
             }
+        }
     }
 }

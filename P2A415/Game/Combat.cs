@@ -262,7 +262,6 @@ namespace RPGame {
 
             gfx.FillRectangle(barBackground, barBackgroundRect);
             gfx.FillRectangle(isHP ? new SolidBrush(Color.FromArgb((int)(255*(1-fraction)), (int)(192*fraction), 32)) : barForeground, barForegroundRect);
-
         }
     }
 }

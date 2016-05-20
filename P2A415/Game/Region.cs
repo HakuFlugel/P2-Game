@@ -23,6 +23,7 @@ namespace RPGame {
             this.x = x;
             this.y = y;
         }
+
         public void makeTown(Random rand) {
             int x, y;
             while (this[x = 4+rand.Next() % 24, y = 4+rand.Next() % 24] != (int)World.GeneratedTile.Ground);

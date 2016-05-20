@@ -22,7 +22,6 @@ namespace RPGame {
 
             Font font = new Font("Arial", 16, FontStyle.Regular);
 
-
             String text = $@"Unnamed Player | {(long)localCharacter.stats.curHP} HP
 Level: {localCharacter.stats.level}
 Experience: {localCharacter.stats.exp}/{localCharacter.expRequired()}

@@ -73,7 +73,6 @@ namespace RPGame {
             }
         }
 
-
         public void addNeighbor(int prevCost, coords tile) {
             try {
                 int curCost = prevCost + weights[tile.x, tile.y];
@@ -173,7 +172,7 @@ namespace RPGame {
                     world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
                 }
 
-                weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
+                weights[tile.x, tile.y] = 1;
             }
             Console.Write(".");
         }

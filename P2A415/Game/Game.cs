@@ -37,12 +37,12 @@ namespace RPGame {
             this.Text = "Titel";
             Bounds = Screen.PrimaryScreen.Bounds;
             this.WindowState = FormWindowState.Maximized;
-            FormBorderStyle = FormBorderStyle.None;
 
             graphics = CreateGraphics();
             
             music = new MusicPlayer();
             menu = new Menu(this);
+
             // Events
             FormClosing += delegate {
                 shouldRun = false;
@@ -53,6 +53,7 @@ namespace RPGame {
             KeyDown += (sender, e) => {
                 keyInput(sender, e, true);
             };
+
             KeyUp += (sender, e) => {
                 keyInput(sender, e, false);
             };
@@ -62,11 +63,8 @@ namespace RPGame {
             };
         }
 
-        
 
         public static void Main() {
-            
-
             using (Game game = new Game()) {
                 game.run();
             }
@@ -131,25 +129,25 @@ namespace RPGame {
 
             switch (e.KeyCode) {
 
-                case Keys.W:
-                case Keys.Up:
-                    localPlayer.input.moveUp = isDown;
-                    break;
-                case Keys.S:
-                case Keys.Down:
-                    localPlayer.input.moveDown = isDown;
-                    break;
-                case Keys.D:
-                case Keys.Right:
-                    localPlayer.input.moveRight = isDown;
-                    break;
-                case Keys.A:
-                case Keys.Left:
-                    localPlayer.input.moveLeft = isDown;
-                    break;
+            case Keys.W:
+            case Keys.Up:
+                localPlayer.input.moveUp = isDown;
+                break;
+            case Keys.S:
+            case Keys.Down:
+                localPlayer.input.moveDown = isDown;
+                break;
+            case Keys.D:
+            case Keys.Right:
+                localPlayer.input.moveRight = isDown;
+                break;
+            case Keys.A:
+            case Keys.Left:
+                localPlayer.input.moveLeft = isDown;
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
 
@@ -177,10 +175,8 @@ namespace RPGame {
             }
             
             if (!music.isMuted) { music.toggleMute(); }
-            
-            
-            world.save();
 
+            world.save();
         }
 
         private void update() {
@@ -200,8 +196,7 @@ namespace RPGame {
 
             if (this.localPlayer.character.currentCombat == null) {
                 world.update(deltaTime);
-            }
-           
+            } 
         }
         
         private void render() {

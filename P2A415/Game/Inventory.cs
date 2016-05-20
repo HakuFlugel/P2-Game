@@ -67,6 +67,7 @@ namespace RPGame {
         }
 
         public void keyInput(Game game, KeyEventArgs e) {
+
             switch (e.KeyCode) {
 
             case Keys.Delete:
@@ -248,8 +249,6 @@ Health: {playerhp}
 Defence: {playerdef}
 Slow: {playerstats}";
 
-//            SizeF statSize = gfx.MeasureString(statsText, statsFont);
-
             SizeF inventorySize = new SizeF(
                 carriedSize.Width + Math.Max(equippedSize.Width, titleSize.Width) + 3 * inventoryPadding,
                 Math.Max(carriedSize.Height, equippedSize.Height + titleSize.Height + inventoryPadding) + 2 * inventoryPadding );
@@ -300,7 +299,8 @@ Slow: {playerstats}";
             gfx.DrawString(statTitleText, bigFont, Brushes.WhiteSmoke, statTitleRect);
             gfx.DrawString(statsText, bigStatsFont, Brushes.WhiteSmoke, statTextRect);
 
-            for (int y = 0; y < content[0].GetLength(0); y++) {               //Draw carried
+            //Draw carried items
+            for (int y = 0; y < content[0].GetLength(0); y++) {              
                 for (int x = 0; x < content[0].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -327,7 +327,8 @@ Slow: {playerstats}";
                 }
             }
 
-            for (int y = 0; y < content[1].GetLength(0); y++) {               //Draw Equipped
+            //Draw Equipped items
+            for (int y = 0; y < content[1].GetLength(0); y++) {             
                 for (int x = 0; x < content[1].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -369,7 +370,6 @@ Slow: {playerstats}";
 
                 string flavortext = selectedItem.flavortext;
 
-                //TODO: with 190, 200 som variabel. og +10...5...
                 SizeF sizeName = gfx.MeasureString(name, nameFont, 320);
                 SizeF sizeLevel = gfx.MeasureString(lvl, lvlFont, 320);
                 SizeF sizeStats = gfx.MeasureString(stats, statsFont, 320);
