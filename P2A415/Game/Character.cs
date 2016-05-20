@@ -201,7 +201,9 @@ namespace RPGame {
 
                 stats.exp -= expRequired();
                 stats.level++;
-                game.localPlayer.statistics.highestLevel++;
+                if (stats.level > game.localPlayer.statistics.highestLevel) {
+                    game.localPlayer.statistics.highestLevel = stats.level;
+                }
 
                 calculateStats();
             }

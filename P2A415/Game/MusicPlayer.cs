@@ -18,9 +18,8 @@ namespace RPGame {
 
         int soundIndex;
 
-
         private static Random rand = new Random();
-        Thread _soundThread;
+        Thread soundThread;
         SoundPlayer player = new SoundPlayer();
         
         public MusicPlayer() {
@@ -88,9 +87,9 @@ namespace RPGame {
                 player?.Stop();
                 isPlaying = false;
             } else if (!isMuted && !isPlaying) {
-                _soundThread = new Thread(playMusic);
-                _soundThread.IsBackground = true;
-                _soundThread.Start();
+                soundThread = new Thread(playMusic);
+                soundThread.IsBackground = true;
+                soundThread.Start();
             }
 
         }

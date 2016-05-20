@@ -36,15 +36,15 @@ namespace RPGame {
         public Item[][,] content = new Item[2][,];
 
         public EquipSlot equipSlots = new EquipSlot() {
-            Hand = 2,
-            Gloves = 1,
-            Helmet = 1,
-            Chest = 1,
-            Belt = 1,
-            Pants = 1,
-            Ring = 2,
-            Amulet = 1,
-            Boots = 1
+            hand = 2,
+            gloves = 1,
+            helmet = 1,
+            chest = 1,
+            belt = 1,
+            pants = 1,
+            ring = 2,
+            amulet = 1,
+            boots = 1
         };
             
         public class HighlightedItem {
@@ -167,10 +167,9 @@ namespace RPGame {
                 
                 EquipSlot resultingEquipSlots = equipSlots - deltaEquipSlots;
 
-                if (resultingEquipSlots.Amulet < 0 || resultingEquipSlots.Belt < 0 || resultingEquipSlots.Boots < 0 ||
-                    resultingEquipSlots.Chest < 0 || resultingEquipSlots.Gloves < 0 || resultingEquipSlots.Hand < 0 ||
-                    resultingEquipSlots.Helmet < 0 || resultingEquipSlots.Pants < 0 || resultingEquipSlots.Ring < 0) {
-                    Console.WriteLine("Not enough equip slots");
+                if (resultingEquipSlots.amulet < 0 || resultingEquipSlots.belt < 0 || resultingEquipSlots.boots < 0 ||
+                    resultingEquipSlots.chest < 0 || resultingEquipSlots.gloves < 0 || resultingEquipSlots.hand < 0 ||
+                    resultingEquipSlots.helmet < 0 || resultingEquipSlots.pants < 0 || resultingEquipSlots.ring < 0) {
                     return;
                 }
                 equipSlots = resultingEquipSlots;

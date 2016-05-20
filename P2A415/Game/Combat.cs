@@ -65,7 +65,6 @@ namespace RPGame {
 
 				} catch (Exception ex) when (ex is FormatException || ex is OverflowException) {
                     Console.WriteLine(ex.Message);
-                    //enemyAttackTime -= 1;
                 }
 
                 if (isCorrect) {
@@ -74,7 +73,6 @@ namespace RPGame {
                 } else {
                     game.localPlayer.statistics.wrong++;
                     enemyAttackTime -= 2.5;
-                    // TODO: effect, shake?
                 }
 
 				answerString = "";
@@ -134,7 +132,9 @@ namespace RPGame {
                 // Do victory/lose
                 if (victim==secondCharacter) {
                     game.localPlayer.statistics.kills++;
-                    game.localPlayer.statistics.monsterHighestLevel = secondCharacter.stats.level;
+                    if (secondCharacter.stats.level > game.localPlayer.statistics.monsterHighestLevel) {
+                        game.localPlayer.statistics.monsterHighestLevel = secondCharacter.stats.level;
+                    }
                 }
                 if (victim==firstCharacter) {
                     game.localPlayer.statistics.distance--;

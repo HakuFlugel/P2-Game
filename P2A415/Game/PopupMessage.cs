@@ -20,6 +20,7 @@ namespace RPGame {
             this.text = text;
             this.next = next;
         }
+
         public PopupMessage(Bitmap image, PopupMessage next = null) {
             this.image = image;
             this.next = next;
@@ -27,7 +28,6 @@ namespace RPGame {
 
         public void draw(Graphics gfx, Game game) {
             int padding = 32;
-
 
             float gameWidth = game.ClientSize.Width, gameHeight = game.ClientSize.Height;
             Font font = new Font("Arial", 32, FontStyle.Regular);
