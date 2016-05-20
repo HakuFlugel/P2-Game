@@ -110,7 +110,19 @@ namespace RPGame {
                     localPlayer.inventory.toggle(this);
                 }
             } else if (e.KeyCode == Keys.T && isDown) {
-                popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
+                if (localPlayer.inventory.isOpen == true) {
+                    popupMessage = new PopupMessage("Inventory Tutorial",
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain1.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain4.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain5.png"),
+                    new PopupMessage("You can press T to see this tutorial again")))))));
+                }
+                if (localPlayer.character.currentCombat == null && localPlayer.inventory.isOpen != true) {
+                    popupMessage = new PopupMessage(ImageLoader.Load("Content/Information.png"));
+                }
+                
             } else if (menu.isOpen && isDown) {
                 menu.keyInput(e);
             } else if (localPlayer.inventory.isOpen && isDown) {

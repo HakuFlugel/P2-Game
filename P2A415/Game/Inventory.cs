@@ -189,8 +189,13 @@ namespace RPGame {
             selectedRow = 0;  
             highlightedItem = null;
             if (game.localPlayer.tutorial.firstInventory) {
-                game.popupMessage = new PopupMessage("Inventory tutorial", new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"), 
-                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"), new PopupMessage(ImageLoader.Load("Content/InvExplain4.png")))));
+                game.popupMessage = new PopupMessage("Inventory Tutorial", 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain1.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain4.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain5.png"),
+                    new PopupMessage("You can press T to see this tutorial again")))))));
                 game.localPlayer.tutorial.firstInventory = false;
             }
         }

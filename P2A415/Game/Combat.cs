@@ -49,8 +49,11 @@ namespace RPGame {
             resize();
 
             if (game.localPlayer.tutorial.firstCombat) {
-                game.popupMessage = new PopupMessage("Combat tutorial", new PopupMessage(ImageLoader.Load("Content/ComExplain1.png"),
-                    new PopupMessage(ImageLoader.Load("Content/ComExplain2.png"), new PopupMessage(ImageLoader.Load("Content/ComExplain3.png")))));
+                game.popupMessage = new PopupMessage("Combat Tutorial", 
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain1.png"),
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain3.png"), 
+                    new PopupMessage("Got that? But nothing gained not trying, good luck!")))));
                 game.localPlayer.tutorial.firstCombat = false;
             }
         }

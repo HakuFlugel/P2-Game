@@ -45,7 +45,8 @@ namespace RPGame {
                     }
                 }
                 if (game.localPlayer.tutorial.firstVictory) {
-                    game.popupMessage = new PopupMessage("First victory yeah?");
+                    game.popupMessage = new PopupMessage("Loot Tutorial", 
+                        new PopupMessage(ImageLoader.Load("Content/LooExplain1.png")));
                     game.localPlayer.tutorial.firstVictory = false;
                 }
             }

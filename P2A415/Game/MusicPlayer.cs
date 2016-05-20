@@ -101,10 +101,10 @@ namespace RPGame {
 
             soundIndex = rand.Next(0, musicList.Count);
 
-            player.Stop();
-            player.SoundLocation = musicList[soundIndex].Item1;
+            soundplayer.Stop();
+            soundplayer.SoundLocation = musicList[soundIndex].Item1;
             isNewMusic = true;
-            player.Play();
+            soundplayer.Play();
             Thread.Sleep(musicList[soundIndex].Item2 * 1000);
 
             isPlaying = false;
