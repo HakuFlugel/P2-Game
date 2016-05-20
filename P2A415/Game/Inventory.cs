@@ -189,7 +189,8 @@ namespace RPGame {
             selectedRow = 0;  
             highlightedItem = null;
             if (game.localPlayer.tutorial.firstInventory) {
-                game.popupMessage = new PopupMessage("First Inventory yeah?");
+                game.popupMessage = new PopupMessage("Inventory tutorial", new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"), new PopupMessage(ImageLoader.Load("Content/InvExplain4.png")))));
                 game.localPlayer.tutorial.firstInventory = false;
             }
         }

@@ -17,7 +17,7 @@ namespace RPGame {
 
         private static Random rand = new Random();
         Thread _soundThread;
-        SoundPlayer player = new SoundPlayer();
+        SoundPlayer soundplayer = new SoundPlayer();
         
         public MusicPlayer() {
             const string folder = "Content/";
@@ -47,7 +47,7 @@ namespace RPGame {
         public void update() {
 
             if (isMuted && isPlaying) {
-                player?.Stop();
+                soundplayer?.Stop();
                 isPlaying = false;
             } else if (!isMuted && !isPlaying) {
                 _soundThread = new Thread(playMusic);
@@ -63,9 +63,9 @@ namespace RPGame {
 
             int soundIndex = rand.Next(0, musicList.Count);
 
-            player.Stop();
-            player.SoundLocation = musicList[soundIndex].Item1;
-            player.Play();
+            soundplayer.Stop();
+            soundplayer.SoundLocation = musicList[soundIndex].Item1;
+            soundplayer.Play();
             Thread.Sleep(musicList[soundIndex].Item2 * 1000);
 
             isPlaying = false;
