@@ -359,7 +359,7 @@ Slow: {playerstats}";
             
             if (selectedItem != null) {
                 string name = selectedItem.itemName;
-                string lvl = "Level: " + selectedItem.itemLVL.ToString();
+                string lvl = "Level: " + (selectedItem.itemLVL + 10).ToString();
 
                 string stats = "";
                 if (selectedItem.itemHP != 0) stats += $"Health: {selectedItem.itemHP.ToString("0.00")}\n";
