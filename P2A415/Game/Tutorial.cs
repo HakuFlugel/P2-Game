@@ -11,6 +11,5 @@ namespace RPGame {
         public bool firstInventory = true;
         public bool firstCombat = true;
         public bool firstVictory = true;
-        public bool firstMenu = true;
     }
 }
