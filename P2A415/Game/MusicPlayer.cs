@@ -18,10 +18,9 @@ namespace RPGame {
 
         int soundIndex;
 
-
         private static Random rand = new Random();
-        Thread _soundThread;
-        SoundPlayer soundplayer = new SoundPlayer();
+        Thread soundThread;
+        SoundPlayer soundPlayer = new SoundPlayer();
         
         public MusicPlayer() {
             const string folder = "Content/";
@@ -59,19 +58,6 @@ namespace RPGame {
             musicList.Add(new Tuple<string, int, string, string>(
                 folder + "VITAS-The7thElement.wav", (42),
                 "VITAS", "The 7th Element ClickMix"));
-
-            //musicList.Add(new Tuple<string, int>(folder + "01ANightOfDizzySpells.wav", toSec(1) + 54));
-            //musicList.Add(new Tuple<string, int>(folder + "02Underclocked(underunderclockedmix).wav", (toSec(3) + 8)));
-            //musicList.Add(new Tuple<string, int>(folder + "03ChibiNinja.wav", (toSec(2) + 3)));
-            //musicList.Add(new Tuple<string, int>(folder + "04AllofUs.wav", (toSec(1) + 57)));
-            //musicList.Add(new Tuple<string, int>(folder + "05ComeandFindMe.wav", (toSec(3) + 19)));
-            //musicList.Add(new Tuple<string, int>(folder + "06Searching.wav", (toSec(2) + 20)));
-            //musicList.Add(new Tuple<string, int>(folder + "07We'retheResistors.wav", (toSec(2) + 21)));
-            //musicList.Add(new Tuple<string, int>(folder + "08Ascending.wav", (toSec(3) + 12)));
-            //musicList.Add(new Tuple<string, int>(folder + "09ComeandFindMe-Bmix.wav", (toSec(3) + 29)));
-            //musicList.Add(new Tuple<string, int>(folder + "10Arpanauts.wav", (toSec(3) + 16)));
-            //musicList.Add(new Tuple<string, int>(folder + "VITAS-The7thElement.wav", (42)));
-
         }
 
         public void toggleMute() {
@@ -81,18 +67,16 @@ namespace RPGame {
             return min * 60;
         }
 
-
         public void update() {
 
             if (isMuted && isPlaying) {
-                soundplayer?.Stop();
+                soundPlayer?.Stop();
                 isPlaying = false;
             } else if (!isMuted && !isPlaying) {
-                _soundThread = new Thread(playMusic);
-                _soundThread.IsBackground = true;
-                _soundThread.Start();
+                soundThread = new Thread(playMusic);
+                soundThread.IsBackground = true;
+                soundThread.Start();
             }
-
         }
 
         public void playMusic() {
@@ -101,10 +85,10 @@ namespace RPGame {
 
             soundIndex = rand.Next(0, musicList.Count);
 
-            soundplayer.Stop();
-            soundplayer.SoundLocation = musicList[soundIndex].Item1;
+            soundPlayer.Stop();
+            soundPlayer.SoundLocation = musicList[soundIndex].Item1;
             isNewMusic = true;
-            soundplayer.Play();
+            soundPlayer.Play();
             Thread.Sleep(musicList[soundIndex].Item2 * 1000);
 
             isPlaying = false;
@@ -138,9 +122,6 @@ namespace RPGame {
             string played = musicList[soundIndex].Item4, author ="By " +  musicList[soundIndex].Item3,
             timetext = (musicList[soundIndex].Item2 / 60) + ":" + (musicList[soundIndex].Item2 % 60).ToString("00");
 
-            
-
-
             while (true) {
 
                 font = new Font("Arial", fontLarge, FontStyle.Regular);
@@ -151,15 +132,10 @@ namespace RPGame {
                 if ((playedSize.Width < uiSize.Width || authorSize.Width + timefontSize.Width < uiSize.Width) && playedSize.Height + authorSize.Height < uiSize.Height)
                     break;
                 else { fontLarge--; timeFontlarge--; }
-                    
-
             }
-
             
-
             const int padding = 4;
             
-
             RectangleF uiRect = new RectangleF(game.Width - padding - uiSize.Width, game.Height - padding - uiSize.Height, uiSize.Width, uiSize.Height );
             RectangleF textRect = new RectangleF(uiRect.X + padding, uiRect.Y + padding, playedSize.Width, playedSize.Height);
             RectangleF authorRect = new RectangleF(textRect.X, textRect.Y + padding + playedSize.Height, authorSize.Width, authorSize.Height);
@@ -169,7 +145,6 @@ namespace RPGame {
             gfx.DrawString(played, font, Brushes.WhiteSmoke, textRect);
             gfx.DrawString(author, font, Brushes.WhiteSmoke, authorRect);
             gfx.DrawString(timetext, timefont, Brushes.WhiteSmoke, timeRect);
-
+        }
     }
-}
 }

@@ -70,10 +70,8 @@ namespace RPGame {
             public int CompareTo(object obj) {
                 NeighborEntry other = (NeighborEntry)obj;
                 return (this.pathCost + this.dist).CompareTo(other.pathCost + other.dist);
-                // TODO: kan det betale sig at invertere dette, så de laveste elementer er sidst i listen(arrayet), hvorved der er mindre der skal flyttes under .Insert()
             }
         }
-
 
         public void addNeighbor(int prevCost, coords tile) {
             try {
@@ -145,6 +143,7 @@ namespace RPGame {
             if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
                 world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
             }
+
             weights[tile.x, tile.y] = 1;
 
             while (tile != start) {
@@ -172,12 +171,10 @@ namespace RPGame {
                 if (world[tile.x, tile.y] != (int)World.GeneratedTile.Town) {
                     world[tile.x, tile.y] = (int)World.GeneratedTile.Path;
                 }
-                weights[tile.x, tile.y] = 1;//-=weights[tile.x, tile.y]/2;
 
+                weights[tile.x, tile.y] = 1;
             }
-            
             Console.Write(".");
-
         }
     }
 }

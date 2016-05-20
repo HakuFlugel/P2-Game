@@ -36,15 +36,15 @@ namespace RPGame {
         public Item[][,] content = new Item[2][,];
 
         public EquipSlot equipSlots = new EquipSlot() {
-            Hand = 2,
-            Gloves = 1,
-            Helmet = 1,
-            Chest = 1,
-            Belt = 1,
-            Pants = 1,
-            Ring = 2,
-            Amulet = 1,
-            Boots = 1
+            hand = 2,
+            gloves = 1,
+            helmet = 1,
+            chest = 1,
+            belt = 1,
+            pants = 1,
+            ring = 2,
+            amulet = 1,
+            boots = 1
         };
             
         public class HighlightedItem {
@@ -67,6 +67,7 @@ namespace RPGame {
         }
 
         public void keyInput(Game game, KeyEventArgs e) {
+
             switch (e.KeyCode) {
 
             case Keys.Delete:
@@ -167,10 +168,9 @@ namespace RPGame {
                 
                 EquipSlot resultingEquipSlots = equipSlots - deltaEquipSlots;
 
-                if (resultingEquipSlots.Amulet < 0 || resultingEquipSlots.Belt < 0 || resultingEquipSlots.Boots < 0 ||
-                    resultingEquipSlots.Chest < 0 || resultingEquipSlots.Gloves < 0 || resultingEquipSlots.Hand < 0 ||
-                    resultingEquipSlots.Helmet < 0 || resultingEquipSlots.Pants < 0 || resultingEquipSlots.Ring < 0) {
-                    Console.WriteLine("Not enough equip slots");
+                if (resultingEquipSlots.amulet < 0 || resultingEquipSlots.belt < 0 || resultingEquipSlots.boots < 0 ||
+                    resultingEquipSlots.chest < 0 || resultingEquipSlots.gloves < 0 || resultingEquipSlots.hand < 0 ||
+                    resultingEquipSlots.helmet < 0 || resultingEquipSlots.pants < 0 || resultingEquipSlots.ring < 0) {
                     return;
                 }
                 equipSlots = resultingEquipSlots;
@@ -249,8 +249,6 @@ Health: {playerhp}
 Defence: {playerdef}
 Slow: {playerstats}";
 
-//            SizeF statSize = gfx.MeasureString(statsText, statsFont);
-
             SizeF inventorySize = new SizeF(
                 carriedSize.Width + Math.Max(equippedSize.Width, titleSize.Width) + 3 * inventoryPadding,
                 Math.Max(carriedSize.Height, equippedSize.Height + titleSize.Height + inventoryPadding) + 2 * inventoryPadding );
@@ -301,7 +299,8 @@ Slow: {playerstats}";
             gfx.DrawString(statTitleText, bigFont, Brushes.WhiteSmoke, statTitleRect);
             gfx.DrawString(statsText, bigStatsFont, Brushes.WhiteSmoke, statTextRect);
 
-            for (int y = 0; y < content[0].GetLength(0); y++) {               //Draw carried
+            //Draw carried items
+            for (int y = 0; y < content[0].GetLength(0); y++) {              
                 for (int x = 0; x < content[0].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -328,7 +327,8 @@ Slow: {playerstats}";
                 }
             }
 
-            for (int y = 0; y < content[1].GetLength(0); y++) {               //Draw Equipped
+            //Draw Equipped items
+            for (int y = 0; y < content[1].GetLength(0); y++) {             
                 for (int x = 0; x < content[1].GetLength(1); x++) {
 
                     RectangleF itemRect = new RectangleF(
@@ -370,7 +370,6 @@ Slow: {playerstats}";
 
                 string flavortext = selectedItem.flavortext;
 
-                //TODO: with 190, 200 som variabel. og +10...5...
                 SizeF sizeName = gfx.MeasureString(name, nameFont, 320);
                 SizeF sizeLevel = gfx.MeasureString(lvl, lvlFont, 320);
                 SizeF sizeStats = gfx.MeasureString(stats, statsFont, 320);

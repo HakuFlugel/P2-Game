@@ -1,110 +1,127 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RPGame.Addition">
-    <Position X="13" Y="16.25" Width="1.5" />
+    <Position X="12.25" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Addition.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Character">
-    <Position X="14.25" Y="4" Width="1.5" />
-    <AssociationLine Name="inventory" Type="RPGame.Inventory" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <Position X="13.75" Y="4.25" Width="1.5" />
+    <AssociationLine Name="position" Type="RPGame.Position" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15.062" Y="4" />
-        <Point X="15.062" Y="1.555" />
-        <Point X="8.375" Y="1.555" />
-        <Point X="8.375" Y="2.875" />
-        <Point X="8" Y="2.875" />
+        <Point X="13.75" Y="7.009" />
+        <Point X="13.346" Y="7.009" />
+        <Point X="13.346" Y="11.364" />
+        <Point X="13.031" Y="11.364" />
+        <Point X="13.031" Y="11.75" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="stats" Type="RPGame.Stats" ManuallyRouted="true">
       <Path>
-        <Point X="14.25" Y="6.71" />
-        <Point X="13.167" Y="6.71" />
+        <Point X="13.75" Y="6.643" />
+        <Point X="13.167" Y="6.643" />
         <Point X="13.167" Y="8.497" />
-        <Point X="11.719" Y="8.497" />
-        <Point X="11.719" Y="9" />
+        <Point X="11.969" Y="8.497" />
+        <Point X="11.969" Y="8.75" />
       </Path>
     </AssociationLine>
-    <AssociationLine Name="position" Type="RPGame.Position" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="inventory" Type="RPGame.Inventory" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="14.25" Y="7.125" />
-        <Point X="13.531" Y="7.125" />
-        <Point X="13.531" Y="11.75" />
+        <Point X="14.125" Y="4.25" />
+        <Point X="14.125" Y="1.534" />
+        <Point X="8.375" Y="1.534" />
+        <Point X="8.375" Y="2.875" />
+        <Point X="8" Y="2.875" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="charType" Type="RPGame.CharacterType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="15.75" Y="4.688" />
-        <Point X="16.125" Y="4.688" />
-        <Point X="16.125" Y="3.401" />
+        <Point X="15.25" Y="4.857" />
+        <Point X="15.5" Y="4.857" />
+        <Point X="15.5" Y="4" />
+        <Point X="15.125" Y="4" />
+        <Point X="15.125" Y="3.651" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AACAAAAQAAAgAAGAAAIgIAgAAAAAAggCAAAAIAIUAAA=</HashCode>
+      <HashCode>AACAAAAQAAAgAAGAAAIAIAgAAAAAAggCAAAAIAIUAAA=</HashCode>
       <FileName>Character.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="inventory" />
-      <Field Name="stats" />
       <Field Name="region" />
       <Field Name="position" />
+      <Field Name="stats" />
       <Field Name="currentCombat" />
+      <Field Name="inventory" />
       <Property Name="charType" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.CharacterType">
-    <Position X="15.5" Y="0.5" Width="1.5" />
+    <Position X="14.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAgAAAAAAAAAAAAABAEAACAAAAAAIEAAAI=</HashCode>
       <FileName>CharacterType.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Combat">
-    <Position X="17.25" Y="4.75" Width="1.5" />
+    <Position X="17.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAIBAAJoCIAgAAAAAAIgAAAAEBAAAAgIQQAEABAlAQA=</HashCode>
       <FileName>Combat.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="currentQuestion" />
+      <Field Name="game" />
       <Field Name="firstCharacter" />
       <Field Name="secondCharacter" />
-      <Field Name="game" />
+      <Field Name="currentQuestion" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Division">
-    <Position X="15.25" Y="16.25" Width="1.5" />
+    <Position X="14" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Division.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Game">
-    <Position X="20.25" Y="4.5" Width="1.5" />
-    <AssociationLine Name="popupMessage" Type="RPGame.PopupMessage" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <AssociationLine Name="localPlayer" Type="RPGame.Player" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="21.375" Y="4.5" />
-        <Point X="21.375" Y="3.25" />
-        <Point X="22.25" Y="3.25" />
+        <Point X="19.5" Y="5.886" />
+        <Point X="19.25" Y="5.886" />
+        <Point X="19.25" Y="4.521" />
+        <Point X="15.75" Y="4.521" />
+        <Point X="15.75" Y="4.062" />
+        <Point X="14.208" Y="4.062" Type="JumpStart" />
+        <Point X="14.042" Y="4.062" Type="JumpEnd" />
+        <Point X="12.75" Y="4.062" />
+        <Point X="12.75" Y="5.75" />
       </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.464" Y="1.399" />
+      </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAQEhAAAAAAgAAAAABAAggAQAAgAAgAAAgEBAAUAAA=</HashCode>
+      <HashCode>AAAQEhAAAAABgAAAAABAAggAQAAgAAgAAAgEBABUAAA=</HashCode>
       <FileName>Game.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="localPlayer" />
       <Field Name="menu" />
-      <Field Name="world" />
       <Field Name="popupMessage" />
+      <Field Name="world" />
+      <Field Name="localPlayer" />
+      <Field Name="music" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.ImageLoader">
-    <Position X="19.25" Y="1.5" Width="1.5" />
+    <Position X="17" Y="0.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Class Name="RPGame.ImageLoader.ImageResource" Collapsed="true">
+      <Class Name="RPGame.ImageLoader.ImageResource">
         <TypeIdentifier>
           <NewMemberFileName>ImageLoader.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -124,17 +141,24 @@
         </TypeIdentifier>
       </Class>
     </NestedTypes>
+    <AssociationLine Name="player" Type="RPGame.Player" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8" Y="7.812" />
+        <Point X="11.75" Y="7.812" />
+        <Point X="11.75" Y="7.046" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAASACAiAAAAIAAAAEKBIAEAAAAAQCgDAAARASAAIAI=</HashCode>
+      <HashCode>AAASACAjAAAAIAAAAEKBIAEAAAAAQCgTAAARASAAIAI=</HashCode>
       <FileName>Inventory.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="equipSlots" />
       <Field Name="player" />
+      <Field Name="equipSlots" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Item">
-    <Position X="8.25" Y="9.75" Width="1.5" />
+    <Position X="8.25" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAASIgABAAAAAAQBAAAEAACAwAAAAAQACBCAIAAAAA=</HashCode>
       <FileName>Item.cs</FileName>
@@ -144,7 +168,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Looting">
-    <Position X="10" Y="11.5" Width="1.5" />
+    <Position X="10" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAIIAAAAAAAgEAAIBIAAAAAAABAAAAAAAAAAAIAA=</HashCode>
       <FileName>Looting.cs</FileName>
@@ -154,9 +178,12 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Menu">
-    <Position X="23.25" Y="7.75" Width="1.5" />
+    <Position X="21.75" Y="7.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Class Name="RPGame.Menu.Button" Collapsed="true">
+      <Class Name="RPGame.Menu.Button">
         <TypeIdentifier>
           <NewMemberFileName>Menu.cs</NewMemberFileName>
         </TypeIdentifier>
@@ -171,48 +198,61 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Multiplication">
-    <Position X="17.5" Y="16.25" Width="1.5" />
+    <Position X="17" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Multiplication.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Player">
-    <Position X="11.25" Y="5" Width="1.5" />
+    <Position X="11.25" Y="5.75" Width="1.5" />
+    <AssociationLine Name="inventory" Type="RPGame.Inventory" FixedFromPoint="true">
+      <Path>
+        <Point X="11.25" Y="6.909" />
+        <Point X="8" Y="6.909" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="tutorial" Type="RPGame.Tutorial" FixedFromPoint="true">
+      <Path>
+        <Point X="12.062" Y="5.75" />
+        <Point X="12.062" Y="3.623" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAAAAAAAABAAAAAAAABACAAAAAAAEAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAAAAAAAAAABAAAAAAAABAKAAAAAAAEAAA=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="character" />
-      <Field Name="input" />
       <Field Name="inventory" />
+      <Field Name="input" />
       <Field Name="statistics" />
+      <Field Name="tutorial" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.PopupMessage">
-    <Position X="22.25" Y="2" Width="1.5" />
+    <Position X="20" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAIAAAAAAAAIAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAEAAAAAAIAAAAAAAAIAA=</HashCode>
       <FileName>PopupMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Question">
-    <Position X="16.25" Y="12" Width="1.5" />
+    <Position X="17" Y="12" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEIAAAAAAAAAAAAAAAAAAABFAAAAIAgAAAgAAAAA=</HashCode>
       <FileName>Question.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Region">
-    <Position X="14.25" Y="8.75" Width="1.5" />
+    <Position X="13.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAACAoAAAAAAgIBAAAAAABgAAAEAQA=</HashCode>
       <FileName>Region.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.RoadMaker">
-    <Position X="23.25" Y="12.5" Width="1.5" />
+    <Position X="21.75" Y="14" Width="1.5" />
     <NestedTypes>
       <Struct Name="RPGame.RoadMaker.coords" Collapsed="true">
         <TypeIdentifier>
@@ -235,28 +275,28 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.Statistics">
-    <Position X="9.5" Y="1.75" Width="1.5" />
+    <Position X="9" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACIAAIAAAEAAAAQAEQAAAAAAAhAIAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAJAAIAAAEAAAAQAEQAAAAAAAwAIAAAAAA=</HashCode>
       <FileName>Statistics.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.Subtraction">
-    <Position X="19.75" Y="16.25" Width="1.5" />
+    <Position X="18.75" Y="15.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
       <FileName>Subtraction.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.TileType">
-    <Position X="14.25" Y="13.25" Width="1.5" />
+    <Position X="13.75" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAABAAAAhAAIAAAAA=</HashCode>
       <FileName>TileType.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RPGame.UserInterface">
-    <Position X="23.25" Y="5.25" Width="1.5" />
+    <Position X="21.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAIAAAAAAAAIAA=</HashCode>
       <FileName>UserInterface.cs</FileName>
@@ -266,7 +306,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RPGame.World">
-    <Position X="20.25" Y="9.75" Width="1.5" />
+    <Position X="19.5" Y="9.5" Width="1.5" />
     <NestedTypes>
       <Enum Name="RPGame.World.GeneratedTile" Collapsed="true">
         <TypeIdentifier>
@@ -283,15 +323,29 @@
       <Field Name="game" />
     </ShowAsAssociation>
   </Class>
+  <Class Name="RPGame.MusicPlayer">
+    <Position X="21.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAIACAAAAAAAAAQKAAAABAAIAAAAFAAAAIAAEAAA=</HashCode>
+      <FileName>MusicPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGame.Tutorial">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAgAACAAAAAAAAACIAAAAAA=</HashCode>
+      <FileName>Tutorial.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="RPGame.Stats">
-    <Position X="11.5" Y="9" Width="1.5" />
+    <Position X="11.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAgAAAAAAAAAAAAABEAAASAAAAAAAAAAgI=</HashCode>
       <FileName>Character.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RPGame.Position">
-    <Position X="12.5" Y="11.75" Width="1.5" />
+    <Position X="12" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEABhgAAAAAAA=</HashCode>
       <FileName>Character.cs</FileName>
@@ -300,12 +354,12 @@
   <Struct Name="RPGame.EquipSlot">
     <Position X="6.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAQACAAQAAAQBEBAAAgAQAAAIAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAAAAgBAAAAAEAEgQCEBAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="RPGame.PlayerInput">
-    <Position X="8.5" Y="5.25" Width="1.5" />
+    <Position X="8.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAAA=</HashCode>
       <FileName>PlayerInput.cs</FileName>

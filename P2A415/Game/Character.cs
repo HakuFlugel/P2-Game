@@ -90,7 +90,6 @@ namespace RPGame {
 
             }
 
-            // If the character has reached the tile, then set the offset to 0,0
             if (position.offsetScale <= 0) {
                 position.xoffset = 0.0f;
                 position.yoffset = 0.0f;
@@ -201,7 +200,9 @@ namespace RPGame {
 
                 stats.exp -= expRequired();
                 stats.level++;
-                game.localPlayer.statistics.highestLevel++;
+                if (stats.level > game.localPlayer.statistics.highestLevel) {
+                    game.localPlayer.statistics.highestLevel = stats.level;
+                }
 
                 calculateStats();
             }

@@ -10,58 +10,58 @@ namespace RPGame {
 
     [Serializable]
     public struct EquipSlot {
-        public int Hand; //2
-        public int Gloves; //1
-        public int Helmet; //1
-        public int Chest; //1
-        public int Belt; //1
-        public int Pants; //1
-        public int Ring; //2
-        public int Amulet; //1
-        public int Boots; //1 total = 11
+        public int hand;  
+        public int gloves; 
+        public int helmet;  
+        public int chest; 
+        public int belt; 
+        public int pants; 
+        public int ring;
+        public int amulet; 
+        public int boots; 
 
         public static EquipSlot operator +(EquipSlot e1, EquipSlot e2) {
 
             return new EquipSlot {
-                Hand = e1.Hand + e2.Hand,
-                Gloves = e1.Gloves + e2.Gloves,
-                Helmet = e1.Helmet + e2.Helmet,
-                Chest = e1.Chest + e2.Chest,
-                Belt = e1.Belt + e2.Belt,
-                Pants = e1.Pants + e2.Pants,
-                Ring = e1.Ring + e2.Ring,
-                Amulet = e1.Amulet + e2.Amulet,
-                Boots = e1.Boots + e2.Boots
+                hand = e1.hand + e2.hand,
+                gloves = e1.gloves + e2.gloves,
+                helmet = e1.helmet + e2.helmet,
+                chest = e1.chest + e2.chest,
+                belt = e1.belt + e2.belt,
+                pants = e1.pants + e2.pants,
+                ring = e1.ring + e2.ring,
+                amulet = e1.amulet + e2.amulet,
+                boots = e1.boots + e2.boots
             };
         }
 
         public static EquipSlot operator -(EquipSlot e1, EquipSlot e2) {
 
             return new EquipSlot {
-                Hand = e1.Hand - e2.Hand,
-                Gloves = e1.Gloves - e2.Gloves,
-                Helmet = e1.Helmet - e2.Helmet,
-                Chest = e1.Chest - e2.Chest,
-                Belt = e1.Belt - e2.Belt,
-                Pants = e1.Pants - e2.Pants,
-                Ring = e1.Ring - e2.Ring,
-                Amulet = e1.Amulet - e2.Amulet,
-                Boots = e1.Boots - e2.Boots
+                hand = e1.hand - e2.hand,
+                gloves = e1.gloves - e2.gloves,
+                helmet = e1.helmet - e2.helmet,
+                chest = e1.chest - e2.chest,
+                belt = e1.belt - e2.belt,
+                pants = e1.pants - e2.pants,
+                ring = e1.ring - e2.ring,
+                amulet = e1.amulet - e2.amulet,
+                boots = e1.boots - e2.boots
             };
         }
 
         public static EquipSlot operator -(EquipSlot e1) {
 
             return new EquipSlot {
-                Hand = -e1.Hand,
-                Gloves = -e1.Gloves,
-                Helmet = -e1.Helmet,
-                Chest = -e1.Chest,
-                Belt = -e1.Belt,
-                Pants = -e1.Pants,
-                Ring = -e1.Ring,
-                Amulet = -e1.Amulet,
-                Boots = -e1.Boots
+                hand = -e1.hand,
+                gloves = -e1.gloves,
+                helmet = -e1.helmet,
+                chest = -e1.chest,
+                belt = -e1.belt,
+                pants = -e1.pants,
+                ring = -e1.ring,
+                amulet = -e1.amulet,
+                boots = -e1.boots
             };
         }
     }
@@ -98,7 +98,7 @@ namespace RPGame {
                 itemDEF = 0,
                 itemSPEED = 0.25,
                 equipSlot = new EquipSlot() {
-                    Hand = 2
+                    hand = 2
                 }
             });
             itemTypes.Add(new Item() {
@@ -111,7 +111,7 @@ namespace RPGame {
                 itemSPEED = 0.2,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 1
+                    hand = 1
                 }
             });
             itemTypes.Add(new Item() {
@@ -124,7 +124,7 @@ namespace RPGame {
                 itemSPEED = 0.29,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 2
+                    hand = 2
                 }
             });
             itemTypes.Add(new Item() {
@@ -137,7 +137,7 @@ namespace RPGame {
                 itemSPEED = 0.325,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 1
+                    hand = 1
                 }
             });
 
@@ -151,7 +151,7 @@ namespace RPGame {
                 itemSPEED = 0.375,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 1
+                    hand = 1
                 }
             });
             itemTypes.Add(new Item() {
@@ -164,7 +164,7 @@ namespace RPGame {
                 itemSPEED = 0.45,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Hand = 1
+                    hand = 1
                 }
             });
 
@@ -178,7 +178,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 4,
                 equipSlot = new EquipSlot() {
-                    Hand = 1
+                    hand = 1
                 }
             });
 
@@ -192,7 +192,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0.45,
                 equipSlot = new EquipSlot() {
-                    Helmet = 1
+                    helmet = 1
                 }
             });
 
@@ -206,7 +206,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 1.5,
                 equipSlot = new EquipSlot() {
-                    Chest = 1
+                    chest = 1
                 }
             });
 
@@ -220,7 +220,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0.75,
                 equipSlot = new EquipSlot() {
-                    Pants = 1
+                    pants = 1
                 }
             });
 
@@ -234,8 +234,8 @@ namespace RPGame {
                 itemSPEED = 0.15,
                 itemDEF = 0.1,
                 equipSlot = new EquipSlot() {
-                    Gloves = 1,
-                    Hand = -1
+                    gloves = 1,
+                    hand = -1
                 }
             });
 
@@ -249,7 +249,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0.2,
                 equipSlot = new EquipSlot() {
-                    Boots = 1
+                    boots = 1
                 }
             });
 
@@ -263,7 +263,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Amulet = 1
+                    amulet = 1
                 }
             });
 
@@ -277,7 +277,7 @@ namespace RPGame {
                 itemSPEED = 0,
                 itemDEF = 0,
                 equipSlot = new EquipSlot() {
-                    Ring = 1
+                    ring = 1
                 }
             });
 

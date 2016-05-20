@@ -24,7 +24,6 @@ namespace RPGame {
             for (int i = 1; i < operands.Length; i++) {
                 correctAnswer -= operands[i];
             }
-
             return answer == correctAnswer;
         }
     }

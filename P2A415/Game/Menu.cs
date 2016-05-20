@@ -105,12 +105,10 @@ namespace RPGame {
                 default:
                     break;
             }
-            Console.WriteLine("selected: " + selected);
         }
 
         public void selectItem() {
             Button selectedButton = buttons[selected];
-            Console.WriteLine("selected" + selected + selectedButton);
             selectedButton.onPress(selectedButton);
         }
 

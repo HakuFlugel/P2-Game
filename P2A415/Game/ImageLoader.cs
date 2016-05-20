@@ -7,7 +7,7 @@ namespace RPGame {
     public static class ImageLoader {
 
         public class ImageResource {
-            public ulong number_of_times_used = 0;
+            public ulong usedCount = 0;
             public Bitmap texture;
 
             public ImageResource(Bitmap texture) {
@@ -25,7 +25,7 @@ namespace RPGame {
 
                 imageResources.Add(file, new ImageResource((Bitmap)Bitmap.FromFile(file)));
             }
-            imageResources[file].number_of_times_used++;
+            imageResources[file].usedCount++;
             return imageResources[file].texture;
         }
 
@@ -34,7 +34,7 @@ namespace RPGame {
                 throw new InvalidOperationException();
             }
 
-            if (--imageResources[file].number_of_times_used < 1)
+            if (--imageResources[file].usedCount < 1)
                 imageResources.Remove(file);
         }
     }

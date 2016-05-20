@@ -15,7 +15,6 @@ namespace RPGame {
             character = new Character();
             inventory = new Inventory(this);
             character.inventory = inventory;
-
         }
 
         public Player(Region region) {
