@@ -73,7 +73,7 @@ namespace RPGame {
             case Keys.Back:
                 Item item = content[activeContainer][selectedRow, selectedColumn];
                     
-                if (item != null) {
+                if (item != null && activeContainer == 0) {
                     ulong exp = (ulong)(Math.Pow(1.20, item.itemLVL) * 6 + Math.Pow(1.40, item.itemLVL) * 3 + Math.Pow(1.60, item.itemLVL) * 1);
                     player.character.addExperience(game, exp);
                     content[activeContainer][selectedRow, selectedColumn] = null;
@@ -188,7 +188,13 @@ namespace RPGame {
             selectedRow = 0;  
             highlightedItem = null;
             if (game.localPlayer.tutorial.firstInventory) {
-                game.popupMessage = new PopupMessage("First Inventory yeah?");
+                game.popupMessage = new PopupMessage("Inventory Tutorial", 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain1.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain3.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain4.png"),
+                    new PopupMessage(ImageLoader.Load("Content/InvExplain5.png"),
+                    new PopupMessage("You can press T to see this tutorial again")))))));
                 game.localPlayer.tutorial.firstInventory = false;
             }
         }
@@ -352,7 +358,7 @@ Slow: {playerstats}";
             
             if (selectedItem != null) {
                 string name = selectedItem.itemName;
-                string lvl = "Level: " + selectedItem.itemLVL.ToString();
+                string lvl = "Level: " + (selectedItem.itemLVL + 10).ToString();
 
                 string stats = "";
                 if (selectedItem.itemHP != 0) stats += $"Health: {selectedItem.itemHP.ToString("0.00")}\n";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Media;
 
 namespace RPGame {
     public class Combat {
@@ -14,6 +15,8 @@ namespace RPGame {
 
 		public Question currentQuestion;
         public string answerString = "";
+
+        static SoundPlayer soundplayer = new SoundPlayer();
 
         SolidBrush barForeground = new SolidBrush(Color.WhiteSmoke);
         SolidBrush barBackground = new SolidBrush(Color.Black);
@@ -46,7 +49,11 @@ namespace RPGame {
             resize();
 
             if (game.localPlayer.tutorial.firstCombat) {
-                game.popupMessage = new PopupMessage("First combat yeah?");
+                game.popupMessage = new PopupMessage("Combat Tutorial", 
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain1.png"),
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain2.png"), 
+                    new PopupMessage(ImageLoader.Load("Content/ComExplain3.png"), 
+                    new PopupMessage("Got that? But nothing gained not trying, good luck!")))));
                 game.localPlayer.tutorial.firstCombat = false;
             }
         }
