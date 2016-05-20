@@ -11,11 +11,15 @@ namespace RPGame.Tests {
     public class CombatTests {
         [TestMethod()]
         public void CombatTest() {
-            Region region = new Region(10, 10);
+                Region region = new Region(10, 10);
+          
 
             Character monster = new Character(region,2,0,0,10);
+            monster.stats.curHP *= 500;
             
             Player player = new Player(region);
+            player.character.stats.curHP *= 500;
+
 
             Combat combat = new Combat(new Game(), player.character, monster);
 
@@ -26,12 +30,10 @@ namespace RPGame.Tests {
             combat.doAttack();
 
             //Player test hp change
-            Assert.AreNotEqual(player.character.stats.curHP, playerHp);
-            Assert.IsTrue(playerHp > player.character.stats.curHP);
+            Assert.IsTrue(player.character.stats.curHP < playerHp);
 
             //Monster test hp change
-            Assert.AreNotEqual(monster.stats.curHP, monsterHp);
-            Assert.IsTrue(monsterHp > monster.stats.curHP);
+            Assert.IsTrue(monster.stats.curHP < monsterHp);
 
         }
     }

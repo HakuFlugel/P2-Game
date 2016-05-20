@@ -44,18 +44,24 @@ namespace RPGame {
             enemyTimePerAttack = secondCharacter.stats.attackSpeed;
             enemyAttackTime = enemyTimePerAttack;
             currentQuestion = Question.selectQuestion((firstCharacter.stats.level + secondCharacter.stats.level)/2);
-            game.localPlayer.statistics.encounters++;
+            if(game != null && game.localPlayer != null) {
+                if (game.localPlayer.statistics != null) {
+                    game.localPlayer.statistics.encounters++; 
+                }
+                if (game.localPlayer.tutorial != null && game.localPlayer.tutorial.firstCombat) {
+                    game.popupMessage = new PopupMessage("Combat Tutorial",
+                        new PopupMessage(ImageLoader.Load("Content/ComExplain1.png"),
+                        new PopupMessage(ImageLoader.Load("Content/ComExplain2.png"),
+                        new PopupMessage(ImageLoader.Load("Content/ComExplain3.png"),
+                        new PopupMessage("Got that? But nothing gained not trying, good luck!")))));
+                    game.localPlayer.tutorial.firstCombat = false;
+                }
+            }
+                
 
             resize();
 
-            if (game.localPlayer.tutorial.firstCombat) {
-                game.popupMessage = new PopupMessage("Combat Tutorial", 
-                    new PopupMessage(ImageLoader.Load("Content/ComExplain1.png"),
-                    new PopupMessage(ImageLoader.Load("Content/ComExplain2.png"), 
-                    new PopupMessage(ImageLoader.Load("Content/ComExplain3.png"), 
-                    new PopupMessage("Got that? But nothing gained not trying, good luck!")))));
-                game.localPlayer.tutorial.firstCombat = false;
-            }
+            
         }
 
         public void keyPress(object sender, KeyPressEventArgs e) {
@@ -128,7 +134,7 @@ namespace RPGame {
                 ulong exp = (ulong)(Math.Pow(1.20, victim.stats.level) * 4 + Math.Pow(1.40, victim.stats.level) * 2 + Math.Pow(1.60, victim.stats.level) * 1);
                 int lvl_raised = attacker.addExperience(game, exp);
 
-                if(!victim.Equals(game.localPlayer.character))
+                if(attacker.characterType == 0)
                     game.loot = new Looting(game,lvl_raised,exp,secondCharacter.stats.level);
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
