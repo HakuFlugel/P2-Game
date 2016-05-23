@@ -189,8 +189,7 @@ namespace RPGame {
         }
 
         public static ulong expRequired(int level) {
-            // TODO: exp formula revamp, combat, inventory
-            return (ulong)(Math.Pow(1.60, level) * 20 /*+ 10*/);
+            return (ulong)(Math.Pow(1.60, level) * 20);
         }
 
         public int addExperience(Game game, ulong exp) {

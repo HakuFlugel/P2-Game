@@ -25,8 +25,6 @@ namespace RPGame {
 
 
             List<Item> items = Item.itemTypes;
-            
-            //var weapon = rand.Next(0, 1);
 
             for (int index = 0; index < 3; index++) {
                 int whichDrop = rand.Next(0, 3);

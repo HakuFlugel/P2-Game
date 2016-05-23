@@ -70,7 +70,7 @@ namespace RPGame {
             }
         }
 
-        private void keyPress(object sender, KeyPressEventArgs e) { // TODO: flyt til keyinput
+        private void keyPress(object sender, KeyPressEventArgs e) {
             if (localPlayer.character.currentCombat != null) {
                 localPlayer.character.currentCombat.keyPress(sender, e);
             }
