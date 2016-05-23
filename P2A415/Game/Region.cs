@@ -51,7 +51,7 @@ namespace RPGame {
             int cameraEndRegionY = (cameraPositionRegionY + game.ClientSize.Height / 2 / (64 * 2)) + 2;
             cameraEndRegionY = Math.Min(cameraEndRegionY, tiles.GetUpperBound(1));
 
-            // Draw visable tiles
+            // Draw visible tiles
             for (long xindex = cameraStartRegionX; xindex <= cameraEndRegionX; xindex++) {
                 for (long yindex = cameraStartRegionY; yindex <= cameraEndRegionY; yindex++) {
 
