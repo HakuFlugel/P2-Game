@@ -134,8 +134,8 @@ namespace RPGame {
                 ulong exp = (ulong)(Math.Pow(1.20, victim.stats.level) * 4 + Math.Pow(1.40, victim.stats.level) * 2 + Math.Pow(1.60, victim.stats.level) * 1);
                 int lvl_raised = attacker.addExperience(game, exp);
 
-                if(attacker.characterType == 0)
-                    game.loot = new Looting(game,lvl_raised,exp,secondCharacter.stats.level);
+                if (attacker.characterType == 0)
+                    game.loot = new Looting(game, lvl_raised, exp, victim.stats.level);
 
                 attacker.stats.curHP += (attacker.stats.maxHP - attacker.stats.curHP) / 4;
 

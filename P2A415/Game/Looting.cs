@@ -6,12 +6,11 @@ namespace RPGame {
     public class Looting {
         public ulong gainedXp = 0;
         public int gainedLvl = 0;
-        public int monsterLvl;
+        public int monsterLvl = 0;
 
         private Brush background = new SolidBrush(Color.FromArgb(128, Color.Black));
         private Brush lootBackground = new SolidBrush(Color.FromArgb(128, Color.Black));
         private Brush itemBackground = new SolidBrush(Color.FromArgb(192, Color.WhiteSmoke));
-        private Brush itemSelectedBackground = new SolidBrush(Color.FromArgb(192, Color.Orange));
 
         Item[] gainedItems = new Item[3];
 
@@ -27,7 +26,7 @@ namespace RPGame {
 
             List<Item> items = Item.itemTypes;
             
-            var weapon = rand.Next(0, 1);
+            //var weapon = rand.Next(0, 1);
 
             for (int index = 0; index < 3; index++) {
                 int whichDrop = rand.Next(0, 3);

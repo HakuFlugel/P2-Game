@@ -55,9 +55,6 @@ namespace RPGame {
             musicList.Add(new Tuple<string, int, string, string>(
                 folder + "10Arpanauts.wav", (toSec(3) + 16),
                 "Eric Skiff", "Arpanauts"));
-            musicList.Add(new Tuple<string, int, string, string>(
-                folder + "VITAS-The7thElement.wav", (42),
-                "VITAS", "The 7th Element ClickMix"));
         }
 
         public void toggleMute() {
